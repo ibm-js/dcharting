@@ -151,7 +151,7 @@ define(["dojo/_base/window", "dojo/dom-geometry", "dojox/gfx", "dojo/has"],
 				w.height = "0px";
 				// insert nodes
 				wrap.appendChild(p);
-				chart.node.insertBefore(wrap, chart.node.firstChild);
+				chart.domNode.insertBefore(wrap, chart.domNode.firstChild);
 				if(has("dojo-bidi")){
 					chart.htmlElementsRegistry.push([wrap, x, y, align, text, font, fontColor]);
 				}

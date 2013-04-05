@@ -18,7 +18,7 @@ define(["dojo/_base/connect", "dojo/_base/declare", "./Base"],
 			// summary:
 			//		Connect this action to the chart.
 			for(var i = 0; i < this._listeners.length; ++i){
-				this._listeners[i].handle = hub.connect(this.chart.node, this._listeners[i].eventName,
+				this._listeners[i].handle = hub.connect(this.chart.domNode, this._listeners[i].eventName,
 						this, this._listeners[i].methodName);
 			}
 		},

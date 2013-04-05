@@ -129,7 +129,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 		
 		_disconnectHandles: function(){
 			if(has("ie")){
-				this.chart.node.releaseCapture();
+				this.chart.domNode.releaseCapture();
 			}
 			arr.forEach(this._handles, hub.disconnect);
 			this._handles = [];
@@ -171,9 +171,9 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 			// we now want to capture mouse move events everywhere to avoid
 			// stop scrolling when going out of the chart window
 			if(has("ie")){
-				this._handles.push(hub.connect(this.chart.node, "onmousemove", this, "onMouseMove"));
-				this._handles.push(hub.connect(this.chart.node, "onmouseup", this, "onMouseUp"));
-				this.chart.node.setCapture();
+				this._handles.push(hub.connect(this.chart.domNode, "onmousemove", this, "onMouseMove"));
+				this._handles.push(hub.connect(this.chart.domNode, "onmouseup", this, "onMouseUp"));
+				this.chart.domNode.setCapture();
 			}else{
 				this._handles.push(hub.connect(win.doc, "onmousemove", this, "onMouseMove"));
 				this._handles.push(hub.connect(win.doc, "onmouseup", this, "onMouseUp"));

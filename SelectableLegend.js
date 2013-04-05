@@ -1,5 +1,5 @@
-define(["dojo/_base/array", "dojo/_base/declare", "dojo/query",
-		"dojo/_base/connect", "dojo/_base/Color", "./Legend", "dijit/form/CheckBox", "../action2d/Highlight",
+define(["../dojo/_base/array", "dojo/_base/declare", "dojo/query",
+		"dojo/_base/connect", "dojo/_base/Color", "./Legend", "dijit/form/CheckBox", "./action2d/Highlight",
 		"dojox/lang/functional", "dojox/gfx/fx", "dojo/keys", "dojo/dom-construct",
 		"dojo/dom-prop"], 
 	function(arrayUtil, declare, query, hub, Color, Legend, CheckBox,

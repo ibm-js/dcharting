@@ -1,9 +1,9 @@
-define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "dojo/dom-style",
-	"dojo/dom", "dojo/dom-geometry", "dojo/dom-construct","dojo/_base/Color", "dojo/sniff",
+define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-style",
+	"dojo/dom", "dojo/dom-geometry", "dojo/dom-construct","dojo/_base/Color", "dojo/sniff", "dijit/_WidgetBase",
 	"./Element", "./SimpleTheme", "./Series", "./axis2d/common", "dojox/gfx/shape",
 	"dojox/gfx", "dojo/has!dojo-bidi?./bidi/Chart", "dojox/lang/functional", "dojox/lang/functional/fold", "dojox/lang/functional/reversed"],
 	function(lang, arr, declare, domStyle,
-	 		 dom, domGeom, domConstruct, Color, has,
+	 		 dom, domGeom, domConstruct, Color, has, _WidgetBase,
 	 		 Element, SimpleTheme, Series, common, shape,
 	 		 g, BidiChart, func){
 	/*=====
@@ -50,7 +50,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "dojo/dom-st
 		makeDirty = func.lambda("item.dirty = true"),
 		getName = func.lambda("item.name");
 
-	var Chart = declare(null, {
+	var Chart = declare(_WidgetBase, {
 		// summary:
 		//		The main chart object in dojox.charting.  This will create a two dimensional
 		//		chart based on dojox.gfx.
@@ -151,13 +151,14 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "dojo/dom-st
 		//		A boolean flag indicating whether or not it should try to use HTML-based labels for the title or not.
 		//		The default is true.  The only caveat is IE and Opera browsers will always use GFX-based labels.
 
-		constructor: function(/* DOMNode */node, /* __ChartCtorArgs? */kwArgs){
+		constructor: function(/* __ChartCtorArgs? */kwArgs){
 			// summary:
 			//		The constructor for a new Chart.  Initializes all parameters used for a chart.
 			// returns: dojox/charting/Chart
 			//		The newly created chart.
 
 			// initialize parameters
+			// TODO: should be done by standard _WidgetBase mechanism...
 			if(!kwArgs){ kwArgs = {}; }
 			this.margins   = kwArgs.margins ? kwArgs.margins : {l: 10, t: 10, r: 10, b: 10};
 			this.stroke    = kwArgs.stroke;
@@ -182,11 +183,12 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "dojo/dom-st
 			this.series = [];	// stack of data runs
 			this.runs = {};		// map of data run indices
 			this.dirty = true;
-
+		},
+		buildRendering: function(){
+			this.inherited(arguments);
 			// create a surface
-			this.node = dom.byId(node);
-			var box = domGeom.getMarginBox(node);
-			this.surface = g.createSurface(this.node, box.w || 400, box.h || 300);
+			var box = domGeom.getMarginBox(this.domNode);
+			this.surface = g.createSurface(this.domNode, box.w || 400, box.h || 300);
 			if(this.surface.declaredClass.indexOf("vml") == -1){
 				// except if vml use native clipping
 				this._nativeClip = true;
@@ -211,21 +213,21 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "dojo/dom-st
 			//		returned by dojo.coords.
 			// returns: Object
 			//		The resulting coordinates of the chart.  See dojo.coords for details.
-			var node = this.node;
+			var node = this.domNode;
 			var s = domStyle.getComputedStyle(node), coords = domGeom.getMarginBox(node, s);
 			var abs = domGeom.position(node, true);
 			coords.x = abs.x;
 			coords.y = abs.y;
 			return coords;	//	Object
 		},
-		setTheme: function(theme){
+		_setThemeAttr: function(theme){
 			// summary:
 			//		Set a theme of the chart.
 			// theme: dojox/charting/SimpleTheme
 			//		The theme to be used for visual rendering.
 			// returns: dojox/charting/Chart
 			//		A reference to the current chart for functional chaining.
-			this.theme = theme.clone();
+			this._set("theme", theme.clone());
 			this.dirty = true;
 			return this;	//	dojox/charting/Chart
 		},
@@ -627,15 +629,15 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "dojo/dom-st
 				// case 0, do not resize the div, just the surface
 				case 1:
 					// argument, override node box
-					domGeom.setMarginBox(this.node, width);
+					domGeom.setMarginBox(this.domNode, width);
 					break;
 				case 2:
 					// argument, override node box
-					domGeom.setMarginBox(this.node, {w: width, h: height});
+					domGeom.setMarginBox(this.domNode, {w: width, h: height});
 					break;
 			}
 			// in all cases take back the computed box
-			var box = domGeom.getMarginBox(this.node);
+			var box = domGeom.getMarginBox(this.domNode);
 			var d = this.surface.getDimensions();
 			if(d.width != box.w || d.height != box.h){
 				// and set it on the surface
@@ -785,7 +787,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "dojo/dom-st
 
 			// set up a theme
 			if(!this.theme){
-				this.setTheme(new SimpleTheme());
+				this.set("theme", new SimpleTheme());
 			}
 
 			// assign series
@@ -959,7 +961,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "dojo/dom-st
 			// TRT: support for "inherit" as a named value in a theme.
 			if(fill == "inherit"){
 				//	find the background color of the nearest ancestor node, and use that explicitly.
-				var node = this.node;
+				var node = this.domNode;
 				fill = new Color(domStyle.get(node, "backgroundColor"));
 				while(fill.a==0 && node!=document.documentElement){
 					fill = new Color(domStyle.get(node, "backgroundColor"));

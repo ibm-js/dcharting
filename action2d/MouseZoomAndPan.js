@@ -89,7 +89,7 @@ define(["dojo/_base/declare", "dojo/_base/window", "dojo/_base/array", "dojo/_ba
 		
 		_disconnectHandles: function(){
 			if(has("ie")){
-				this.chart.node.releaseCapture();
+				this.chart.domNode.releaseCapture();
 			}
 			arr.forEach(this._handles, connect.disconnect);
 			this._handles = [];
@@ -101,9 +101,9 @@ define(["dojo/_base/declare", "dojo/_base/window", "dojo/_base/array", "dojo/_ba
 			this.inherited(arguments);
 			if(this.enableKeyZoom){
 				// we want to be able to get focus to receive key events 
-				domProp.set(this.chart.node, "tabindex", "0");
+				domProp.set(this.chart.domNode, "tabindex", "0");
 				// if one doesn't want a focus border he can do something like
-				// dojo.style(this.chart.node, "outline", "none");
+				// dojo.style(this.chart.domNode, "outline", "none");
 			}
 		},
 		
@@ -113,7 +113,7 @@ define(["dojo/_base/declare", "dojo/_base/window", "dojo/_base/array", "dojo/_ba
 			this.inherited(arguments);
 			if(this.enableKeyZoom){
 				// we don't need anymore to be able to get focus to receive key events 
-				domProp.set(this.chart.node, "tabindex", "-1");
+				domProp.set(this.chart.domNode, "tabindex", "-1");
 			}
 			// in case we disconnect before the end of the action
 			this._disconnectHandles();
@@ -133,14 +133,14 @@ define(["dojo/_base/declare", "dojo/_base/window", "dojo/_base/array", "dojo/_ba
 			// we now want to capture mouse move events everywhere to avoid
 			// stop scrolling when going out of the chart window
 			if(has("ie")){
-				this._handles.push(connect.connect(this.chart.node, "onmousemove", this, "onMouseMove"));
-				this._handles.push(connect.connect(this.chart.node, "onmouseup", this, "onMouseUp"));
-				this.chart.node.setCapture();
+				this._handles.push(connect.connect(this.chart.domNode, "onmousemove", this, "onMouseMove"));
+				this._handles.push(connect.connect(this.chart.domNode, "onmouseup", this, "onMouseUp"));
+				this.chart.domNode.setCapture();
 			}else{
 				this._handles.push(connect.connect(win.doc, "onmousemove", this, "onMouseMove"));
 				this._handles.push(connect.connect(win.doc, "onmouseup", this, "onMouseUp"));
 			}
-			chart.node.focus();
+			chart.domNode.focus();
 			// prevent the browser from trying the drag on the "image"
 			eventUtil.stop(event);
 		},

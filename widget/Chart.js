@@ -267,23 +267,6 @@ define(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/array","dojo/dom-att
 				return render;
 			}, false);
 			if(render){ c.render(); }
-		},
-		destroy: function(){
-			// summary:
-			//		properly destroy the widget
-			this.chart.destroy();
-			this.inherited(arguments);
-		},
-		resize: function(box){
-			// summary:
-			//		Resize the widget.
-			// description:
-			//		Resize the domNode and the widget surface to the dimensions of a box of the following form:
-			//		`{ l: 50, t: 200, w: 300: h: 150 }`
-			//		If no box is provided, resize the surface to the marginBox of the domNode.
-			// box:
-			//		If passed, denotes the new size of the widget.
-			this.chart.resize.apply(this.chart, arguments);
 		}
 	});
 	return has("dojo-bidi")? declare([Chart, BidiChart]) : Chart;
