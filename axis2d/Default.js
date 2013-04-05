@@ -99,7 +99,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/sniff", "dojo/_base/declare
 
 	var centerAnchorLimit = 45;	// in degrees
 
-	var Default = declare(has("dojo-bidi")? "dojox.charting.axis2d.NonBidiDefault" : "dojox.charting.axis2d.Default", Invisible, {
+	var Default = declare(Invisible, {
 		// summary:
 		//		The default axis object used in dojox.charting.  See dojox.charting.Chart.addAxis for details.
 
@@ -956,5 +956,5 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/sniff", "dojo/_base/declare
 			return false;
 		}
 	});
-	return has("dojo-bidi")? declare("dojox.charting.axis2d.Default", [Default, BidiDefault]) : Default;
+	return has("dojo-bidi")? declare([Default, BidiDefault]) : Default;
 });

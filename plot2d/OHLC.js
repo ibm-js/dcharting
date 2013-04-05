@@ -9,7 +9,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/has",
 	//	{ x?, open, close, high, low }
 	//	if x is not provided, the array index is used.
 	//	failing to provide the OHLC values will throw an error.
-	return declare("dojox.charting.plot2d.OHLC", [CartesianBase, _PlotEvents], {
+	return declare([CartesianBase, _PlotEvents], {
 		// summary:
 		//		A plot that represents typical open/high/low/close (financial reporting, primarily).
 		//		Unlike most charts, the Candlestick expects data points to be represented by

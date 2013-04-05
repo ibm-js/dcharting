@@ -1,9 +1,9 @@
 define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", 
 		"dojox/gfx", "dojox/lang/functional", "../scaler/common"], 
 	function(lang, arr, Color, g, df, sc){
-	
-	var common = lang.getObject("dojox.charting.plot2d.common", true);
-	
+
+	var common = {};
+
 	return lang.mixin(common, {	
 		doIfLoaded: sc.doIfLoaded,
 		makeStroke: function(stroke){

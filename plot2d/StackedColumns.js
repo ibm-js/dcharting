@@ -1,7 +1,7 @@
 define(["dojo/_base/declare", "./Columns", "./commonStacked"], 
 	function( declare, Columns, commonStacked){
 
-	return declare("dojox.charting.plot2d.StackedColumns", Columns, {
+	return declare(Columns, {
 		// summary:
 		//		The plot object representing a stacked column chart (vertical bars).
 		getSeriesStats: function(){

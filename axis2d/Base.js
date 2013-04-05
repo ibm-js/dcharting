@@ -12,7 +12,7 @@ define(["dojo/_base/declare", "../Element"],
 		//		The largest value on an axis. Default is 1.
 	};
 	=====*/
-	return declare("dojox.charting.axis2d.Base", Element, {
+	return declare(Element, {
 		// summary:
 		//		The base class for any axis.  This is more of an interface/API
 		//		definition than anything else; see dojox.charting.axis2d.Default

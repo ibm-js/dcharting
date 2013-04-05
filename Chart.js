@@ -1,8 +1,8 @@
-define(["../main", "dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "dojo/dom-style",
+define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "dojo/dom-style",
 	"dojo/dom", "dojo/dom-geometry", "dojo/dom-construct","dojo/_base/Color", "dojo/sniff",
 	"./Element", "./SimpleTheme", "./Series", "./axis2d/common", "dojox/gfx/shape",
 	"dojox/gfx", "dojo/has!dojo-bidi?./bidi/Chart", "dojox/lang/functional", "dojox/lang/functional/fold", "dojox/lang/functional/reversed"],
-	function(dojox, lang, arr, declare, domStyle,
+	function(lang, arr, declare, domStyle,
 	 		 dom, domGeom, domConstruct, Color, has,
 	 		 Element, SimpleTheme, Series, common, shape,
 	 		 g, BidiChart, func){
@@ -43,15 +43,14 @@ define(["../main", "dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "
 	};
 	=====*/
 
-	var dc = lang.getObject("charting", true, dojox),
-		clear = func.lambda("item.clear()"),
+	var clear = func.lambda("item.clear()"),
 		purge = func.lambda("item.purgeGroup()"),
 		destroy = func.lambda("item.destroy()"),
 		makeClean = func.lambda("item.dirty = false"),
 		makeDirty = func.lambda("item.dirty = true"),
 		getName = func.lambda("item.name");
 
-	var Chart = declare(has("dojo-bidi")? "dojox.charting.NonBidiChart" : "dojox.charting.Chart", null, {
+	var Chart = declare(null, {
 		// summary:
 		//		The main chart object in dojox.charting.  This will create a two dimensional
 		//		chart based on dojox.gfx.
@@ -240,14 +239,7 @@ define(["../main", "dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "
 			// returns: dojox/charting/Chart
 			//		A reference to the current chart for functional chaining.
 			var axis, axisType = kwArgs && kwArgs.type || "Default";
-			if(typeof axisType == "string"){
-				if(!dc.axis2d || !dc.axis2d[axisType]){
-					throw Error("Can't find axis: " + axisType + " - Check " + "require() dependencies.");
-				}
-				axis = new dc.axis2d[axisType](this, kwArgs);
-			}else{
-				axis = new axisType(this, kwArgs);
-			}
+			axis = new axisType(this, kwArgs);
 			axis.name = name;
 			axis.dirty = true;
 			if(name in this.axes){
@@ -295,14 +287,7 @@ define(["../main", "dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "
 			// returns: dojox/charting/Chart
 			//		A reference to the current chart for functional chaining.
 			var plot, plotType = kwArgs && kwArgs.type || "Default";
-			if(typeof plotType == "string"){
-				if(!dc.plot2d || !dc.plot2d[plotType]){
-					throw Error("Can't find plot: " + plotType + " - didn't you forget to dojo" + ".require() it?");
-				}
-				plot = new dc.plot2d[plotType](this, kwArgs);
-			}else{
-				plot = new plotType(this, kwArgs);
-			}
+			plot = new plotType(this, kwArgs);
 			plot.name = name;
 			plot.dirty = true;
 			if(name in this.plots){
@@ -805,16 +790,6 @@ define(["../main", "dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "
 
 			// assign series
 			arr.forEach(this.series, function(run){
-				if(!(run.plot in this.plots)){
-					// TODO remove auto-assignment
-					if(!dc.plot2d || !dc.plot2d.Default){
-						throw Error("Can't find plot: Default - didn't you forget to dojo" + ".require() it?");
-					}
-					var plot = new dc.plot2d.Default(this, {});
-					plot.name = run.plot;
-					this.plots[run.plot] = this.stack.length;
-					this.stack.push(plot);
-				}
 				this.stack[this.plots[run.plot]].addSeries(run);
 			}, this);
 			// assign axes
@@ -1216,5 +1191,5 @@ define(["../main", "dojo/_base/lang", "dojo/_base/array","dojo/_base/declare", "
 		});
 	}
 	
-	return has("dojo-bidi")? declare("dojox.charting.Chart", [Chart, BidiChart]) : Chart;
+	return has("dojo-bidi")? declare([Chart, BidiChart]) : Chart;
 });

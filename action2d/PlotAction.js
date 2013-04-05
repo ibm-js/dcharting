@@ -16,7 +16,7 @@ define(["dojo/_base/connect", "dojo/_base/declare", "./Base", "dojo/fx/easing", 
 	var DEFAULT_DURATION = 400,	// ms
 		DEFAULT_EASING   = dfe.backOut;
 
-	return declare("dojox.charting.action2d.PlotAction", Base, {
+	return declare(Base, {
 		// summary:
 		//		Base action class for plot actions.
 

@@ -40,7 +40,7 @@ define(["dojo/_base/declare", "dojo/_base/window", "dojo/_base/array", "dojo/_ba
 		}
 	};
 
-	var MouseZoomAndPan = declare(has("dojo-bidi")? "dojox.charting.action2d.NonBidiMouseZoomAndPan" : "dojox.charting.action2d.MouseZoomAndPan", ChartAction, {
+	var MouseZoomAndPan = declare(ChartAction, {
 		// summary:
 		//		Create an mouse zoom and pan action.
 		//		You can zoom in or out the data window with mouse wheel. You can scroll using mouse drag gesture. 
@@ -237,5 +237,5 @@ define(["dojo/_base/declare", "dojo/_base/window", "dojo/_base/array", "dojo/_ba
 			return this.chart.getAxis(this.axis).vertical?(this._startCoord- event.pageY):(event.pageX - this._startCoord);
 		}
 	});
-	return has("dojo-bidi")? declare("dojox.charting.action2d.MouseZoomAndPan", [MouseZoomAndPan, BidiMouseZoomAndPan]) : MouseZoomAndPan;
+	return has("dojo-bidi")? declare([MouseZoomAndPan, BidiMouseZoomAndPan]) : MouseZoomAndPan;
 });

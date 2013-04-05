@@ -8,7 +8,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "./Element"],
 		//		The plot (by name) that this series belongs to.
 	};
 	=====*/
-	return declare("dojox.charting.Series", Element, {
+	return declare(Element, {
 		// summary:
 		//		An object representing a series of data for plotting on a chart.
 		constructor: function(chart, data, kwArgs){

@@ -5,7 +5,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 
 	var purgeGroup = dfr.lambda("item.purgeGroup()");
 
-	return declare("dojox.charting.plot2d.Bubble", [CartesianBase, _PlotEvents], {
+	return declare([CartesianBase, _PlotEvents], {
 		// summary:
 		//		A plot representing bubbles.  Note that data for Bubbles requires 3 parameters,
 		//		in the form of:  { x, y, size }, where size determines the size of the bubble.
@@ -86,7 +86,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 				}
 
 				if(typeof run.data[0] == "number"){
-					console.warn("dojox.charting.plot2d.Bubble: the data in the following series cannot be rendered as a bubble chart; ", run);
+					console.warn("dcharting/plot2d/Bubble: the data in the following series cannot be rendered as a bubble chart; ", run);
 					continue;
 				}
 

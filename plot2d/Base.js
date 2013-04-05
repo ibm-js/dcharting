@@ -17,7 +17,7 @@ dojox.charting.plot2d.__PlotCtorArgs = {
 	tooltipFunc: null
 };
 =====*/
-	var Base = declare("dojox.charting.plot2d.Base", Element, {
+	var Base = declare(Element, {
 		// summary:
 		//		Base class for all plot types.
 		constructor: function(chart, kwArgs){

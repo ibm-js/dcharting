@@ -1,7 +1,7 @@
 define(["dojo/_base/declare", "./Bars", "./commonStacked"], 
 	function(declare, Bars, commonStacked){
 
-	return declare("dojox.charting.plot2d.StackedBars", Bars, {
+	return declare(Bars, {
 		// summary:
 		//		The plot object representing a stacked bar chart (horizontal bars).
 		getSeriesStats: function(){

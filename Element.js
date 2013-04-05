@@ -1,7 +1,7 @@
 define(["dojo/_base/array", "dojo/dom-construct","dojo/_base/declare", "dojox/gfx", "dojox/gfx/shape"],
 	function(arr, domConstruct, declare, gfx, shape){
 
-	return declare("dojox.charting.Element", null, {
+	return declare(null, {
 		// summary:
 		//		A base class that is used to build other elements of a chart, such as
 		//		a series.

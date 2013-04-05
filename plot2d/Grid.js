@@ -76,7 +76,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/sniff
 	});
 	=====*/
 
-	return declare("dojox.charting.plot2d.Grid", CartesianBase, {
+	return declare(CartesianBase, {
 		// summary:
 		//		A "faux" plot that can be placed behind other plots to represent
 		//		a grid against which other plots can be easily measured.

@@ -1,7 +1,7 @@
 define(["dojo/_base/array", "dojo/_base/declare", "dojo/_base/Deferred"], 
   function(arr, declare, Deferred){
 	
-	return declare("dojox.charting.StoreSeries", null, {
+	return declare(null, {
 		constructor: function(store, kwArgs, value){
 			// summary:
 			//		Series adapter for dojo object stores (dojo.store).

@@ -3,7 +3,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojox/gfx","dojo/_base/array
 		function(declare, _WidgetBase, gfx, arr, has, BidiLegend, df,
 				dom, domConstruct, domClass, registry){
 
-	var Legend = declare(has("dojo-bidi")? "dojox.charting.widget.NonBidiLegend" : "dojox.charting.widget.Legend", _WidgetBase, {
+	var Legend = declare(_WidgetBase, {
 		// summary:
 		//		A legend for a chart. A legend contains summary labels for
 		//		each series of data contained in the chart.
@@ -160,6 +160,6 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojox/gfx","dojo/_base/array
 			}
 		}
 	});
-	return has("dojo-bidi")? declare("dojox.charting.widget.Legend", [Legend, BidiLegend]) : Legend;
+	return has("dojo-bidi")? declare([Legend, BidiLegend]) : Legend;
 	
 });

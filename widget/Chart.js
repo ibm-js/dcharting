@@ -5,8 +5,7 @@ define(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/array","dojo/dom-att
 
 	var collectParams, collectAxisParams, collectPlotParams,
 		collectActionParams, collectDataParams,
-		notNull = function(o){ return o; },
-		dc = lang.getObject("dojox.charting");
+		notNull = function(o){ return o; }
 
 
 	collectParams = function(node, type, kw){
@@ -287,5 +286,5 @@ define(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/array","dojo/dom-att
 			this.chart.resize.apply(this.chart, arguments);
 		}
 	});
-	return has("dojo-bidi")? declare("dojox.charting.widget.Chart", [Chart, BidiChart]) : Chart;
+	return has("dojo-bidi")? declare([Chart, BidiChart]) : Chart;
 });

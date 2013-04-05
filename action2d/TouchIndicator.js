@@ -69,7 +69,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/touch
 		};
 	=====*/
 
-	return declare("dojox.charting.action2d.TouchIndicator", ChartAction, {
+	return declare(ChartAction, {
 		// summary:
 		//		Create a touch indicator action. You can touch over the chart to display a data indicator.
 

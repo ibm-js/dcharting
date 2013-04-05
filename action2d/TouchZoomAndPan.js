@@ -65,7 +65,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/sniff
 	};
 	=====*/
 
-	var TouchZoomAndPan = declare(has("dojo-bidi")? "dojox.charting.action2d.NonBidiTouchZoomAndPan" : "dojox.charting.action2d.TouchZoomAndPan", ChartAction, {
+	var TouchZoomAndPan = declare(ChartAction, {
 		// summary:
 		//		Create a touch zoom and pan action.
 		//		You can zoom out or in the data window with pinch and spread gestures except on Android 2.x and WP8 devices.
@@ -259,5 +259,5 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/sniff
 				(coord[pAttr] - this._startPageCoord[attr]);
 		}
 	});
-	return has("dojo-bidi")? declare("dojox.charting.action2d.TouchZoomAndPan", [TouchZoomAndPan, BidiTouchZoomAndPan]) : TouchZoomAndPan;
+	return has("dojo-bidi")? declare([TouchZoomAndPan, BidiTouchZoomAndPan]) : TouchZoomAndPan;
 });

@@ -1,7 +1,7 @@
 define(["dojo/_base/declare", "./Default"], 
   function(declare, Default){
 
-	return declare("dojox.charting.plot2d.Areas", Default, {
+	return declare(Default, {
 		// summary:
 		//		Represents an area chart.  See dojox/charting/plot2d/Default for details.
 		constructor: function(){

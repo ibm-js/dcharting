@@ -19,7 +19,7 @@ define(["dojo/_base/connect", "dojo/_base/declare",
 	
 	var DEFAULT_SCALE = 2;
 
-	return declare("dojox.charting.action2d.Magnify", PlotAction, {
+	return declare(PlotAction, {
 		// summary:
 		//		Create an action that magnifies the object the action is applied to.
 

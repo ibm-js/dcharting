@@ -201,7 +201,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "./Cartesia
 	});
 	=====*/
 
-	var Indicator = declare("dojox.charting.plot2d.Indicator", [CartesianBase, _PlotEvents], {
+	var Indicator = declare([CartesianBase, _PlotEvents], {
 		// summary:
 		//		A "faux" plot that can be placed behind or above other plots to represent a line or multi-line
 		//		threshold on the chart.

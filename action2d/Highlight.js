@@ -50,7 +50,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/Color", "dojo/_base
 			return r;
 		}
 
-	return declare("dojox.charting.action2d.Highlight", PlotAction, {
+	return declare(PlotAction, {
 		// summary:
 		//		Creates a highlighting action on a plot, where an element on that plot
 		//		has a highlight on it.

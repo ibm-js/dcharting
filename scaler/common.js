@@ -6,7 +6,7 @@ define(["dojo/_base/lang"], function(lang){
 		return Math.abs(a - b) <= 1e-6 * (Math.abs(a) + Math.abs(b));	// Boolean
 	};
 	
-	var common = lang.getObject("dojox.charting.scaler.common", true);
+	var common = {};
 	
 	var testedModules = {};
 

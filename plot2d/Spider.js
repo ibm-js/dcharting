@@ -8,7 +8,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 
 	var FUDGE_FACTOR = 0.2; // use to overlap fans
 
-	var Spider = declare("dojox.charting.plot2d.Spider", [Base, PlotEvents], {
+	var Spider = declare([Base, PlotEvents], {
 		// summary:
 		//		The plot that represents a typical Spider chart.
 		defaultParams: {

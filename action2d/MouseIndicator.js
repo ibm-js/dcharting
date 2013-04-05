@@ -72,7 +72,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 	};
 	=====*/
 
-	return declare("dojox.charting.action2d.MouseIndicator", ChartAction, {
+	return declare(ChartAction, {
 		// summary:
 		//		Create a mouse indicator action. You can drag mouse over the chart to display a data indicator.
 

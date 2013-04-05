@@ -1,7 +1,7 @@
 define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/_base/connect"], 
 	function(lang, arr, declare, hub){
 
-	return declare("dojox.charting.plot2d._PlotEvents", null, {
+	return declare(null, {
 		constructor: function(){
 			this._shapeEvents = [];
 			this._eventSeries = {};

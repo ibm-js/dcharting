@@ -18,7 +18,7 @@ define(["dojo/_base/connect", "dojo/_base/declare", "./PlotAction",
 
 	var DEFAULT_SHIFT = 3;
 
-	return declare("dojox.charting.action2d.Shake", PlotAction, {
+	return declare(PlotAction, {
 		// summary:
 		//		Create a shaking action for use on an element in a chart.
 

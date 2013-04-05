@@ -1,6 +1,6 @@
 define(["dojo/_base/declare", "./Stacked"], function(declare, Stacked){
 
-	return declare("dojox.charting.plot2d.StackedLines", Stacked, {
+	return declare(Stacked, {
 		// summary:
 		//		A convenience object to create a stacked line chart.
 		constructor: function(){

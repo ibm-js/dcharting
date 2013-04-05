@@ -34,7 +34,7 @@ define(["dijit/Tooltip", "dojo/_base/lang", "dojo/_base/declare", "dojo/_base/wi
 
 	var pi4 = Math.PI / 4, pi2 = Math.PI / 2;
 	
-	var Tooltip = declare(has("dojo-bidi")? "dojox.charting.action2d.NonBidiTooltip" : "dojox.charting.action2d.Tooltip", PlotAction, {
+	var Tooltip = declare(PlotAction, {
 		// summary:
 		//		Create an action on a plot where a tooltip is shown when hovering over an element.
 
@@ -177,5 +177,5 @@ define(["dijit/Tooltip", "dojo/_base/lang", "dojo/_base/declare", "dojo/_base/wi
 			return tooltipText;
 		}
 	});
-	return has("dojo-bidi")? declare("dojox.charting.action2d.Tooltip", [Tooltip, BidiTooltip]) : Tooltip;
+	return has("dojo-bidi")? declare([Tooltip, BidiTooltip]) : Tooltip;
 });

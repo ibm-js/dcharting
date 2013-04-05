@@ -1,7 +1,7 @@
 define(["dojo/_base/connect", "dojo/_base/declare", "./Base"], 
 	function(hub, declare, Base){
 
-	return declare("dojox.charting.action2d.ChartAction", Base, {
+	return declare(Base, {
 		// summary:
 		//		Base action class for chart actions.
 	

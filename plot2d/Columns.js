@@ -4,7 +4,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/has",
 
 	var purgeGroup = dfr.lambda("item.purgeGroup()");
 
-	return declare("dojox.charting.plot2d.Columns", [CartesianBase, _PlotEvents], {
+	return declare([CartesianBase, _PlotEvents], {
 		// summary:
 		//		The plot object representing a column chart (vertical bars).
 		defaultParams: {

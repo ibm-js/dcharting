@@ -53,7 +53,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/has
 	});
 	=====*/
 
-	return declare("dojox.charting.plot2d.CartesianBase", Base, {
+	return declare(Base, {
 		baseParams: {
 			hAxis: 			"x",
 			vAxis: 			"y",

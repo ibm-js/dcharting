@@ -21,7 +21,7 @@ define(["dojo/_base/connect", "dojo/_base/declare", "dojo/_base/array", "./PlotA
 	var DEFAULT_SCALE = 1.05,
 		DEFAULT_SHIFT = 7;	// px
 
-	return declare("dojox.charting.action2d.MoveSlice", PlotAction, {
+	return declare(PlotAction, {
 		// summary:
 		//		Create an action for a pie chart that moves and scales a pie slice.
 

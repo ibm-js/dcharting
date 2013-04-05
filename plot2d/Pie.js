@@ -77,7 +77,7 @@ define(["dojo/_base/lang", "dojo/_base/array" ,"dojo/_base/declare",
 
 	var FUDGE_FACTOR = 0.2; // use to overlap fans
 
-	return declare("dojox.charting.plot2d.Pie", [Base, PlotEvents], {
+	return declare([Base, PlotEvents], {
 		// summary:
 		//		The plot that represents a typical pie chart.
 		defaultParams: {

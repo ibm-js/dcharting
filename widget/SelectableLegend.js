@@ -80,7 +80,7 @@ define(["dojo/_base/array", "dojo/_base/declare", "dojo/query",
 		}
 	});
 			
-	var SelectableLegend = declare("dojox.charting.widget.SelectableLegend", Legend, {
+	var SelectableLegend = declare(Legend, {
 		// summary:
 		//		An enhanced chart legend supporting interactive events on data series
 		

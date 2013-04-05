@@ -1,8 +1,6 @@
-define(["dojo/_base/lang", "dojo/_base/window", "dojo/dom-geometry", "dojox/gfx", "dojo/has"],
-	function(lang, win, domGeom, g, has){
+define(["dojo/_base/window", "dojo/dom-geometry", "dojox/gfx", "dojo/has"],
+	function(win, domGeom, g, has){
 
-	var common = lang.getObject("dojox.charting.axis2d.common", true);
-	
 	var clearNode = function(s){
 		s.marginLeft   = "0px";
 		s.marginTop    = "0px";
@@ -28,7 +26,7 @@ define(["dojo/_base/lang", "dojo/_base/window", "dojo/dom-geometry", "dojox/gfx"
 		}
 	};
 
-	return lang.mixin(common, {
+	return {
 		// summary:
 		//		Common methods to be used by any axis.  This is considered "static".
 		createText: {
@@ -160,5 +158,5 @@ define(["dojo/_base/lang", "dojo/_base/window", "dojo/dom-geometry", "dojox/gfx"
 				return wrap;	//	DOMNode
 			}
 		}
-	});
+	};
 });

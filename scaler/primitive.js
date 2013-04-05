@@ -1,6 +1,7 @@
 define(["dojo/_base/lang"], 
   function(lang){
-	var primitive = lang.getObject("dojox.charting.scaler.primitive", true);
+	var primitive = {};
+
 	return lang.mixin(primitive, {
 		buildScaler: function(/*Number*/ min, /*Number*/ max, /*Number*/ span, /*Object*/ kwArgs){
 			if(min == max){

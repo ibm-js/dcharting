@@ -3,7 +3,8 @@ define([
 	"./common"
 ], function(lang, common){
 	
-	var commonStacked = lang.getObject("dojox.charting.plot2d.commonStacked", true);
+	var commonStacked = {};
+
 	return lang.mixin(commonStacked, {
 		collectStats: function(series){
 			var stats = lang.delegate(common.defaultStats);

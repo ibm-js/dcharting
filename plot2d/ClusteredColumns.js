@@ -1,7 +1,7 @@
 define(["dojo/_base/declare", "./Columns", "./common"], 
 	function(declare, Columns, dc){
 
-	return declare("dojox.charting.plot2d.ClusteredColumns", Columns, {
+	return declare(Columns, {
 		// summary:
 		//		A plot representing grouped or clustered columns (vertical bars)
 		getBarProperties: function(){

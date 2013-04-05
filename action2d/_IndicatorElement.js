@@ -12,7 +12,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "../plot2d/
 		return [c1, c2];
 	};
 
-	var _IndicatorElement = declare("dojox.charting.action2d._IndicatorElement", Indicator, {
+	var _IndicatorElement = declare(Indicator, {
 		// summary:
 		//		Internal element used by indicator actions.
 		// tags:

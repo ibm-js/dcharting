@@ -4,7 +4,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/has",
 
 	var purgeGroup = dfr.lambda("item.purgeGroup()");
 
-	return declare("dojox.charting.plot2d.Scatter", [CartesianBase, _PlotEvents], {
+	return declare([CartesianBase, _PlotEvents], {
 		// summary:
 		//		A plot object representing a typical scatter chart.
 		defaultParams: {

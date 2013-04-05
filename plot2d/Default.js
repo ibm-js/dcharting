@@ -104,7 +104,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 
 	var DEFAULT_ANIMATION_LENGTH = 1200;	// in ms
 
-	return declare("dojox.charting.plot2d.Default", [CartesianBase, _PlotEvents], {
+	return declare([CartesianBase, _PlotEvents], {
 		
 		// defaultParams:
 		//		The default parameters of this plot.
