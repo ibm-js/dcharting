@@ -18,27 +18,32 @@
 		<script type="text/javascript">
 			var seriesB = [2.6, 1.8, 2, 1, 1.4, 0.7, 2];
 			require([
-			"dojox/charting/widget/Chart",
-			"dojox/charting/axis2d/Default",
-			"dojox/charting/plot2d/Areas",
-			"dojox/charting/plot2d/Grid",
-			"dojox/charting/plot2d/Pie",
-			"dojox/charting/action2d/Tooltip",
-			"dojox/charting/action2d/MoveSlice",
-			"dojox/charting/action2d/MouseZoomAndPan",
-			"dojox/charting/widget/Legend",
-			"dojox/charting/themes/PlotKit/orange",
-			"dojox/charting/themes/PlotKit/blue",
-			"dojox/charting/themes/PlotKit/green", "dojo/parser"]);
+			"dcharting/Chart",
+			"dcharting/axis2d/Default",
+			"dcharting/plot2d/Areas",
+			"dcharting/plot2d/Grid",
+			"dcharting/plot2d/Pie",
+			"dcharting/action2d/Tooltip",
+			"dcharting/action2d/MoveSlice",
+			"dcharting/action2d/MouseZoomAndPan",
+			"dcharting/Legend",
+			"dcharting/themes/PlotKit/orange",
+			"dcharting/themes/PlotKit/blue",
+			"dcharting/themes/PlotKit/green", "dojo/parser"]);
 		</script>
 	</head>
 	<body class="tundra">
 		<h1>Chart 2D</h1>
 		<p>Examples of charts using widgets.</p>
+		<script type="dojo/require">
+			orange: "dcharting/themes/PlotKit/orange",
+			blue: "dcharting/themes/PlotKit/blue",
+			green: "dcharting/themes/PlotKit/green"
+		</script>
 		<table border="0" cellspacing="30">
 			<tr>
 				<td>
-					<div data-dojo-type="dojox/charting/widget/Chart" id="chart1" style="width: 300px; height: 300px;">
+					<div data-dojo-type="dcharting/Chart" id="chart1" style="width: 300px; height: 300px;">
 						<div class="axis" name="x" font="italic normal normal 8pt Tahoma"></div>
 						<div class="axis" name="y" vertical="true" fixUpper="major" includeZero="true" 
 							font="italic normal normal 8pt Tahoma"></div>
@@ -48,10 +53,10 @@
 						<div class="series" name="Run B" array="seriesB" legend="&lt;em&gt;Custom&lt;/em&gt; legend"></div>
 						<div class="action" type="MouseZoomAndPan" maxScale="40"></div>
 					</div>
-					<div data-dojo-type="dojox/charting/widget/Legend" chartRef="chart1"></div>
+					<div data-dojo-type="dcharting/Legend" chartRef="chart1"></div>
 				</td>
 				<td>
-					<div data-dojo-type="dojox/charting/widget/Chart" id="chart2" theme="dojox/charting/themes/PlotKit/orange"
+					<div data-dojo-type="dcharting/Chart" id="chart2" data-dojo-props="theme: orange"
 							fill="'lightgrey'" style="width: 300px; height: 300px;">
 						<div class="axis" name="x" font="italic normal bold 10pt Tahoma" minorLabels="false" labelSizeChange="true"></div>
 						<div class="axis" name="y" vertical="true" fixUpper="major" includeZero="true"
@@ -63,12 +68,12 @@
 						<div class="action" type="MouseZoomAndPan" axis="x" scaleFactor="1.05"></div>
 						<div class="action" type="MouseZoomAndPan" axis="y" scaleFactor="1.05"></div>					
 					</div>
-					<div data-dojo-type="dojox/charting/widget/Legend" chartRef="chart2"></div>
+					<div data-dojo-type="dcharting/Legend" chartRef="chart2"></div>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<div data-dojo-type="dojox/charting/widget/Chart" id="chart3" theme="dojox/charting/themes/PlotKit/blue"
+					<div data-dojo-type="dcharting/Chart" id="chart3" data-dojo-props="theme: blue"
 							 style="width: 300px; height: 300px;">
 						<div class="plot" name="default" type="Pie" radius="100" fontColor="white"></div>
 						<div class="series" name="Series B" array="seriesB"></div>
@@ -76,7 +81,7 @@
 					</div>
 				</td>
 				<td>
-					<div data-dojo-type="dojox/charting/widget/Chart" id="chart4" theme="dojox/charting/themes/PlotKit/green"
+					<div data-dojo-type="dcharting/Chart" id="chart4" data-dojo-props="theme: green"
 							 style="width: 300px; height: 300px;">
 						<div class="plot" name="default" type="Pie" radius="100" fontColor="black" labelOffset="-20"></div>
 						<div class="action" type="Tooltip"></div>
