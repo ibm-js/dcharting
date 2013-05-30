@@ -192,6 +192,9 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				this._nativeClip = true;
 			}
 		},
+		startup: function(){
+			this.render();
+		},
 		destroy: function(){
 			// summary:
 			//		Cleanup when a chart is to be destroyed.

@@ -1,5 +1,5 @@
-define(["dojo/_base/array", "dojo/dom-construct","dojo/_base/declare", "dojox/gfx", "dojox/gfx/shape"],
-	function(arr, domConstruct, declare, gfx, shape){
+define(["dojo/_base/array", "dojo/dom-construct","dojo/_base/declare", "dijit/registry", "dojox/gfx", "dojox/gfx/shape"],
+	function(arr, domConstruct, declare, registry, gfx, shape){
 
 	return declare(null, {
 		// summary:
@@ -33,7 +33,7 @@ define(["dojo/_base/array", "dojo/dom-construct","dojo/_base/declare", "dojox/gf
 
 		markupFactory: function(params, node, ctor){
 			var instance = new ctor(params);
-			registry.byNode(node)["add"+this.type](instance);
+			registry.byNode(node.parentNode)["add"+instance.type](instance);
 			return instance;
 		},
 

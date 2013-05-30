@@ -76,8 +76,8 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojox/gfx","dojo/_base/array
 			if(s.length == 0){
 				return;
 			}
-			if(s[0].chart.stack[0].declaredClass == "dojox.charting.plot2d.Pie"){
-				var t = s[0].chart.stack[0];
+			if(s[0].chart.plots[0].declaredClass == "dojox.charting.plot2d.Pie"){
+				var t = s[0].chart.plots[0];
 				if(typeof t.run.data[0] == "number"){
 					var filteredRun = df.map(t.run.data, "Math.max(x, 0)");
 					var slices = df.map(filteredRun, "/this", df.foldl(filteredRun, "+", 0));

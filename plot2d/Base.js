@@ -32,7 +32,7 @@ dojox.charting.plot2d.__PlotCtorArgs = {
 			if(kwArgs && kwArgs.tooltipFunc){
 				this.tooltipFunc = kwArgs.tooltipFunc;
 			}
-			this.type = "Axis";
+			this.type = "Plot";
 		},
 		clear: function(){
 			// summary:
