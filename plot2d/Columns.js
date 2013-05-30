@@ -26,7 +26,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/has",
 			fontColor:	""
 		},
 
-		constructor: function(chart, kwArgs){
+		constructor: function(kwArgs){
 			// summary:
 			//		The constructor for a columns chart.
 			// chart: dojox/charting/Chart

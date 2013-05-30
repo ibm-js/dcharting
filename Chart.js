@@ -178,10 +178,8 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			// default initialization
 			this.theme = null;
 			this.axes = {};		// map of axes
-			this.stack = [];	// stack of plotters
-			this.plots = {};	// map of plotter indices
+			this.plots = [];	// stack of plotters
 			this.series = [];	// stack of data runs
-			this.runs = {};		// map of data run indices
 			this.dirty = true;
 		},
 		buildRendering: function(){
@@ -199,7 +197,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		Cleanup when a chart is to be destroyed.
 			// returns: void
 			arr.forEach(this.series, destroy);
-			arr.forEach(this.stack,  destroy);
+			arr.forEach(this.plots,  destroy);
 			func.forIn(this.axes, destroy);
 			this.surface.destroy();
 			if(this.chartTitle && this.chartTitle.tagName){
@@ -231,7 +229,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			this.dirty = true;
 			return this;	//	dojox/charting/Chart
 		},
-		addAxis: function(name, kwArgs){
+		addAxis: function(name, axis){
 			// summary:
 			//		Add an axis to the chart, for rendering.
 			// name: String
@@ -240,13 +238,9 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		An optional keyword arguments object for use in defining details of an axis.
 			// returns: dojox/charting/Chart
 			//		A reference to the current chart for functional chaining.
-			var axis, axisType = kwArgs && kwArgs.type || "Default";
-			axis = new axisType(this, kwArgs);
 			axis.name = name;
+			axis.chart = this;
 			axis.dirty = true;
-			if(name in this.axes){
-				this.axes[name].destroy();
-			}
 			this.axes[name] = axis;
 			this.dirty = true;
 			return this;	//	dojox/charting/Chart
@@ -276,7 +270,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			}
 			return this;	//	dojox/charting/Chart
 		},
-		addPlot: function(name, kwArgs){
+		addPlot: function(plot){
 			// summary:
 			//		Add a new plot to the chart, defined by name and using the optional keyword arguments object.
 			//		Note that dojox.charting assumes the main plot to be called "default"; if you do not have
@@ -288,17 +282,9 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		An object with optional parameters for the plot in question.
 			// returns: dojox/charting/Chart
 			//		A reference to the current chart for functional chaining.
-			var plot, plotType = kwArgs && kwArgs.type || "Default";
-			plot = new plotType(this, kwArgs);
-			plot.name = name;
 			plot.dirty = true;
-			if(name in this.plots){
-				this.stack[this.plots[name]].destroy();
-				this.stack[this.plots[name]] = plot;
-			}else{
-				this.plots[name] = this.stack.length;
-				this.stack.push(plot);
-			}
+			plot.chart = this;
+			this.plots.push(plot);
 			this.dirty = true;
 			return this;	//	dojox/charting/Chart
 		},
@@ -309,7 +295,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		The name the plot was defined by.
 			// returns: dojox/charting/plot2d/Base
 			//		The plot.
-			return this.stack[this.plots[name]];
+			return this.plots[this.plots[name]];
 		},
 		removePlot: function(name){
 			// summary:
@@ -376,8 +362,8 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 					names[name] = 1;
 					return true;
 				}, this);
-			if(order.length < this.stack.length){
-				func.forEach(this.stack, function(plot){
+			if(order.length < this.plots.length){
+				func.forEach(this.plots, function(plot){
 					var name = plot.name;
 					if(!(name in names)){
 						order.push(name);
@@ -430,46 +416,24 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			}
 			return this;	//	dojox/charting/Chart
 		},
-		addSeries: function(name, data, kwArgs){
+		addSeries: function(series){
 			// summary:
 			//		Add a data series to the chart for rendering.
 			// name: String
 			//		The name of the data series to be plotted.
-			// data: Array|Object
-			//		The array of data points (either numbers or objects) that
-			//		represents the data to be drawn. Or it can be an object. In
-			//		the latter case, it should have a property "data" (an array),
-			//		destroy(), and setSeriesObject().
-			// kwArgs: __SeriesCtorArgs?
-			//		An optional keyword arguments object that will be mixed into
-			//		the resultant series object.
+			// series: Series
+			//		The data series
 			// returns: dojox/charting/Chart
 			//		A reference to the current chart for functional chaining.
-			var run = new Series(this, data, kwArgs);
-			run.name = name;
-			if(name in this.runs){
-				this.series[this.runs[name]].destroy();
-				this.series[this.runs[name]] = run;
-			}else{
-				this.runs[name] = this.series.length;
-				this.series.push(run);
-			}
+			series.chart = this;
+			this.series.push(series);
 			this.dirty = true;
 			// fix min/max
-			if(!("ymin" in run) && "min" in run){ run.ymin = run.min; }
-			if(!("ymax" in run) && "max" in run){ run.ymax = run.max; }
+			if(!("ymin" in series) && "min" in series){ series.ymin = series.min; }
+			if(!("ymax" in series) && "max" in series){ series.ymax = series.max; }
 			return this;	//	dojox/charting/Chart
 		},
-		getSeries: function(name){
-			// summary:
-			//		Get the given series, by name.
-			// name: String
-			//		The name the series was defined by.
-			// returns: dojox/charting/Series
-			//		The series.
-			return this.series[this.runs[name]];
-		},
-		removeSeries: function(name){
+		removeSeries: function(series){
 			// summary:
 			//		Remove the series defined by name from the chart.
 			// name: String
@@ -496,7 +460,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 		},
 		updateSeries: function(name, data, offsets){
 			// summary:
-			//		Update the given series with a new set of data points.
+			//		Update the given series with a new set of 	data points.
 			// name: String
 			//		The name of the series as defined in addSeries.
 			// data: Array|Object
@@ -723,7 +687,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				}
 				axis.setWindow(scale, offset);
 			});
-			arr.forEach(this.stack, function(plot){ plot.zoom = zoom; });
+			arr.forEach(this.plots, function(plot){ plot.zoom = zoom; });
 			return this;	//	dojox/charting/Chart
 		},
 		zoomIn:	function(name, range, delayed){
@@ -762,7 +726,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			}
 
 			// calculate geometry
-			var dirty = arr.filter(this.stack, function(plot){
+			var dirty = arr.filter(this.plots, function(plot){
 					return plot.dirty ||
 						(plot.hAxis && this.axes[plot.hAxis].dirty) ||
 						(plot.vAxis && this.axes[plot.vAxis].dirty);
@@ -781,7 +745,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			this._makeDirty();
 
 			// clear old values
-			arr.forEach(this.stack, clear);
+			arr.forEach(this.plots, clear);
 
 			// rebuild new connections, and add defaults
 
@@ -792,10 +756,14 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 
 			// assign series
 			arr.forEach(this.series, function(run){
-				this.stack[this.plots[run.plot]].addSeries(run);
+				if(run.plot){
+					run.plot.addSeries(run);
+				}else{
+					this.plots[0].addSeries(run);
+				}
 			}, this);
 			// assign axes
-			arr.forEach(this.stack, function(plot){
+			arr.forEach(this.plots, function(plot){
 				if(plot.assignAxes){
 					plot.assignAxes(this.axes);
 				}
@@ -808,7 +776,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			dim.width  = g.normalizedLength(dim.width);
 			dim.height = g.normalizedLength(dim.height);
 			func.forIn(this.axes, clear);
-			calculateAxes(this.stack, dim);
+			calculateAxes(this.plots, dim);
 
 			// assumption: we don't have stacked axes yet
 			var offsets = this.offsets = {l: 0, r: 0, t: 0, b: 0};
@@ -839,7 +807,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				height: dim.height - offsets.t - offsets.b
 			};
 			func.forIn(this.axes, clear);
-			calculateAxes(this.stack, this.plotArea);
+			calculateAxes(this.plots, this.plotArea);
 
 			return this;	//	dojox/charting/Chart
 		},
@@ -868,7 +836,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			this.calculateGeometry();
 
 			// go over the stack backwards
-			func.forEachRev(this.stack, function(plot){ plot.render(this.dim, this.offsets); }, this);
+			func.forEachRev(this.plots, function(plot){ plot.render(this.dim, this.offsets); }, this);
 
 			// go over axes
 			func.forIn(this.axes, function(axis){ axis.render(this.dim, this.offsets); }, this);
@@ -891,13 +859,13 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				h = Math.max(0, dim.height - offsets.t - offsets.b);
 
 			// get required colors
-			//var requiredColors = func.foldl(this.stack, "z + plot.getRequiredColors()", 0);
+			//var requiredColors = func.foldl(this.plots, "z + plot.getRequiredColors()", 0);
 			//this.theme.defineColors({num: requiredColors, cache: false});
 
 			// clear old shapes
 			arr.forEach(this.series, purge);
 			func.forIn(this.axes, purge);
-			arr.forEach(this.stack,  purge);
+			arr.forEach(this.plots,  purge);
 			var children = this.surface.children;
 			// starting with 1.9 the registry is optional and thus dispose is
 			if(shape.dispose){
@@ -921,7 +889,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			}
 
 			// go over the stack backwards
-			func.foldr(this.stack, function(z, plot){ return plot.render(dim, offsets), 0; }, 0);
+			func.foldr(this.plots, function(z, plot){ return plot.render(dim, offsets), 0; }, 0);
 
 			if(!this._nativeClip){
 				// VML, matting-clipping
@@ -1104,14 +1072,14 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 		_makeClean: function(){
 			// reset dirty flags
 			arr.forEach(this.axes,   makeClean);
-			arr.forEach(this.stack,  makeClean);
+			arr.forEach(this.plots,  makeClean);
 			arr.forEach(this.series, makeClean);
 			this.dirty = false;
 		},
 		_makeDirty: function(){
 			// reset dirty flags
 			arr.forEach(this.axes,   makeDirty);
-			arr.forEach(this.stack,  makeDirty);
+			arr.forEach(this.plots,  makeDirty);
 			arr.forEach(this.series, makeDirty);
 			this.dirty = true;
 		},

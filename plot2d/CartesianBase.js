@@ -68,7 +68,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/has
 
 		// summary:
 		//		Base class for cartesian plot types.
-		constructor: function(chart, kwArgs){
+		constructor: function(kwArgs){
 			// summary:
 			//		Create a cartesian base plot for cartesian charts.
 			// chart: dojox/chart/Chart

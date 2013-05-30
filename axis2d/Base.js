@@ -17,7 +17,7 @@ define(["dojo/_base/declare", "../Element"],
 		//		The base class for any axis.  This is more of an interface/API
 		//		definition than anything else; see dojox.charting.axis2d.Default
 		//		for more details.
-		constructor: function(chart, kwArgs){
+		constructor: function(kwArgs){
 			// summary:
 			//		Return a new base axis.
 			// chart: dojox/charting/Chart
@@ -28,6 +28,7 @@ define(["dojo/_base/declare", "../Element"],
 			this.opt = {};
 			this.opt.min = kwArgs && kwArgs.min;
 			this.opt.max = kwArgs && kwArgs.max;
+			this.type = "Axis";
 		},
 		clear: function(){
 			// summary:

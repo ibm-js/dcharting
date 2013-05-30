@@ -93,7 +93,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "./Base", "../scaler/linear",
 			microTickStep:	1	// micro tick step
 		},
 
-		constructor: function(chart, kwArgs){
+		constructor: function(kwArgs){
 			// summary:
 			//		The constructor for an invisible axis.
 			// chart: dojox/charting/Chart

@@ -44,33 +44,36 @@
 			<tr>
 				<td>
 					<div data-dojo-type="dcharting/Chart" id="chart1" style="width: 300px; height: 300px;">
-						<div class="axis" name="x" font="italic normal normal 8pt Tahoma"></div>
-						<div class="axis" name="y" vertical="true" fixUpper="major" includeZero="true" 
+						<div data-dojo-type="dcharting/axis2d/Default" name="x" font="italic normal normal 8pt Tahoma"></div>
+						<div data-dojo-type="dcharting/axis2d/Default" name="y" vertical="true" fixUpper="major" includeZero="true"
 							font="italic normal normal 8pt Tahoma"></div>
-						<div class="plot" name="default" type="Areas"></div>
-						<div class="plot" name="grid" type="Grid"></div>
-						<div class="series" name="Run A" data="1, 2, 0.5, 1.5, 1, 2.8, 0.4"></div>
-						<div class="series" name="Run B" array="seriesB" legend="&lt;em&gt;Custom&lt;/em&gt; legend"></div>
-						<div class="action" type="MouseZoomAndPan" maxScale="40"></div>
+						<div data-dojo-type="dcharting/axis2d/Default"name="default" ></div>
+						<div data-dojo-type="dcharting/plot2d/Grid" name="grid"></div>
+						<div data-dojo-type="dcharting/Series" name="Run A" data="1, 2, 0.5, 1.5, 1, 2.8, 0.4"></div>
+						<div data-dojo-type="dcharting/Series" name="Run B" array="seriesB" legend="&lt;em&gt;Custom&lt;/em&gt; legend"></div>
+						<!--
+						<div data-dojo-type="dcharting/action2d/MouseZoomAndPan"  maxScale="40"></div>-->
 					</div>
 					<div data-dojo-type="dcharting/Legend" chartRef="chart1"></div>
 				</td>
 				<td>
 					<div data-dojo-type="dcharting/Chart" id="chart2" data-dojo-props="theme: orange"
 							fill="'lightgrey'" style="width: 300px; height: 300px;">
-						<div class="axis" name="x" font="italic normal bold 10pt Tahoma" minorLabels="false" labelSizeChange="true"></div>
-						<div class="axis" name="y" vertical="true" fixUpper="major" includeZero="true"
+						<div data-dojo-type="dcharting/axis2d/Default" name="x" font="italic normal bold 10pt Tahoma" minorLabels="false" labelSizeChange="true"></div>
+						<div data-dojo-type="dcharting/axis2d/Default" name="y" vertical="true" fixUpper="major" includeZero="true"
 							font="italic normal bold 10pt Tahoma"></div>
-						<div class="plot" name="default" type="Areas"></div>
-						<div class="plot" name="grid" type="Grid"></div>
-						<div class="series" name="Series A" data="1, 2, 0.5, 1.5, 1, 2.8, 0.4"></div>
-						<div class="series" name="Series B" array="seriesB"></div>
-						<div class="action" type="MouseZoomAndPan" axis="x" scaleFactor="1.05"></div>
-						<div class="action" type="MouseZoomAndPan" axis="y" scaleFactor="1.05"></div>					
+						<div data-dojo-type="dcharting/plot2d/Areas" name="default"></div>
+						<div data-dojo-type="dcharting/plot2d/Grid" name="grid"></div>
+						<div data-dojo-type="dcharting/Series" name="Series A" data="1, 2, 0.5, 1.5, 1, 2.8, 0.4"></div>
+						<div data-dojo-type="dcharting/Series" name="Series B" array="seriesB"></div>
+						<!--
+						<div data-dojo-type="dcharting/action2d/MouseZoomAndPan" type="MouseZoomAndPan" axis="x" scaleFactor="1.05"></div>
+						<div data-dojo-type="dcharting/action2d/MouseZoomAndPan" axis="y" scaleFactor="1.05"></div>-->
 					</div>
 					<div data-dojo-type="dcharting/Legend" chartRef="chart2"></div>
 				</td>
 			</tr>
+			<!--
 			<tr>
 				<td>
 					<div data-dojo-type="dcharting/Chart" id="chart3" data-dojo-props="theme: blue"
@@ -88,7 +91,7 @@
 						<div class="action" type="MoveSlice" shift="2"></div>
 					</div>
 				</td>
-			</tr>
+			</tr>-->
 		</table>
 		<p>That's all Folks!</p>
 	</body>

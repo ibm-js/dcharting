@@ -20,7 +20,7 @@ dojox.charting.plot2d.__PlotCtorArgs = {
 	var Base = declare(Element, {
 		// summary:
 		//		Base class for all plot types.
-		constructor: function(chart, kwArgs){
+		constructor: function(kwArgs){
 			// summary:
 			//		Create a base plot for charting.
 			// chart: dojox/chart/Chart
@@ -29,9 +29,10 @@ dojox.charting.plot2d.__PlotCtorArgs = {
 			//		An optional arguments object to help define the plot.
 	
 			// TODO does not work in markup
-			if(kwArgs.tooltipFunc){
+			if(kwArgs && kwArgs.tooltipFunc){
 				this.tooltipFunc = kwArgs.tooltipFunc;
 			}
+			this.type = "Axis";
 		},
 		clear: function(){
 			// summary:

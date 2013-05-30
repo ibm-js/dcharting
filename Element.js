@@ -19,18 +19,24 @@ define(["dojo/_base/array", "dojo/dom-construct","dojo/_base/declare", "dojox/gf
 		htmlElements: null,
 		dirty: true,
 
-		constructor: function(chart){
+		constructor: function(){
 			// summary:
 			//		Creates a new charting element.
 			// chart: dojox/charting/Chart
 			//		The chart that this element belongs to.
-			this.chart = chart;
 			this.group = null;
 			this.htmlElements = [];
 			this.dirty = true;
 			this.trailingSymbol = "...";
 			this._events = [];
 		},
+
+		markupFactory: function(params, node, ctor){
+			var instance = new ctor(params);
+			registry.byNode(node)["add"+this.type](instance);
+			return instance;
+		},
+
 		purgeGroup: function(){
 			// summary:
 			//		Clear any elements out of our group, and destroy the group.

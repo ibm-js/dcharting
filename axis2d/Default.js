@@ -185,7 +185,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/sniff", "dojo/_base/declare
 			titleOrientation:	 ""		// "axis" means the title facing the axis, "away" means facing away
 		},
 
-		constructor: function(chart, kwArgs){
+		constructor: function(kwArgs){
 			// summary:
 			//		The constructor for an axis.
 			// chart: dojox/charting/Chart

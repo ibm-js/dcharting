@@ -14,6 +14,7 @@
 		"dojo/dom-style",
 		"dojo/ready",
 		"dcharting/Chart",
+		"dcharting/Series",
 		"dcharting/themes/Shrooms",
 		"dcharting/themes/PlotKit/blue",
 		"dcharting/themes/PlotKit/cyan",
@@ -44,7 +45,7 @@
 		"dcharting/plot2d/Candlesticks",
 		"dcharting/plot2d/OHLC",
 		"dcharting/plot2d/Scatter"],
-		function(arr, dom, domStyle, ready, Chart, Shrooms, blue, cyan, green, Ireland, SageToLime, Minty, Tufte,
+		function(arr, dom, domStyle, ready, Chart, Series, Shrooms, blue, cyan, green, Ireland, SageToLime, Minty, Tufte,
 			dtl, Context, logic, Axis, Default, Columns, Areas, Markers, MarkersOnly, StackedLines, StackedColumns, StackedAreas, Bars,
 				ClusteredBars, StackedBars, ClusteredColumns, StackedColumns, Bubble, Grid, Candlesticks, OHLC, Scatter){
 		
@@ -53,13 +54,13 @@
 				description: "Clustered columns with positive and negative values, readable theme.",
 				makeChart: function(node){
 					(new Chart({theme: Tufte}, node)).
-						addAxis("x", { type: Axis, fixLower: "minor", fixUpper: "minor", natural: true }).
-						addAxis("y", { type: Axis, vertical: true, fixLower: "major", fixUpper: "major", includeZero: true }).
-						addPlot("default", { type: ClusteredColumns, gap: 10 }).
-						addSeries("Series A", [ 2, 1, 0.5, -1, -2 ] ).
-						addSeries("Series B", [ -2, -1, -0.5, 1, 2 ] ).
-						addSeries("Series C", [ 1, 0.5, -1, -2, -3 ] ).
-						addSeries("Series D", [ 0.7, 1.5, -1.2, -1.25, 3 ] ).
+						addAxis("x", new Axis({fixLower: "minor", fixUpper: "minor", natural: true })).
+						addAxis("y", new Axis({vertical: true, fixLower: "major", fixUpper: "major", includeZero: true })).
+						addPlot(new ClusteredColumns({gap: 10 })).
+						addSeries(new Series([ 2, 1, 0.5, -1, -2 ])).
+						addSeries(new Series([ -2, -1, -0.5, 1, 2])).
+						addSeries(new Series([ 1, 0.5, -1, -2, -3])).
+						addSeries(new Series([ 0.7, 1.5, -1.2, -1.25, 3 ])).
 						render();
 				}
 			},
@@ -67,31 +68,31 @@
 				description: "Bubble chart, green theme.",
 				makeChart: function(node){
 					(new Chart({theme: SageToLime}, node)).
-						addPlot("default", { type: Bubble, shadow:  {dx: 1, dy: 1, width: 2, color: [0, 0, 0, 0.3]}, labels: true }).
-						addAxis("x", { type: Axis,
+						addPlot(new Bubble({ shadow:  {dx: 1, dy: 1, width: 2, color: [0, 0, 0, 0.3]}, labels: true })).
+						addAxis("x", new Axis({
 							min: 0,
 							max: 6,
 							majorTick: { stroke: "black", length: 3 },
 							minorTick: { stroke: "gray", length: 3 }
-						}).
-						addAxis("y", { type: Axis,
+						})).
+						addAxis("y", new Axis({
 							vertical: true,
 							min: 0,
 							max: 10,
 							majorTick: { stroke: "black", length: 3 },
 							minorTick: { stroke: "gray", length: 3 }
-						}).
-						addSeries("Series A", [
+						})).
+						addSeries(new Series([
 							{ x: 0.5, y: 5, size: 1.4 },
 							{ x: 1.5, y: 1.5, size: 4.5 },
 							{ x: 2, y: 9, size:1.5 },
 							{ x: 5, y: 0.3, size:0.8 }
-						]).
-						addSeries("Series B", [
+						])).
+						addSeries(new Series([
 							{ x: 0.3, y: 8, size: 2.5 },
 							{ x: 4, y: 6, size:1.1 },
 							{ x: 5.5, y: 2, size: 3.2 }
-						]).
+						])).
 						render();
 				}
 			},
@@ -99,9 +100,8 @@
 				description: "Lines, calculated labels",
 				makeChart: function(node){
 					(new Chart({}, node)).
-						addAxis("x", {
-							type: Axis,
-							majorLabels: true, 
+						addAxis("x", new Axis({
+							majorLabels: true,
 							minorLabels: true, 
 							includeZero: true, 
 							minorTicks: false, 
@@ -114,9 +114,8 @@
 							maxLabelSize: 30,
 							fixUpper: "major", fixLower: "major",												 
 							majorTick: { length: 3 }
-						}).
-						addAxis("y", {
-							type: Axis,
+						})).
+						addAxis("y", new Axis({
 							labelFunc: function(value){
 								return value + " thingers";
 							},
@@ -126,10 +125,10 @@
 							microTicks: true,
 							minorTicks: true, 
 							majorTick: { stroke: "black", length: 3 }
-						}).
-						addPlot("default", {type: Default}).
-						addSeries("Series A", [ 1, 2, 1, 2, 1, 2, 1 ]).
-						addSeries("Series B", [ 2, 1, 2, 1, 2, 1, 2 ]).
+						})).
+						addPlot(new Default()).
+						addSeries(new Series([ 1, 2, 1, 2, 1, 2, 1 ])).
+						addSeries(new Series([ 2, 1, 2, 1, 2, 1, 2 ])).
 						render();
 				}
 			},
@@ -137,7 +136,7 @@
 				description: "Lines, pre-computed labels",
 				makeChart: function(node){
 					(new Chart({}, node)).
-						addAxis("x", { type: Axis,
+						addAxis("x", new Axis({
 							majorLabels: true, 
 							minorLabels: true, 
 							includeZero: true, 
@@ -153,8 +152,8 @@
 							htmlLabels: true,																	 
 							fixUpper: "major", fixLower: "major",												 
 							majorTick: { length: 3 }
-						}).
-						addAxis("y", { type: Axis,
+						})).
+						addAxis("y", new Axis({
 							labels: [
 								{ value: 0, text: "nada" },
 								{ value: 1.1, text: "hrmm" },
@@ -166,10 +165,10 @@
 							microTicks: true,
 							minorTicks: true, 
 							majorTick: { stroke: "black", length: 3 }
-						}).
-						addPlot("default", {type: Default}).
-						addSeries("Series A", [ 1, 2, 1, 2, 1, 2, 1 ]).
-						addSeries("Series B", [ 2, 1, 2, 1, 2, 1, 2 ]).
+						})).
+						addPlot(new Default()).
+						addSeries(new Series([ 1, 2, 1, 2, 1, 2, 1 ])).
+						addSeries(new Series([ 2, 1, 2, 1, 2, 1, 2 ])).
 						render();
 				}
 			},
@@ -177,9 +176,9 @@
 				description: "Defaults: lines, no axes.",
 				makeChart: function(node){
 					(new Chart({}, node)).
-						addPlot("default", {type: Default}).
-						addSeries("Series A", [ 1, 2, 1, 2, 1, 2, 1 ]).
-						addSeries("Series B", [ 2, 1, 2, 1, 2, 1, 2 ]).
+						addPlot(new Default()).
+						addSeries(new Series([ 1, 2, 1, 2, 1, 2, 1 ])).
+						addSeries(new Series([ 2, 1, 2, 1, 2, 1, 2 ])).
 						render();
 				}
 			},
@@ -187,12 +186,12 @@
 				description: "Defaults: lines, no axes, and custom strokes.",
 				makeChart: function(node){
 					(new Chart({}, node)).
-						addPlot("default", {type: Default}).
-						addSeries("Series A", [ 1, 2, 1, 2, 1, 2, 1 ], {stroke: "red"}).
-						addSeries("Series B", [ 2, 1, 2, 1, 2, 1, 2 ], {stroke: "blue"}).
+						addPlot(new Default()).
+						addSeries(new Series([ 1, 2, 1, 2, 1, 2, 1 ], {stroke: "red"})).
+						addSeries(new Series([ 2, 1, 2, 1, 2, 1, 2 ], {stroke: "blue"})).
 						render();
 				}
-			},
+			}/*,
 			{
 				description: "Areas, Happy theme, no axes.",
 				makeChart: function(node){
@@ -814,7 +813,7 @@
 						]).
 						render();
 				}
-			}
+			}*/
 		];
 		var now = function(){
 			return (new Date()).getTime();
