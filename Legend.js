@@ -33,13 +33,15 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojox/gfx","dojo/_base/array
 			}
 			// we want original chart
 			this.chart = this.chart.chart || this.chart;
-			this.refresh();
 		},
 		buildRendering: function(){
 			this.domNode = domConstruct.create("table",
 					{role: "group", "aria-label": "chart legend", "class": "dojoxLegendNode"});
 			this.legendBody = domConstruct.create("tbody", null, this.domNode);
 			this.inherited(arguments);
+		},
+		startup: function(){
+			this.refresh();
 		},
 		destroy: function(){
 			if(this._surfaces){

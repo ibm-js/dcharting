@@ -21,8 +21,13 @@ define(["dojo/_base/lang", "dojo/_base/declare", "./Element"],
 			//		destroy(), and setSeriesObject().
 			// kwArgs: __SeriesCtorArgs?
 			//		An optional keyword arguments object to set details for this series.
-			lang.mixin(this, kwArgs);
-			this.update(data);
+			if(data.data){
+				lang.mixin(this, data);
+				this.update(data.data);
+			}else{
+				lang.mixin(this, kwArgs);
+				this.update(data);
+			}
 			this.type = "Series";
 		},
 
