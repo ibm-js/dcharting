@@ -42,11 +42,9 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 			fontColor:	""
 		},
 
-		constructor: function(chart, kwArgs){
+		constructor: function(kwArgs){
 			// summary:
 			//		Create a Spider plot.
-			// chart: dojox/charting/Chart
-			//		The chart this plot belongs to.
 			// kwArgs: dojox.charting.plot2d.__DefaultCtorArgs?
 			//		An optional keyword arguments object to help define this plot's parameters.
 			this.opt = lang.clone(this.defaultParams);

@@ -139,11 +139,9 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 			markerFontColor:	""
 		},
 
-		constructor: function(chart, kwArgs){
+		constructor: function(kwArgs){
 			// summary:
 			//		Return a new plot.
-			// chart: dojox/charting/Chart
-			//		The chart this plot belongs to.
 			// kwArgs: dojox.charting.plot2d.__DefaultCtorArgs?
 			//		An optional arguments object to help define this plot.
 			this.opt = lang.clone(lang.mixin(this.opt, this.defaultParams));

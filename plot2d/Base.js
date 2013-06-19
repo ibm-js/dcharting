@@ -23,8 +23,6 @@ dojox.charting.plot2d.__PlotCtorArgs = {
 		constructor: function(kwArgs){
 			// summary:
 			//		Create a base plot for charting.
-			// chart: dojox/chart/Chart
-			//		The chart this plot belongs to.
 			// kwArgs: dojox.charting.plot2d.__PlotCtorArgs?
 			//		An optional arguments object to help define the plot.
 	

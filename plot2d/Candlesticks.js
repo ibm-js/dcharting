@@ -32,11 +32,9 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 			fontColor:	""
 		},
 
-		constructor: function(chart, kwArgs){
+		constructor: function(kwArgs){
 			// summary:
 			//		The constructor for a candlestick chart.
-			// chart: dojox/charting/Chart
-			//		The chart this plot belongs to.
 			// kwArgs: dojox.charting.plot2d.__BarCtorArgs?
 			//		An optional keyword arguments object to help define the plot.
 			this.opt = lang.clone(this.defaultParams);

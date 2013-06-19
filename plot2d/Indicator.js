@@ -237,11 +237,9 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "./Cartesia
 			animate: false
 		},
 
-		constructor: function(chart, kwArgs){
+		constructor: function(kwArgs){
 			// summary:
 			//		Create the faux Grid plot.
-			// chart: dojox/charting/Chart
-			//		The chart this plot belongs to.
 			// kwArgs: dojox.charting.plot2d.__GridCtorArgs?
 			//		An optional keyword arguments object to help define the parameters of the underlying grid.
 			this.opt = lang.clone(this.defaultParams);

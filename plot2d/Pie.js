@@ -107,7 +107,7 @@ define(["dojo/_base/lang", "dojo/_base/array" ,"dojo/_base/declare",
 			labelWiring: {}
 		},
 
-		constructor: function(chart, kwArgs){
+		constructor: function(kwArgs){
 			// summary:
 			//		Create a pie plot.
 			this.opt = lang.clone(this.defaultParams);
