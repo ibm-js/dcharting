@@ -76,26 +76,29 @@
 					<div data-dojo-type="dcharting/Legend" chartRef="chart2"></div>
 				</td>
 			</tr>
-			<!--
 			<tr>
 				<td>
 					<div data-dojo-type="dcharting/Chart" id="chart3" data-dojo-props="theme: blue"
 							 style="width: 300px; height: 300px;">
-						<div class="plot" name="default" type="Pie" radius="100" fontColor="white"></div>
-						<div class="series" name="Series B" array="seriesB"></div>
-						<div class="action" type="Tooltip"></div>
+						<div data-dojo-type="dcharting/plot2d/Pie" data-dojo-props="radius: 100, fontColor: 'white'"></div>
+						<div data-dojo-type="dcharting/Series" data-dojo-props="data: [1, 2, 0.5, 1.5, 1, 2.8, 0.4], name: 'A'"></div>
+						<!--
+						<div data-dojo-type="dcharting/action2d/Tooltip"></div>
+						-->
 					</div>
 				</td>
 				<td>
 					<div data-dojo-type="dcharting/Chart" id="chart4" data-dojo-props="theme: green"
 							 style="width: 300px; height: 300px;">
-						<div class="plot" name="default" type="Pie" radius="100" fontColor="black" labelOffset="-20"></div>
-						<div class="action" type="Tooltip"></div>
-						<div class="action" type="MoveSlice" shift="2"></div>
+						<div data-dojo-type="dcharting/plot2d/Pie" data-dojo-props="radius: 100, fontColor: 'black', labelOffset: -20"></div>
+						<div data-dojo-type="dcharting/Series" data-dojo-props="data: [1, 2, 0.5, 1.5, 1, 2.8, 0.4], name: 'A'"></div>
+						<!--
+						<div data-dojo-type="dcharting/action2d/Tooltip"></div>
+						<div data-dojo-type="dcharting/action2d/MoveSlice" data-dojo-props="shift: 2"></div>
+						-->
 					</div>
 				</td>
-			</tr>-->
+			</tr>
 		</table>
-		<p>That's all Folks!</p>
 	</body>
 </html>
