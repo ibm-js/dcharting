@@ -762,7 +762,10 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				if(run.plot){
 					run.plot.addSeries(run);
 				}else{
-					this.plots[0].addSeries(run);
+					// if no plot is specified, assign to all series
+					arr.forEach(this.plots, function(plot){
+						plot.addSeries(run);
+					});
 				}
 			}, this);
 			// assign axes

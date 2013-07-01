@@ -569,9 +569,9 @@
 							minorTicks: false,
 							includeZero: true
 						})).
-						//addPlot(new Grid({hMajorLines: true, vMajorLines: false })).
+						addPlot(new Grid({hMajorLines: true, vMajorLines: false })).
 						addPlot(new Columns({gap: 10 })).
-						//addPlot(new Grid({hMajorLines: false, vMajorLines: true })).
+						addPlot(new Grid({hMajorLines: false, vMajorLines: true })).
 						addSeries(new Series(
 							[ 1, 2, 3, 4, 5 ],
 							{ stroke: { color: "red" }, fill: "lightpink" }
@@ -594,12 +594,9 @@
 							majorTicks: true, minorTicks: true, microTicks: false,
 							majorTickStep: 2, minorTickStep: 1, microTickStep: 0.5
 						})).
-						addPlot(new Grid({hMajorLines: true, vMajorLines: false
-						})).
+						addPlot(new Grid({hMajorLines: true, vMajorLines: false})).
 						addPlot(new Columns({gap: 10})).
-						addPlot(new Grid({
-							type: Grid, hMajorLines: false, vMajorLines: true
-						})).
+						addPlot(new Grid({hMajorLines: false, vMajorLines: true})).
 						addSeries(new Series(
 							[ 1, 2, 3, 4, 5 ],
 							{ stroke: {color: "red"}, fill: "lightpink" }
@@ -677,9 +674,9 @@
 				makeChart: function(node){
 					(new Chart({}, node)).
 						addAxis("x", new Axis()).
-						addAxis("y", new Axis({vertical: true }).
+						addAxis("y", new Axis({vertical: true })).
 						addPlot(new ClusteredBars({gap: 10 })).
-						addPlot(new Grid())).
+						addPlot(new Grid()).
 						addSeries(new Series(
 							[ 2, 1, 0.5, -1, -2 ],
 							{ stroke: { color: "red" }, fill: "lightpink" }
