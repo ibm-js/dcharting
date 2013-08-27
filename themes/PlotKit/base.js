@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dojo/_base/Color", "../../Theme"],
-	function(lang, Color, Theme){
+define(["dojo/_base/Color", "../../Theme"],
+	function(Color, Theme){
 
 	var base = new Theme({
 		chart:{
