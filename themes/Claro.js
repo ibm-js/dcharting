@@ -1,106 +1,68 @@
 define(["../Theme", "./utils", "dojox/gfx/gradutils", "./common"], function(Theme, utils, gradutils, themes){
-	// created by Tom Trenka
 
+	// created by Julie Santilli (Claro-based theme)
+	
 	var g = utils.generateGradient,
 		defaultFill = {type: "linear", space: "shape", x1: 0, y1: 0, x2: 0, y2: 100};
 	
-	themes.Claro = new Theme({
-		chart: {
-			fill:	   {
-				type: "linear",
-				x1: 0, x2: 0, y1: 0, y2: 100,
-				colors: [
-					{ offset: 0, color: "#dbdbdb" },
-					{ offset: 1, color: "#efefef" }
-				]
-			},
-			stroke:    {color: "#b5bcc7"}
-		},
-		plotarea: {
-			fill:	   {
-				type: "linear",
-				x1: 0, x2: 0, y1: 0, y2: 100,
-				colors: [
-					{ offset: 0, color: "#dbdbdb" },
-					{ offset: 1, color: "#efefef" }
-				]
-			}
-		},
-		axis:{
-			stroke:	{ // the axis itself
-				color: "#888c76",
-				width: 1
-			},
-			tick: {	// used as a foundation for all ticks
-				color:     "#888c76",
-				position:  "center",
-				font:      "normal normal normal 7pt Verdana, Arial, sans-serif",	// labels on axis
-				fontColor: "#888c76"								// color of labels
-			}
-		},
-		series: {
-			stroke:  {width: 2.5, color: "#fff"},
-			outline: null,
-			font: "normal normal normal 7pt Verdana, Arial, sans-serif",
-			fontColor: "#131313"
-		},
-		marker: {
-			stroke:  {width: 1.25, color: "#131313"},
-			outline: {width: 1.25, color: "#131313"},
-			font: "normal normal normal 8pt Verdana, Arial, sans-serif",
-			fontColor: "#131313"
-		},
+	themes.Julie = new Theme({
 		seriesThemes: [
-			{fill: g(defaultFill, "#2a6ead", "#3a99f2")},
-			{fill: g(defaultFill, "#613e04", "#996106")},
-			{fill: g(defaultFill, "#0e3961", "#155896")},
-			{fill: g(defaultFill, "#55aafa", "#3f7fba")},
-			{fill: g(defaultFill, "#ad7b2a", "#db9b35")}
-		],
-		markerThemes: [
-			{fill: "#2a6ead", stroke: {color: "#fff"}},
-			{fill: "#613e04", stroke: {color: "#fff"}},
-			{fill: "#0e3961", stroke: {color: "#fff"}},
-			{fill: "#55aafa", stroke: {color: "#fff"}},
-			{fill: "#ad7b2a", stroke: {color: "#fff"}}
+			{fill: g(defaultFill, "#59a0bd", "#497c91"), stroke: {color: "#22627d"}},	// blue
+			{fill: g(defaultFill, "#8d88c7", "#6c6d8e"), stroke: {color: "#8a84c5"}},	// purple
+			{fill: g(defaultFill, "#85a54a", "#768b4e"), stroke: {color: "#5b6d1f"}},	// green
+			{fill: g(defaultFill, "#e8e667", "#c6c361"), stroke: {color: "#918e38"}},	// yellow
+			{fill: g(defaultFill, "#e9c756", "#c7a223"), stroke: {color: "#947b30"}},	// orange
+			{fill: g(defaultFill, "#a05a5a", "#815454"), stroke: {color: "#572828"}},	// red
+			{fill: g(defaultFill, "#b17044", "#72543e"), stroke: {color: "#74482e"}},	// brown
+			{fill: g(defaultFill, "#a5a5a5", "#727272"), stroke: {color: "#535353"}},	// grey
+
+			{fill: g(defaultFill, "#9dc7d9", "#59a0bd"), stroke: {color: "#22627d"}},	// blue
+			{fill: g(defaultFill, "#b7b3da", "#8681b3"), stroke: {color: "#8a84c5"}},	// purple
+			{fill: g(defaultFill, "#a8c179", "#85a54a"), stroke: {color: "#5b6d1f"}},	// green
+			{fill: g(defaultFill, "#eeea99", "#d6d456"), stroke: {color: "#918e38"}},	// yellow
+			{fill: g(defaultFill, "#ebcf81", "#e9c756"), stroke: {color: "#947b30"}},	// orange
+			{fill: g(defaultFill, "#c99999", "#a05a5a"), stroke: {color: "#572828"}},	// red
+			{fill: g(defaultFill, "#c28b69", "#7d5437"), stroke: {color: "#74482e"}},	// brown
+			{fill: g(defaultFill, "#bebebe", "#8c8c8c"), stroke: {color: "#535353"}},	// grey
+
+			{fill: g(defaultFill, "#c7e0e9", "#92baca"), stroke: {color: "#22627d"}},	// blue
+			{fill: g(defaultFill, "#c9c6e4", "#ada9d6"), stroke: {color: "#8a84c5"}},	// purple
+			{fill: g(defaultFill, "#c0d0a0", "#98ab74"), stroke: {color: "#5b6d1f"}},	// green
+			{fill: g(defaultFill, "#f0eebb", "#dcd87c"), stroke: {color: "#918e38"}},	// yellow
+			{fill: g(defaultFill, "#efdeb0", "#ebcf81"), stroke: {color: "#947b30"}},	// orange
+			{fill: g(defaultFill, "#ddc0c0", "#c99999"), stroke: {color: "#572828"}},	// red
+			{fill: g(defaultFill, "#cfb09b", "#c28b69"), stroke: {color: "#74482e"}},	// brown
+			{fill: g(defaultFill, "#d8d8d8", "#bebebe"), stroke: {color: "#535353"}},	// grey
+
+			{fill: g(defaultFill, "#ddeff5", "#a5c4cd"), stroke: {color: "#22627d"}},	// blue
+			{fill: g(defaultFill, "#dedcf0", "#b3afd3"), stroke: {color: "#8a84c5"}},	// purple
+			{fill: g(defaultFill, "#dfe9ca", "#c0d0a0"), stroke: {color: "#5b6d1f"}},	// green
+			{fill: g(defaultFill, "#f8f7db", "#e5e28f"), stroke: {color: "#918e38"}},	// yellow
+			{fill: g(defaultFill, "#f7f0d8", "#cfbd88"), stroke: {color: "#947b30"}},	// orange
+			{fill: g(defaultFill, "#eedede", "#caafaf"), stroke: {color: "#572828"}},	// red
+			{fill: g(defaultFill, "#e3cdbf", "#cfb09b"), stroke: {color: "#74482e"}},	// brown
+			{fill: g(defaultFill, "#efefef", "#cacaca"), stroke: {color: "#535353"}}	// grey
 		]
 	});
 	
-	themes.Claro.next = function(elementType, mixin, doPost){
-		var isLine = elementType == "line",
-			s, theme;
-		if(isLine || elementType == "area"){
-			// custom processing for lines: substitute colors
-			s = this.seriesThemes[this._current % this.seriesThemes.length];
-			var m = this.markerThemes[this._current % this.markerThemes.length];
+	themes.Julie.next = function(elementType, mixin, doPost){
+		if(elementType == "line" || elementType == "area"){
+			var s = this.seriesThemes[this._current % this.seriesThemes.length];
 			s.fill.space = "plot";
-			if(isLine){
-				s.stroke  = { width: 4, color: s.fill.colors[0].color};
-			}
-			m.outline = { width: 1.25, color: m.fill };
-			theme = Theme.prototype.next.apply(this, arguments);
-			// cleanup
-			delete s.outline;
-			delete s.stroke;
+			var theme = Theme.prototype.next.apply(this, arguments);
 			s.fill.space = "shape";
-			return theme;
-		}else if(elementType == "candlestick"){
-			s = this.seriesThemes[this._current % this.seriesThemes.length];
-			s.fill.space = "plot";
-			s.stroke  = { width: 1, color: s.fill.colors[0].color};
-			theme = Theme.prototype.next.apply(this, arguments);
 			return theme;
 		}
 		return Theme.prototype.next.apply(this, arguments);
 	};
-	
-	themes.Claro.post = function(theme, elementType){
+
+	themes.Julie.post = function(theme, elementType){
 		theme = Theme.prototype.post.apply(this, arguments);
-		if((elementType == "slice" || elementType == "circle") && theme.series.fill && theme.series.fill.type == "radial"){
+		if(elementType == "slice" && theme.series.fill && theme.series.fill.type == "radial"){
 			theme.series.fill = gradutils.reverse(theme.series.fill);
 		}
 		return theme;
 	};
 	
-	return themes.Claro;
+	return themes.Julie;
 });
