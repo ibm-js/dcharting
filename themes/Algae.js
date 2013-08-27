@@ -1,5 +1,5 @@
-define(["../Theme", "./common"], function(Theme, themes){
-	themes.Algae = new Theme({
+define(["../Theme"], function(Theme){
+	return new Theme({
 		colors: [
 			"#57808f",
 			"#506885",
@@ -8,5 +8,4 @@ define(["../Theme", "./common"], function(Theme, themes){
 			"#508567"
 		]
 	});
-	return themes.Algae;
 });

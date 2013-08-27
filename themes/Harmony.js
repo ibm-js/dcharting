@@ -1,5 +1,5 @@
-define(["../Theme", "./common"], function(Theme, themes){
-	themes.Harmony = new Theme({
+define(["../Theme"], function(Theme){
+	return new Theme({
 		colors: [
 			"#497c91",
 			"#59a0bd",
@@ -35,5 +35,4 @@ define(["../Theme", "./common"], function(Theme, themes){
 			"#d8d8d8"
 		]
 	});
-	return themes.Harmony;
 });

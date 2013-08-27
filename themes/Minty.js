@@ -1,5 +1,5 @@
-define(["../Theme", "./common"], function(Theme, themes){
-	themes.Minty = new Theme({
+define(["../Theme"], function(Theme){
+	return new Theme({
 		colors: [
 			"#80ccbb",
 			"#539e8b",
@@ -8,5 +8,4 @@ define(["../Theme", "./common"], function(Theme, themes){
 			"#68c5ad"
 		]
 	});
-	return themes.Minty;
 });

@@ -1,5 +1,5 @@
-define(["dojo/_base/lang","../Theme", "./common"], function(lang, Theme, themes){
-	themes.Grasshopper = new Theme({
+define(["../Theme"], function(Theme){
+	return new Theme({
 		colors: [
 			"#208040",
 			"#40b657",
@@ -8,5 +8,4 @@ define(["dojo/_base/lang","../Theme", "./common"], function(lang, Theme, themes)
 			"#64bd5f"
 		]
 	});
-	return themes.Grasshopper;
 });

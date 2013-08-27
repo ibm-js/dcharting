@@ -1,11 +1,11 @@
-define(["../Theme", "./utils", "dojox/gfx/gradutils", "./common"], function(Theme, utils, gradutils, themes){
+define(["../Theme", "./utils", "dojox/gfx/gradutils"], function(Theme, utils, gradutils){
 
 	// created by Julie Santilli (Claro-based theme)
 	
 	var g = utils.generateGradient,
 		defaultFill = {type: "linear", space: "shape", x1: 0, y1: 0, x2: 0, y2: 100};
 	
-	themes.Julie = new Theme({
+	var Claro = new Theme({
 		seriesThemes: [
 			{fill: g(defaultFill, "#59a0bd", "#497c91"), stroke: {color: "#22627d"}},	// blue
 			{fill: g(defaultFill, "#8d88c7", "#6c6d8e"), stroke: {color: "#8a84c5"}},	// purple
@@ -45,7 +45,7 @@ define(["../Theme", "./utils", "dojox/gfx/gradutils", "./common"], function(Them
 		]
 	});
 	
-	themes.Julie.next = function(elementType, mixin, doPost){
+	Claro.next = function(elementType, mixin, doPost){
 		if(elementType == "line" || elementType == "area"){
 			var s = this.seriesThemes[this._current % this.seriesThemes.length];
 			s.fill.space = "plot";
@@ -56,7 +56,7 @@ define(["../Theme", "./utils", "dojox/gfx/gradutils", "./common"], function(Them
 		return Theme.prototype.next.apply(this, arguments);
 	};
 
-	themes.Julie.post = function(theme, elementType){
+	Claro.post = function(theme, elementType){
 		theme = Theme.prototype.post.apply(this, arguments);
 		if(elementType == "slice" && theme.series.fill && theme.series.fill.type == "radial"){
 			theme.series.fill = gradutils.reverse(theme.series.fill);
@@ -64,5 +64,5 @@ define(["../Theme", "./utils", "dojox/gfx/gradutils", "./common"], function(Them
 		return theme;
 	};
 	
-	return themes.Julie;
+	return Claro;
 });

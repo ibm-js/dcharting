@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dojo/_base/array", "../Theme", "./gradientGenerator", "./PrimaryColors", "dojo/colors" /* for sanitize */, "./common"],
-	function(lang, ArrayUtil, Theme, gradientGenerator, PrimaryColors, themes){
+define(["dojo/_base/lang", "dojo/_base/array", "../Theme", "./gradientGenerator", "./PrimaryColors", "dojo/colors" /* for sanitize */],
+	function(lang, ArrayUtil, Theme, gradientGenerator, PrimaryColors){
 
 	var colors = ["#f00", "#0f0", "#00f", "#ff0", "#0ff", "#f0f", "./common"],	// the same is in PrimaryColors
 		defaultFill = {type: "linear", space: "shape", x1: 0, y1: 0, x2: 100, y2: 0},
@@ -22,10 +22,10 @@ define(["dojo/_base/lang", "dojo/_base/array", "../Theme", "./gradientGenerator"
 			return fill;
 		});
 
-	themes.ThreeD = PrimaryColors.clone();
-	themes.ThreeD.series.shadow = {dx: 1, dy: 1, width: 3, color: [0, 0, 0, 0.15]};
+	var ThreeD = PrimaryColors.clone();
+	ThreeD.series.shadow = {dx: 1, dy: 1, width: 3, color: [0, 0, 0, 0.15]};
 
-	themes.ThreeD.next = function(elementType, mixin, doPost){
+	ThreeD.next = function(elementType, mixin, doPost){
 		if(elementType == "bar" || elementType == "column"){
 			// custom processing for bars and columns: substitute fills
 			var index = this._current % this.seriesThemes.length,
@@ -39,5 +39,5 @@ define(["dojo/_base/lang", "dojo/_base/array", "../Theme", "./gradientGenerator"
 		return Theme.prototype.next.apply(this, arguments);
 	};
 	
-	return themes.ThreeD;
+	return ThreeD;
 });

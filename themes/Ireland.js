@@ -1,5 +1,5 @@
-define(["../Theme", "./common"], function(Theme, themes){
-	themes.Ireland = new Theme({
+define(["../Theme"], function(Theme){
+	return Ireland = new Theme({
 		colors: [
 			"#abdbcb",
 			"#435a51",
@@ -8,5 +8,4 @@ define(["../Theme", "./common"], function(Theme, themes){
 			"#5f8074"
 		]
 	});
-	return themes.Ireland;
 });

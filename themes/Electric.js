@@ -1,9 +1,9 @@
-define(["../Theme", "./utils", "dojox/gfx/gradutils", "./common"], function(Theme, utils, gradutils, themes){
+define(["../Theme", "./utils", "dojox/gfx/gradutils"], function(Theme, utils, gradutils){
 
 	var g = utils.generateGradient,
 		defaultFill = {type: "linear", space: "shape", x1: 0, y1: 0, x2: 0, y2: 75};
 	
-	themes.Electric = new Theme({
+	var Electric = new Theme({
 		chart: {
 			fill:      "#252525",
 			stroke:    {color: "#252525"},
@@ -54,7 +54,7 @@ define(["../Theme", "./utils", "dojox/gfx/gradutils", "./common"], function(Them
 		]
 	});
 	
-	themes.Electric.next = function(elementType, mixin, doPost){
+	Electric.next = function(elementType, mixin, doPost){
 		var isLine = elementType == "line";
 		if(isLine || elementType == "area"){
 			// custom processing for lines: substitute colors
@@ -76,7 +76,7 @@ define(["../Theme", "./utils", "dojox/gfx/gradutils", "./common"], function(Them
 		return Theme.prototype.next.apply(this, arguments);
 	};
 	
-	themes.Electric.post = function(theme, elementType){
+	Electric.post = function(theme, elementType){
 		theme = Theme.prototype.post.apply(this, arguments);
 		if((elementType == "slice" || elementType == "circle") && theme.series.fill && theme.series.fill.type == "radial"){
 			theme.series.fill = gradutils.reverse(theme.series.fill);
@@ -84,5 +84,5 @@ define(["../Theme", "./utils", "dojox/gfx/gradutils", "./common"], function(Them
 		return theme;
 	};
 	
-	return themes.Electric;
+	return Electric;
 });

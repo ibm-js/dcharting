@@ -1,11 +1,11 @@
-define(["../Theme", "./utils", "dojox/gfx/gradutils", "./common"], function(Theme, utils, gradutils, themes){
+define(["../Theme", "./utils", "dojox/gfx/gradutils"], function(Theme, utils, gradutils){
 
 	// created by Tom Trenka
 
 	var g = utils.generateGradient,
 		defaultFill = {type: "linear", space: "shape", x1: 0, y1: 0, x2: 0, y2: 150};
 	
-	themes.Renkoo = new Theme({
+	var Renkoo = new Theme({
 		chart: {
 			fill:      "#123666",
 			pageStyle: {backgroundColor: "#123666", backgroundImage: "none", color: "#95afdb"}
@@ -53,7 +53,7 @@ define(["../Theme", "./utils", "dojox/gfx/gradutils", "./common"], function(Them
 		]
 	});
 	
-	themes.Renkoo.next = function(elementType, mixin, doPost){
+	Renkoo.next = function(elementType, mixin, doPost){
 		if("slice,column,bar".indexOf(elementType) == -1){
 			// custom processing to substitute colors
 			var s = this.seriesThemes[this._current % this.seriesThemes.length];
@@ -71,7 +71,7 @@ define(["../Theme", "./utils", "dojox/gfx/gradutils", "./common"], function(Them
 		return Theme.prototype.next.apply(this, arguments);
 	};
 	
-	themes.Renkoo.post = function(theme, elementType){
+	Renkoo.post = function(theme, elementType){
 		theme = Theme.prototype.post.apply(this, arguments);
 		if((elementType == "slice" || elementType == "circle") && theme.series.fill && theme.series.fill.type == "radial"){
 			theme.series.fill = gradutils.reverse(theme.series.fill);
@@ -79,5 +79,5 @@ define(["../Theme", "./utils", "dojox/gfx/gradutils", "./common"], function(Them
 		return theme;
 	};
 	
-	return themes.Renkoo;
+	return Renkoo;
 });

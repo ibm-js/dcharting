@@ -1,10 +1,7 @@
-define(["dojo/_base/lang", "dojo/_base/Color", "../../Theme", "../common"],
-	function(lang, Color, Theme, themes){
+define(["dojo/_base/lang", "dojo/_base/Color", "../../Theme"],
+	function(lang, Color, Theme){
 
-	// the baseline theme for all PlotKIt themes
-	var pk = lang.getObject("PlotKit", true, themes);
-
-	pk.base = new Theme({
+	var base = new Theme({
 		chart:{
 			stroke: null,
 			fill:   "yellow"
@@ -35,7 +32,7 @@ define(["dojo/_base/lang", "dojo/_base/Color", "../../Theme", "../common"],
 		colors: ["red", "green", "blue"]
 	});
 
-	pk.base.next = function(elementType, mixin, doPost){
+	base.next = function(elementType, mixin, doPost){
 		var theme = Theme.prototype.next.apply(this, arguments);
 		if(elementType == "line"){
 			theme.marker.outline = {width: 2, color: "#fff"};
@@ -51,5 +48,5 @@ define(["dojo/_base/lang", "dojo/_base/Color", "../../Theme", "../common"],
 		return theme;
 	};
 	
-	return pk;
+	return base;
 });

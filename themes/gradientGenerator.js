@@ -1,7 +1,7 @@
-define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "./utils", "dojox/color/_base", "./common"],
-	function(lang, arr, Color, utils, dxcolor, themes){
+define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "./utils"],
+	function(lang, arr, Color, utils){
 	
-	var gg = lang.getObject("gradientGenerator", true, themes);
+	var gg = {};
 
 	gg.generateFills = function(colors, fillPattern, lumFrom, lumTo){
 		// summary:
@@ -51,7 +51,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "./utils", "d
 		// lumStroke: Number
 		//		Stroke luminance value (0-100).
 		return arr.map(colors, function(c){	// Array
-			c = new dxcolor.Color(c);
+			c = new Color(c);
 			return {
 				fill:   utils.generateHslGradient(c, fillPattern, lumFrom, lumTo),
 				stroke: {color: utils.generateHslColor(c, lumStroke)}

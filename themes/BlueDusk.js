@@ -1,5 +1,5 @@
-define(["../Theme", "./common"], function(Theme, themes){
-	themes.BlueDusk = new Theme({
+define(["../Theme"], function(Theme){
+	return new Theme({
 		colors: [
 			"#292e76",
 			"#3e56a6",
@@ -8,6 +8,4 @@ define(["../Theme", "./common"], function(Theme, themes){
 			"#798dcd"
 		]
 	});
-	
-	return themes.BlueDusk;
 });

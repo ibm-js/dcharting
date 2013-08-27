@@ -1,5 +1,5 @@
-define(["../Theme", "./common"], function(Theme, themes){
-	themes.Distinctive = new Theme({
+define(["../Theme"], function(Theme){
+	Distinctive = new Theme({
 		colors: [
 			"#497c91",
 			"#ada9d6",
@@ -36,5 +36,5 @@ define(["../Theme", "./common"], function(Theme, themes){
 		
 		]
 	});
-	return themes.Distinctive;
+	return Distinctive;
 });

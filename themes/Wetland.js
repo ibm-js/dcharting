@@ -1,5 +1,5 @@
-define(["../Theme", "./common"], function(Theme, themes){
-	themes.Wetland = new Theme({
+define(["../Theme"], function(Theme){
+	return new Theme({
 		colors: [
 			"#bfbc64",
 			"#737130",
@@ -8,5 +8,4 @@ define(["../Theme", "./common"], function(Theme, themes){
 			"#8d3c42"
 		]
 	});
-	return themes.Wetland;
 });

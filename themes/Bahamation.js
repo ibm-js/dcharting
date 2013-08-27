@@ -1,5 +1,5 @@
-define(["../Theme", "./common"], function(Theme, themes){
-	themes.Bahamation = new Theme({
+define(["../Theme"], function(Theme){
+	return new Theme({
 		colors: [
 			"#3f9998",
 			"#3fc0c3",
@@ -8,5 +8,4 @@ define(["../Theme", "./common"], function(Theme, themes){
 			"#c663a6"
 		]
 	});
-	return themes.Bahamation;
 });

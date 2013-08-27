@@ -1,5 +1,5 @@
-define(["../Theme", "./common"], function(Theme, themes){
-	themes.Adobebricks = new Theme({
+define(["../Theme"], function(Theme){
+	return Adobebricks = new Theme({
 		colors: [
 			"#7f2518",
 			"#3e170c",
@@ -8,5 +8,4 @@ define(["../Theme", "./common"], function(Theme, themes){
 			"#8c271c"
 		]
 	});
-	return themes.Adobebricks;
 });
