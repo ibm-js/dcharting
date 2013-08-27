@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "../Theme", "dojox/color/_base", "./common"], 
-	function(lang, arr, Color, Theme, dxcolor, themes){
+define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "./utils", "dojox/color/_base", "./common"],
+	function(lang, arr, Color, utils, dxcolor, themes){
 	
 	var gg = lang.getObject("gradientGenerator", true, themes);
 
@@ -15,7 +15,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "../Theme", "
 		// lumTo: Number
 		//		Final luminance value (0-100).
 		return arr.map(colors, function(c){	// Array
-			return Theme.generateHslGradient(c, fillPattern, lumFrom, lumTo);
+			return utils.generateHslGradient(c, fillPattern, lumFrom, lumTo);
 		});
 	};
 	
@@ -32,7 +32,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "../Theme", "
 		//		Final luminance value (0-100).
 		arr.forEach(themes, function(t){
 			if(t.fill && !t.fill.type){
-				t.fill = Theme.generateHslGradient(t.fill, fillPattern, lumFrom, lumTo);
+				t.fill = utils.generateHslGradient(t.fill, fillPattern, lumFrom, lumTo);
 			}
 		});
 	};
@@ -53,8 +53,8 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "../Theme", "
 		return arr.map(colors, function(c){	// Array
 			c = new dxcolor.Color(c);
 			return {
-				fill:   Theme.generateHslGradient(c, fillPattern, lumFrom, lumTo),
-				stroke: {color: Theme.generateHslColor(c, lumStroke)}
+				fill:   utils.generateHslGradient(c, fillPattern, lumFrom, lumTo),
+				stroke: {color: utils.generateHslColor(c, lumStroke)}
 			};
 		});
 	};
