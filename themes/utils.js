@@ -83,7 +83,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "dcolor/utils
 			}
 			if(kwArgs.generator){
 				//	pass a base color and the name of a generator
-				return result.generate(kwArgs.base, kwArgs.generator).colors;
+				return result.generate(kwArgs.base, kwArgs.generator);
 			}
 			return c;	//	dojo.Color[]
 		},
