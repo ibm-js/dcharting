@@ -1,5 +1,5 @@
-define(["../SimpleTheme", "./common"], function(SimpleTheme, themes){
-	themes.Wetland = new SimpleTheme({
+define(["../Theme", "./common"], function(Theme, themes){
+	themes.Wetland = new Theme({
 		colors: [
 			"#bfbc64",
 			"#737130",

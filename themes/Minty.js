@@ -1,5 +1,5 @@
-define(["../SimpleTheme", "./common"], function(SimpleTheme, themes){
-	themes.Minty = new SimpleTheme({
+define(["../Theme", "./common"], function(Theme, themes){
+	themes.Minty = new Theme({
 		colors: [
 			"#80ccbb",
 			"#539e8b",

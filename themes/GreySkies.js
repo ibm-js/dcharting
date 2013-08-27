@@ -1,4 +1,4 @@
-define(["../SimpleTheme", "./common"], function(SimpleTheme, themes){
-	themes.GreySkies = new SimpleTheme();
+define(["../Theme", "./common"], function(Theme, themes){
+	themes.GreySkies = new Theme();
 	return themes.GreySkies;
 });

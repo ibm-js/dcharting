@@ -1,10 +1,10 @@
 define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-style",
 	"dojo/dom", "dojo/dom-geometry", "dojo/dom-construct","dojo/_base/Color", "dojo/sniff", "dijit/_WidgetBase",
-	"./Element", "./SimpleTheme", "./Series", "./axis2d/common", "dojox/gfx/shape",
+	"./Element", "./Theme", "./Series", "./axis2d/common", "dojox/gfx/shape",
 	"dojox/gfx", "dojo/has!dojo-bidi?./bidi/Chart", "dojox/lang/functional", "dojox/lang/functional/fold", "dojox/lang/functional/reversed"],
 	function(lang, arr, declare, domStyle,
 	 		 dom, domGeom, domConstruct, Color, has, _WidgetBase,
-	 		 Element, SimpleTheme, Series, common, shape,
+	 		 Element, Theme, Series, common, shape,
 	 		 g, BidiChart, func){
 	/*=====
 	var __ChartCtorArgs = {
@@ -123,7 +123,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 		//	|			.render();
 		//	|	});
 		
-		// theme: dojox/charting/SimpleTheme?
+		// theme: dojox/charting/Theme?
 		//		An optional theme to use for styling the chart.
 		// axes: dojox/charting/axis2d/Base{}?
 		//		A map of axes for use in plotting a chart.
@@ -224,7 +224,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 		_setThemeAttr: function(theme){
 			// summary:
 			//		Set a theme of the chart.
-			// theme: dojox/charting/SimpleTheme
+			// theme: dojox/charting/Theme
 			//		The theme to be used for visual rendering.
 			// returns: dojox/charting/Chart
 			//		A reference to the current chart for functional chaining.
@@ -754,7 +754,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 
 			// set up a theme
 			if(!this.theme){
-				this.set("theme", new SimpleTheme());
+				this.set("theme", new Theme());
 			}
 
 			// assign series

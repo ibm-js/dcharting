@@ -1,5 +1,5 @@
-define(["../SimpleTheme", "./common"], function(SimpleTheme, themes){
-	themes.MiamiNice = new SimpleTheme({
+define(["../Theme", "./common"], function(Theme, themes){
+	themes.MiamiNice = new Theme({
 		colors: [
 			"#7f9599",
 			"#45b8cc",

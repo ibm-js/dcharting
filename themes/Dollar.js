@@ -1,5 +1,5 @@
-define(["../SimpleTheme", "./common"], function(SimpleTheme, themes){
-	themes.Dollar = new SimpleTheme({
+define(["../Theme", "./common"], function(Theme, themes){
+	themes.Dollar = new Theme({
 		colors: [
 			"#A4CE67",
 			"#739363",

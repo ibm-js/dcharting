@@ -1,4 +1,4 @@
-define(["../SimpleTheme", "./utils", "dojox/gfx/gradutils", "./common"], function(Theme, utils, gradutils, themes){
+define(["../Theme", "./utils", "dojox/gfx/gradutils", "./common"], function(Theme, utils, gradutils, themes){
 	// created by Tom Trenka
 
 	var g = utils.generateGradient,

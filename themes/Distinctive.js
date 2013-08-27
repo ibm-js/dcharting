@@ -1,5 +1,5 @@
-define(["../SimpleTheme", "./common"], function(SimpleTheme, themes){
-	themes.Distinctive = new SimpleTheme({
+define(["../Theme", "./common"], function(Theme, themes){
+	themes.Distinctive = new Theme({
 		colors: [
 			"#497c91",
 			"#ada9d6",

@@ -1,9 +1,9 @@
 define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/Color", "dojox/lang/utils", "dojox/gfx/gradutils"],
 	function(lang, arr, declare, Color, dlu, dgg){
 	
-	var SimpleTheme = declare(null, {
+	var Theme = declare(null, {
 	// summary:
-	//		A SimpleTheme or Theme is a pre-defined object, primarily JSON-based, that makes up the definitions to
+	//		A Theme or Theme is a pre-defined object, primarily JSON-based, that makes up the definitions to
 	//		style a chart.
 	//
 	// description:
@@ -138,7 +138,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 	//
 	// example:
 	//		Defining a new theme is pretty simple:
-	//	|	var Grasslands = new SimpleTheme({
+	//	|	var Grasslands = new Theme({
 	//	|		colors: [ "#70803a", "#dde574", "#788062", "#b1cc5d", "#eff2c2" ]
 	//	|	});
 	//	|
@@ -153,7 +153,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 		kwArgs = kwArgs || {};
 
 		// populate theme with defaults updating them if needed
-		var def = SimpleTheme.defaultTheme;
+		var def = Theme.defaultTheme;
 		arr.forEach(["chart", "plotarea", "axis", "grid", "series", "marker", "indicator"], function(name){
 			this[name] = lang.delegate(def[name], kwArgs[name]);
 		}, this);
@@ -164,13 +164,13 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 			this.seriesThemes = kwArgs.seriesThemes.slice(0);
 		}else{
 			this.seriesThemes = null;
-			this.colors = (kwArgs.colors || SimpleTheme.defaultColors).slice(0);
+			this.colors = (kwArgs.colors || Theme.defaultColors).slice(0);
 		}
 		this.markerThemes = null;
 		if(kwArgs.markerThemes && kwArgs.markerThemes.length){
 			this.markerThemes = kwArgs.markerThemes.slice(0);
 		}
-		this.markers = kwArgs.markers ? lang.clone(kwArgs.markers) : lang.delegate(SimpleTheme.defaultMarkers);
+		this.markers = kwArgs.markers ? lang.clone(kwArgs.markers) : lang.delegate(Theme.defaultMarkers);
 
 		// set flags
 		this.noGradConv = kwArgs.noGradConv;
@@ -187,7 +187,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 	clone: function(){
 		// summary:
 		//		Clone the current theme.
-		// returns: dojox.charting.SimpleTheme
+		// returns: dojox.charting.Theme
 		//		The cloned theme; any alterations made will not affect the original.
 		var theme = new this.constructor({
 			// theme components
@@ -217,7 +217,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 			},
 			this
 		);
-		return theme;	//	dojox.charting.SimpleTheme
+		return theme;	//	dojox.charting.Theme
 	},
 
 	clear: function(){
@@ -309,7 +309,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 	addMixin: function(theme, elementType, mixin, doPost){
 		// summary:
 		//		Add a mixin object to the passed theme and process.
-		// theme: dojox/charting/SimpleTheme
+		// theme: dojox/charting/Theme
 		//		The theme to mixin to.
 		// elementType: String
 		//		The type of element in question. Can be "line", "bar" or "circle"
@@ -317,7 +317,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 		//		The object or objects to mix into the theme.
 		// doPost: Boolean
 		//		If true, run the new theme through the post-processor.
-		// returns: dojox/charting/SimpleTheme
+		// returns: dojox/charting/Theme
 		//		The new theme.
 		if(lang.isArray(mixin)){
 			arr.forEach(mixin, function(m){
@@ -355,17 +355,17 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 		if(doPost){
 			theme = this.post(theme, elementType);
 		}
-		return theme;	//	dojox/charting/SimpleTheme
+		return theme;	//	dojox/charting/Theme
 	},
 
 	post: function(theme, elementType){
 		// summary:
 		//		Process any post-shape fills.
-		// theme: dojox/charting/SimpleTheme
+		// theme: dojox/charting/Theme
 		//		The theme to post process with.
 		// elementType: String
 		//		The type of element being filled.  Can be "bar" or "circle".
-		// returns: dojox/charting/SimpleTheme
+		// returns: dojox/charting/Theme
 		//		The post-processed theme.
 		var fill = theme.series.fill, t;
 		if(!this.noGradConv && this.shapeSpaces[fill.space] && fill.type == "linear"){
@@ -390,7 +390,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 				return dlu.merge(theme, {series: {fill: t}});
 			}
 		}
-		return theme;	//	dojox/charting/SimpleTheme
+		return theme;	//	dojox/charting/Theme
 	},
 
 	getTick: function(name, mixin){
@@ -469,7 +469,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 	}
 });
 
-lang.mixin(SimpleTheme, {
+lang.mixin(Theme, {
 	defaultMarkers: {
 		CIRCLE:   "m-3,0 c0,-4 6,-4 6,0 m-6,0 c0,4 6,4 6,0",
 		SQUARE:   "m-3,-3 l0,6 6,0 0,-6 z",
@@ -573,5 +573,5 @@ lang.mixin(SimpleTheme, {
 	}
 });
 
-return SimpleTheme;
+return Theme;
 });

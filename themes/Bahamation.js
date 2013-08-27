@@ -1,5 +1,5 @@
-define(["../SimpleTheme", "./common"], function(SimpleTheme, themes){
-	themes.Bahamation = new SimpleTheme({
+define(["../Theme", "./common"], function(Theme, themes){
+	themes.Bahamation = new Theme({
 		colors: [
 			"#3f9998",
 			"#3fc0c3",

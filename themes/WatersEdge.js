@@ -1,5 +1,5 @@
-define(["../SimpleTheme", "./common"], function(SimpleTheme, themes){
-	themes.WatersEdge = new SimpleTheme({
+define(["../Theme", "./common"], function(Theme, themes){
+	themes.WatersEdge = new Theme({
 		colors: [
 			"#437cc0",
 			"#6256a5",

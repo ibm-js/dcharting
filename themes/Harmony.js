@@ -1,5 +1,5 @@
-define(["../SimpleTheme", "./common"], function(SimpleTheme, themes){
-	themes.Harmony = new SimpleTheme({
+define(["../Theme", "./common"], function(Theme, themes){
+	themes.Harmony = new Theme({
 		colors: [
 			"#497c91",
 			"#59a0bd",
