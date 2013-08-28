@@ -1,11 +1,11 @@
 define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-style",
 	"dojo/dom", "dojo/dom-geometry", "dojo/dom-construct","dojo/_base/Color", "dojo/sniff", "dijit/_WidgetBase",
 	"./Element", "./Theme", "./Series", "./axis2d/common", "dojox/gfx/shape",
-	"dojox/gfx", "dojo/has!dojo-bidi?./bidi/Chart", "dojox/lang/functional", "dojox/lang/functional/fold", "dojox/lang/functional/reversed"],
+	"dojox/gfx", "dojo/has!dojo-bidi?./bidi/Chart"],
 	function(lang, arr, declare, domStyle,
 	 		 dom, domGeom, domConstruct, Color, has, _WidgetBase,
 	 		 Element, Theme, Series, common, shape,
-	 		 g, BidiChart, func){
+	 		 g, BidiChart){
 	/*=====
 	var __ChartCtorArgs = {
 		// summary:
@@ -43,12 +43,12 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 	};
 	=====*/
 
-	var clear = func.lambda("item.clear()"),
-		purge = func.lambda("item.purgeGroup()"),
-		destroy = func.lambda("item.destroy()"),
-		makeClean = func.lambda("item.dirty = false"),
-		makeDirty = func.lambda("item.dirty = true"),
-		getName = func.lambda("item.name");
+	var clear = function(item){item.clear()},
+		purgeGroup = function(item){item.purgeGroup()},
+		destroy = function(item){item.destroy()},
+		makeClean = function(item){item.dirty = false},
+		makeDirty = function(item){item.dirty = true},
+		getName = function(item){return item.name};
 
 	var Chart = declare(_WidgetBase, {
 		// summary:
@@ -201,7 +201,9 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			// returns: void
 			arr.forEach(this.series, destroy);
 			arr.forEach(this.plots,  destroy);
-			func.forIn(this.axes, destroy);
+			for(var axis in this.axes){
+				this.axes[axis].destroy();
+			}
 			this.surface.destroy();
 			if(this.chartTitle && this.chartTitle.tagName){
 				// destroy title if it is a DOM node
@@ -291,50 +293,29 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			this.dirty = true;
 			return this;	//	dojox/charting/Chart
 		},
-		getPlot: function(name){
-			// summary:
-			//		Get the given plot, by name.
-			// name: String
-			//		The name the plot was defined by.
-			// returns: dojox/charting/plot2d/Base
-			//		The plot.
-			return this.plots[this.plots[name]];
-		},
-		removePlot: function(name){
+		removePlot: function(plot){
 			// summary:
 			//		Remove the plot defined using name from the chart's plot stack.
 			// name: String
 			//		The name of the plot as defined using addPlot.
 			// returns: dojox/charting/Chart
 			//		A reference to the current chart for functional chaining.
-			if(name in this.plots){
 				// get the index and remove the name
-				var index = this.plots[name];
-				delete this.plots[name];
+			var index = this.plots.indexOf(plot);
+			if(index != -1){
 				// destroy the plot
-				this.stack[index].destroy();
+				plot.destroy();
 				// remove the plot from the stack
-				this.stack.splice(index, 1);
-				// update indices to reflect the shift
-				func.forIn(this.plots, function(idx, name, plots){
-					if(idx > index){
-						plots[name] = idx - 1;
-					}
-				});
+				this.plots.splice(index, 1);
 				// remove all related series
-				var ns = arr.filter(this.series, function(run){ return run.plot != name; });
+				var ns = arr.filter(this.series, function(run){ return run.plot != plot; });
 				if(ns.length < this.series.length){
 					// kill all removed series
 					arr.forEach(this.series, function(run){
-						if(run.plot == name){
+						if(run.plot == plot){
 							run.destroy();
 						}
 					});
-					// rebuild all necessary data structures
-					this.runs = {};
-					arr.forEach(ns, function(run, index){
-						this.runs[run.plot] = index;
-					}, this);
 					this.series = ns;
 				}
 				// mark the chart as dirty
@@ -347,7 +328,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		Returns an array of plot names in the current order
 			//		(the top-most plot is the first).
 			// returns: Array
-			return func.map(this.stack, getName); // Array
+			return this.plots;
 		},
 		setPlotOrder: function(newOrder){
 			// summary:
@@ -357,65 +338,39 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		Array of plot names compatible with getPlotOrder().
 			// returns: dojox/charting/Chart
 			//		A reference to the current chart for functional chaining.
-			var names = {},
-				order = func.filter(newOrder, function(name){
-					if(!(name in this.plots) || (name in names)){
-						return false;
-					}
-					names[name] = 1;
-					return true;
-				}, this);
-			if(order.length < this.plots.length){
-				func.forEach(this.plots, function(plot){
-					var name = plot.name;
-					if(!(name in names)){
-						order.push(name);
-					}
-				});
-			}
-			var newStack = func.map(order, function(name){
-					return this.stack[this.plots[name]];
-				}, this);
-			func.forEach(newStack, function(plot, i){
-				this.plots[plot.name] = i;
-			}, this);
-			this.stack = newStack;
+			this.plots = newOrder;
 			this.dirty = true;
 			return this;	//	dojox/charting/Chart
 		},
-		movePlotToFront: function(name){
+		movePlotToFront: function(plot){
 			// summary:
 			//		Moves a given plot to front.
 			// name: String
 			//		Plot's name to move.
 			// returns: dojox/charting/Chart
 			//		A reference to the current chart for functional chaining.
-			if(name in this.plots){
-				var index = this.plots[name];
-				if(index){
-					var newOrder = this.getPlotOrder();
-					newOrder.splice(index, 1);
-					newOrder.unshift(name);
-					return this.setPlotOrder(newOrder);	//	dojox/charting/Chart
-				}
+			var index = this.plots.indexOf(plot);
+			if(index != -1){
+				var newOrder = this.getPlotOrder();
+				newOrder.splice(index, 1);
+				newOrder.unshift(plot);
+				return this.setPlotOrder(newOrder);	//	dojox/charting/Chart
 			}
 			return this;	//	dojox/charting/Chart
 		},
-		movePlotToBack: function(name){
+		movePlotToBack: function(plot){
 			// summary:
 			//		Moves a given plot to back.
 			// name: String
 			//		Plot's name to move.
 			// returns: dojox/charting/Chart
 			//		A reference to the current chart for functional chaining.
-			if(name in this.plots){
-				var index = this.plots[name];
-				if(index < this.stack.length - 1){
-					var newOrder = this.getPlotOrder();
-					newOrder.splice(index, 1);
-					newOrder.push(name);
-					return this.setPlotOrder(newOrder);	//	dojox/charting/Chart
-				}
+			var index = this.plots.indexOf(plot);
+			if(index != -1){
+				var newOrder = this.getPlotOrder();
+				newOrder.splice(index, 1);
+				newOrder.push(plot);
+				return this.setPlotOrder(newOrder);	//	dojox/charting/Chart
 			}
 			return this;	//	dojox/charting/Chart
 		},
@@ -443,25 +398,17 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		The name of the series as defined by addSeries.
 			// returns: dojox/charting/Chart
 			//		A reference to the current chart for functional chaining.
-			if(name in this.runs){
-				// get the index and remove the name
-				var index = this.runs[name];
-				delete this.runs[name];
+			var index = this.series.indexOf(series);
+			if(index != -1){
 				// destroy the run
-				this.series[index].destroy();
+				series.destroy();
 				// remove the run from the stack of series
 				this.series.splice(index, 1);
-				// update indices to reflect the shift
-				func.forIn(this.runs, function(idx, name, runs){
-					if(idx > index){
-						runs[name] = idx - 1;
-					}
-				});
 				this.dirty = true;
 			}
 			return this;	//	dojox/charting/Chart
 		},
-		updateSeries: function(name, data, offsets){
+		updateSeries: function(series, data, offsets){
 			// summary:
 			//		Update the given series with a new set of 	data points.
 			// name: String
@@ -477,14 +424,14 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		and offsets need to be recomputed.
 			// returns: dojox/charting/Chart
 			//		A reference to the current chart for functional chaining.
-			if(name in this.runs){
-				var run = this.series[this.runs[name]];
-				run.update(data);
+			var index = this.series.indexOf(series);
+			if(index != -1){
+				series.update(data);
 				if(offsets){
 					this.dirty = true;
 				}else{
-					this._invalidateDependentPlots(run.plot, false);
-					this._invalidateDependentPlots(run.plot, true);
+					this._invalidateDependentPlots(series.plot, false);
+					this._invalidateDependentPlots(series.plot, true);
 				}
 			}
 			return this;	//	dojox/charting/Chart
@@ -496,9 +443,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			// plotName: String
 			//		Plot's name.
 			// returns: Array
-			return func.map(func.filter(this.series, function(run){
-					return run.plot == plotName;
-				}), getName);
+			return this.series;
 		},
 		setSeriesOrder: function(newOrder){
 			// summary:
@@ -509,37 +454,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		series should belong to the same plot.
 			// returns: dojox/charting/Chart
 			//		A reference to the current chart for functional chaining.
-			var plotName, names = {},
-				order = func.filter(newOrder, function(name){
-					if(!(name in this.runs) || (name in names)){
-						return false;
-					}
-					var run = this.series[this.runs[name]];
-					if(plotName){
-						if(run.plot != plotName){
-							return false;
-						}
-					}else{
-						plotName = run.plot;
-					}
-					names[name] = 1;
-					return true;
-				}, this);
-			func.forEach(this.series, function(run){
-				var name = run.name;
-				if(!(name in names) && run.plot == plotName){
-					order.push(name);
-				}
-			});
-			var newSeries = func.map(order, function(name){
-					return this.series[this.runs[name]];
-				}, this);
-			this.series = newSeries.concat(func.filter(this.series, function(run){
-				return run.plot != plotName;
-			}));
-			func.forEach(this.series, function(run, i){
-				this.runs[run.name] = i;
-			}, this);
+			this.series = newOrder;
 			this.dirty = true;
 			return this;	//	dojox/charting/Chart
 		},
@@ -621,8 +536,9 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		in terms of scaling (see dojox.charting.axis2d.Default.getScaler).
 			// returns: Object
 			//		An map of geometry objects, a one-to-one mapping of axes.
-			var ret = {};
-			func.forIn(this.axes, function(axis){
+			var ret = {}, axis;
+			for(var k in this.axes){
+				axis = this.axes[k];
 				if(axis.initialized()){
 					ret[axis.name] = {
 						name:		axis.name,
@@ -631,7 +547,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 						ticks:		axis.ticks
 					};
 				}
-			});
+			}
 			return ret;	//	Object
 		},
 		setAxisWindow: function(name, scale, offset, zoom){
@@ -678,9 +594,11 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			if(!("plotArea" in this)){
 				this.calculateGeometry();
 			}
-			func.forIn(this.axes, function(axis){
+			var axis;
+			for(var k in this.axes){
 				var scale, offset, bounds = axis.getScaler().bounds,
 					s = bounds.span / (bounds.upper - bounds.lower);
+				axis = this.axes[k];
 				if(axis.vertical){
 					scale  = sy;
 					offset = dy / s / scale;
@@ -689,7 +607,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 					offset = dx / s / scale;
 				}
 				axis.setWindow(scale, offset);
-			});
+			}
 			arr.forEach(this.plots, function(plot){ plot.zoom = zoom; });
 			return this;	//	dojox/charting/Chart
 		},
@@ -762,7 +680,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				if(run.plot){
 					run.plot.addSeries(run);
 				}else{
-					// if no plot is specified, assign to all series
+					// if no plot is specified, assign series to all plots
 					arr.forEach(this.plots, function(plot){
 						plot.addSeries(run);
 					});
@@ -781,19 +699,26 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			var dim = this.dim = this.surface.getDimensions();
 			dim.width  = g.normalizedLength(dim.width);
 			dim.height = g.normalizedLength(dim.height);
-			func.forIn(this.axes, clear);
+			for(k in this.axes){
+				this.axes[k].clear();
+			}
 			calculateAxes(this.plots, dim);
 
+			var i, k, axis;
 			// assumption: we don't have stacked axes yet
-			var offsets = this.offsets = {l: 0, r: 0, t: 0, b: 0};
+			var offsets = this.offsets = {l: 0, r: 0, t: 0, b: 0}, o;
 			// chart mirroring starts
 			var self = this;
-			func.forIn(this.axes, function(axis){
+			for(var i in this.axes){
+				axis = this.axes[i];
 				if(has("dojo-bidi")){
 					self._resetLeftBottom(axis);
 				}
-				func.forIn(axis.getOffsets(), function(o, i){ offsets[i] = Math.max(o, offsets[i]); });
-			});
+				o = axis.getOffsets();
+				for(k in o){
+					offsets[k] = Math.max(o[k], offsets[k]);
+				}
+			};
 			// chart mirroring ends
 			// add title area
 			if(this.title){
@@ -805,14 +730,18 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				offsets[this.titlePos == "top" ? "t" : "b"] += (tsize + this.titleGap);
 			}
 			// add margins
-			func.forIn(this.margins, function(o, i){ offsets[i] += o; });
+			for (k in this.margins){
+				offsets[k] += this.margins[k];
+			}
 
 			// 2nd pass with realistic dimensions
 			this.plotArea = {
 				width: dim.width - offsets.l - offsets.r,
 				height: dim.height - offsets.t - offsets.b
 			};
-			func.forIn(this.axes, clear);
+			for(var axis in this.axes){
+				this.axes[axis].clear();
+			}
 			calculateAxes(this.plots, this.plotArea);
 
 			return this;	//	dojox/charting/Chart
@@ -841,11 +770,15 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 
 			this.calculateGeometry();
 
-			// go over the stack backwards
-			func.forEachRev(this.plots, function(plot){ plot.render(this.dim, this.offsets); }, this);
+			// (used to be: go over the stack backwards) we now go forward
+			for(var i = 0; i < this.plots.length; i++){
+				this.plots[i].render(this.dim, this.offsets);
+			}
 
 			// go over axes
-			func.forIn(this.axes, function(axis){ axis.render(this.dim, this.offsets); }, this);
+			for(var axis in this.axes){
+				this.axes[axis].render(this.dim, this.offsets);
+			}
 
 			this._makeClean();
 
@@ -864,14 +797,12 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			var w = Math.max(0, dim.width  - offsets.l - offsets.r),
 				h = Math.max(0, dim.height - offsets.t - offsets.b);
 
-			// get required colors
-			//var requiredColors = func.foldl(this.plots, "z + plot.getRequiredColors()", 0);
-			//this.theme.defineColors({num: requiredColors, cache: false});
-
 			// clear old shapes
-			arr.forEach(this.series, purge);
-			func.forIn(this.axes, purge);
-			arr.forEach(this.plots,  purge);
+			arr.forEach(this.series, purgeGroup);
+			for(var axis in this.axes){
+				this.axes[axis].purgeGroup();
+			}
+			arr.forEach(this.plots,  purgeGroup);
 			var children = this.surface.children;
 			// starting with 1.9 the registry is optional and thus dispose is
 			if(shape.dispose){
@@ -894,8 +825,10 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				this._renderPlotBackground(dim, offsets, w, h);
 			}
 
-			// go over the stack backwards
-			func.foldr(this.plots, function(z, plot){ return plot.render(dim, offsets), 0; }, 0);
+			// (used to be: go over the stack backwards) we now go forward
+			for(var i = 0; i < this.plots.length; i++){
+				this.plots[i].render(dim, offsets);
+			}
 
 			if(!this._nativeClip){
 				// VML, matting-clipping
@@ -920,7 +853,9 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			}
 
 			// go over axes
-			func.forIn(this.axes, function(axis){ axis.render(dim, offsets); });
+			for(var axis in this.axes){
+				this.axes[axis].render(dim, offsets);
+			}
 
 			this._makeClean();
 
@@ -1089,6 +1024,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			arr.forEach(this.series, makeDirty);
 			this.dirty = true;
 		},
+		// TODO (not by plotName)
 		_invalidateDependentPlots: function(plotName, /* Boolean */ verticalAxis){
 			if(plotName in this.plots){
 				var plot = this.stack[this.plots[plotName]], axis,
