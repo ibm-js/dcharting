@@ -1,5 +1,4 @@
-define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "../plot2d/Indicator",
-        "dojo/has", "../plot2d/common", "../axis2d/common", "dojox/gfx"], 
+define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "../plot2d/Indicator", "dojo/has"],
 	function(lang, array, declare, Indicator, has){
 
 	var getXYCoordinates = function(v, values, data){
