@@ -18,5 +18,5 @@ Migration steps from dojox/charting to dcharting:
 
 ## Licensing
 
-This project is distributed by the Dojo Foundation and licensed under the Dojo dual license [BSD/AFLv2 license](http://dojotoolkit.org/license).
+This project is distributed by the Dojo Foundation and licensed under the ["New" BSD License](https://github.com/ibm-dojo/dcharting/blob/master/LICENSE).
 All contributions require a [Dojo Foundation CLA](http://dojofoundation.org/about/claForm).
