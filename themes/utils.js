@@ -31,9 +31,9 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "dcolor/utils
 		 // high: Number?
 		 //		An optional value to determine the highest value used to generate a color (HSV model)
 		 // base: String|dojo/_base/Color?
-		 //		A base color to use if we are defining colors using dojox.color.Palette
+		 //		A base color to use if we are defining colors
 		 // generator: String?
-		 //		The generator function name from dojox/color/Palette.
+		 //		The generator function name from dcharting/themes/utils.
 		 };
 		 =====*/
 
@@ -290,10 +290,10 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "dcolor/utils
 				];
 			}
 		},
-		generate: function (/* String|dojox.color.Color */base, /* Function|String */type){
+		generate: function (/* String|dojo/_base/Color */base, /* Function|String */type){
 			// summary:
 			//		Generate a new Palette using any of the named functions in
-			//		dojox.color.Palette.generators or an optional function definition.  Current
+			//		dcharting.themes.utils.generators or an optional function definition.  Current
 			//		generators include "analogous", "monochromatic", "triadic", "complementary",
 			//		"splitComplementary", and "shades".
 			if(lang.isFunction(type)){
@@ -301,7 +301,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "dcolor/utils
 			}else if(result.generators[type]){
 				return result.generators[type]({ base: base });
 			}
-			throw new Error("dojox.color.Palette.generate: the specified generator ('" + type + "') does not exist.");
+			throw new Error("dcharting.themes.utils.generate: the specified generator ('" + type + "') does not exist.");
 		}
 	};
 

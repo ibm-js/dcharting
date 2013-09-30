@@ -33,7 +33,7 @@ define(["dojo/_base/window", "dojo/dom-geometry", "dojox/gfx", "dojo/has"],
 			gfx: function(chart, creator, x, y, align, text, font, fontColor){
 				// summary:
 				//		Use dojox.gfx to create any text.
-				// chart: dojox.charting.Chart
+				// chart: dcharting/Chart
 				//		The chart to create the text into.
 				// creator: dojox.gfx.Surface
 				//		The graphics surface to use for creating the text.
@@ -58,7 +58,7 @@ define(["dojo/_base/window", "dojo/dom-geometry", "dojox/gfx", "dojo/has"],
 			html: function(chart, creator, x, y, align, text, font, fontColor, labelWidth){
 				// summary:
 				//		Use the HTML DOM to create any text.
-				// chart: dojox.charting.Chart
+				// chart: dcharting/Chart
 				//		The chart to create the text into.
 				// creator: dojox.gfx.Surface
 				//		The graphics surface to use for creating the text.

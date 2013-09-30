@@ -5,7 +5,7 @@ define(["dojo/_base/array", "dojo/dom-construct","dojo/_base/declare", "dijit/re
 		// summary:
 		//		A base class that is used to build other elements of a chart, such as
 		//		a series.
-		// chart: dojox/charting/Chart
+		// chart: dcharting/Chart
 		//		The parent chart for this element.
 		// group: dojox/gfx/shape.Group
 		//		The visual GFX group representing this element.
@@ -22,7 +22,7 @@ define(["dojo/_base/array", "dojo/dom-construct","dojo/_base/declare", "dijit/re
 		constructor: function(){
 			// summary:
 			//		Creates a new charting element.
-			// chart: dojox/charting/Chart
+			// chart: dcharting/Chart
 			//		The chart that this element belongs to.
 			this.group = null;
 			this.htmlElements = [];
@@ -40,7 +40,7 @@ define(["dojo/_base/array", "dojo/dom-construct","dojo/_base/declare", "dijit/re
 		purgeGroup: function(){
 			// summary:
 			//		Clear any elements out of our group, and destroy the group.
-			// returns: dojox/charting/Element
+			// returns: dcharting/Element
 			//		A reference to this object for functional chaining.
 			this.destroyHtmlElements();
 			if(this.group){
@@ -81,14 +81,14 @@ define(["dojo/_base/array", "dojo/dom-construct","dojo/_base/declare", "dijit/re
 				});
 				this._events = [];
 			}
-			return this;	//	dojox.charting.Element
+			return this;	//	dcharting/Element
 		},
 		cleanGroup: function(creator){
 			// summary:
 			//		Clean any elements (HTML or GFX-based) out of our group, and create a new one.
 			// creator: dojox/gfx/shape.Surface?
 			//		An optional surface to work with.
-			// returns: dojox/charting/Element
+			// returns: dcharting/Element
 			//		A reference to this object for functional chaining.
 			this.destroyHtmlElements();
 			if(!creator){ creator = this.chart.surface; }
@@ -113,7 +113,7 @@ define(["dojo/_base/array", "dojo/dom-construct","dojo/_base/declare", "dijit/re
 				this.group = creator.createGroup();
 			}
 			this.dirty = true;
-			return this;	//	dojox.charting.Element
+			return this;	//	dcharting/Element
 		},
 		getGroup: function(){
 			return this.group;

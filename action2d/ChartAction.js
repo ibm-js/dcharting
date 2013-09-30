@@ -8,9 +8,9 @@ define(["dojo/_base/connect", "dojo/_base/declare", "./Base"],
 		constructor: function(chart, plot){
 			// summary:
 			//		Create a new base chart action.
-			// chart: dojox/charting/Chart
+			// chart: dcharting/Chart
 			//		The chart this action applies to.
-			// plot: String|dojox/charting/plot2d/Base?
+			// plot: String|dcharting/plot2d/Base?
 			//		Optional target plot for this chart action.  Default is "default".
 		},
 	

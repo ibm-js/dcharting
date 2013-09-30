@@ -15,12 +15,12 @@ define(["dojo/_base/declare", "dijit/registry", "../Element"],
 	return declare(Element, {
 		// summary:
 		//		The base class for any axis.  This is more of an interface/API
-		//		definition than anything else; see dojox.charting.axis2d.Default
+		//		definition than anything else; see dcharting/axis2d/Default
 		//		for more details.
 		constructor: function(kwArgs){
 			// summary:
 			//		Return a new base axis.
-			// chart: dojox/charting/Chart
+			// chart: dcharting/Chart
 			//		The chart this axis belongs to.
 			// kwArgs: __BaseAxisCtorArgs?
 			//		An optional arguments object to define the axis parameters.
@@ -37,9 +37,9 @@ define(["dojo/_base/declare", "dijit/registry", "../Element"],
 		clear: function(){
 			// summary:
 			//		Stub function for clearing the axis.
-			// returns: dojox/charting/axis2d/Base
+			// returns: dcharting/axis2d/Base
 			//		A reference to the axis for functional chaining.
-			return this;	//	dojox/charting/axis2d/Base
+			return this;	//	dcharting/axis2d/Base
 		},
 		initialized: function(){
 			// summary:
@@ -51,15 +51,15 @@ define(["dojo/_base/declare", "dijit/registry", "../Element"],
 		calculate: function(min, max, span){
 			// summary:
 			//		Stub function to run the calcuations needed for drawing this axis.
-			// returns: dojox/charting/axis2d/Base
+			// returns: dcharting/axis2d/Base
 			//		A reference to the axis for functional chaining.
-			return this;	//	dojox/charting/axis2d/Base
+			return this;	//	dcharting/axis2d/Base
 		},
 		getScaler: function(){
 			// summary:
 			//		A stub function to return the scaler object created during calculate.
 			// returns: Object
-			//		The scaler object (see dojox.charting.scaler.linear for more information)
+			//		The scaler object (see dcharting/scaler/linear for more information)
 			return null;	//	Object
 		},
 		getTicks: function(){
@@ -79,10 +79,10 @@ define(["dojo/_base/declare", "dijit/registry", "../Element"],
 		render: function(dim, offsets){
 			// summary:
 			//		Stub function to render this axis.
-			// returns: dojox/charting/axis2d/Base
+			// returns: dcharting/axis2d/Base
 			//		A reference to the axis for functional chaining.
 			this.dirty = false;
-			return this;	//	dojox/charting/axis2d/Base
+			return this;	//	dcharting/axis2d/Base
 		}
 	});
 });

@@ -61,7 +61,7 @@ define(["dojo/_base/declare", "dojo/_base/window", "dojo/_base/array", "dojo/_ba
 		constructor: function(chart, plot, kwArgs){
 			// summary:
 			//		Create an mouse zoom and pan action and connect it.
-			// chart: dojox/charting/Chart
+			// chart: dcharting/Chart
 			//		The chart this action applies to.
 			// kwArgs: __MouseZoomAndPanCtorArgs?
 			//		Optional arguments for the chart action.

@@ -110,7 +110,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/touch
 		constructor: function(chart, plot, kwArgs){
 			// summary:
 			//		Create a new touch indicator action and connect it.
-			// chart: dojox/charting/Chart
+			// chart: dcharting/Chart
 			//		The chart this action applies to.
 			// kwArgs: __TouchIndicatorCtorArgs?
 			//		Optional arguments for the chart action.

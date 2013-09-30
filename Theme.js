@@ -8,7 +8,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 	//
 	// description:
 	//		While you can set up style definitions on a chart directly (usually through the various add methods
-	//		on a dojox.charting.Chart object), a Theme simplifies this manual setup by allowing you to
+	//		on a dcharting/Chart object), a Theme simplifies this manual setup by allowing you to
 	//		pre-define all of the various visual parameters of each element in a chart.
 	//
 	//		Most of the properties of a Theme are straight-forward; if something is line-based (such as
@@ -21,7 +21,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 	//		"GreySkies"), and is mixed into the default theme object.  This allows you to create a theme based,
 	//		say, solely on colors for data series.
 	//
-	//		Defining a new theme is relatively easy; see any of the themes in dojox.charting.themes for examples
+	//		Defining a new theme is relatively easy; see any of the themes in dcharting/themes for examples
 	//		on how to define your own.
 	//
 	//		When you set a theme on a chart, the theme itself is deep-cloned.  This means that you cannot alter
@@ -217,7 +217,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 			},
 			this
 		);
-		return theme;	//	dojox.charting.Theme
+		return theme;	//	dcharting/Theme
 	},
 
 	clear: function(){
@@ -309,7 +309,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 	addMixin: function(theme, elementType, mixin, doPost){
 		// summary:
 		//		Add a mixin object to the passed theme and process.
-		// theme: dojox/charting/Theme
+		// theme: dcharting/Theme
 		//		The theme to mixin to.
 		// elementType: String
 		//		The type of element in question. Can be "line", "bar" or "circle"
@@ -317,7 +317,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 		//		The object or objects to mix into the theme.
 		// doPost: Boolean
 		//		If true, run the new theme through the post-processor.
-		// returns: dojox/charting/Theme
+		// returns: dcharting/Theme
 		//		The new theme.
 		if(lang.isArray(mixin)){
 			arr.forEach(mixin, function(m){
@@ -355,17 +355,17 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 		if(doPost){
 			theme = this.post(theme, elementType);
 		}
-		return theme;	//	dojox/charting/Theme
+		return theme;	//	dcharting/Theme
 	},
 
 	post: function(theme, elementType){
 		// summary:
 		//		Process any post-shape fills.
-		// theme: dojox/charting/Theme
+		// theme: dcharting/Theme
 		//		The theme to post process with.
 		// elementType: String
 		//		The type of element being filled.  Can be "bar" or "circle".
-		// returns: dojox/charting/Theme
+		// returns: dcharting/Theme
 		//		The post-processed theme.
 		var fill = theme.series.fill, t;
 		if(!this.noGradConv && this.shapeSpaces[fill.space] && fill.type == "linear"){
@@ -390,7 +390,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 				return dlu.merge(theme, {series: {fill: t}});
 			}
 		}
-		return theme;	//	dojox/charting/Theme
+		return theme;	//	dcharting/Theme
 	},
 
 	getTick: function(name, mixin){

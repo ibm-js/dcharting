@@ -101,7 +101,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/sniff", "dojo/_base/declare
 
 	var Default = declare(Invisible, {
 		// summary:
-		//		The default axis object used in dojox.charting.  See dojox.charting.Chart.addAxis for details.
+		//		The default axis object used in dcharting.  See dcharting/Chart/addAxis for details.
 
 		// defaultParams: Object
 		//		The default parameters used to define any axis.
@@ -188,7 +188,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/sniff", "dojo/_base/declare
 		constructor: function(kwArgs){
 			// summary:
 			//		The constructor for an axis.
-			// chart: dojox/charting/Chart
+			// chart: dcharting/Chart
 			//		The chart the axis belongs to.
 			// kwArgs: __AxisCtorArgs?
 			//		Any optional keyword arguments to be used to define this axis.
@@ -210,7 +210,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/sniff", "dojo/_base/declare
 			//		The new scale for the axis.
 			// offset: Number
 			//		The new offset for the axis.
-			// returns: dojox/charting/axis2d/Default
+			// returns: dcharting/axis2d/Default
 			//		The reference to the axis for functional chaining.
 			if(scale != this.scale){
 				// if scale changed we need to recompute new max label size
@@ -547,12 +547,12 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/sniff", "dojo/_base/declare
 			//		An object of the form { width, height}.
 			// offsets: Object
 			//		An object of the form { l, r, t, b }.
-			// returns: dojox/charting/axis2d/Default
+			// returns: dcharting/axis2d/Default
 			//		The reference to the axis for functional chaining.
 			
 			var isRtl = this._isRtl();	// chart mirroring
 			if(!this.dirty || !this.scaler){
-				return this;	//	dojox/charting/axis2d/Default
+				return this;	//	dcharting/axis2d/Default
 			}
 			// prepare variable
 			var o = this.opt, ta = this.chart.theme.axis, leftBottom = o.leftBottom, rotation = o.rotation % 360,
@@ -894,7 +894,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/sniff", "dojo/_base/declare
 			}, this);
 
 			this.dirty = false;
-			return this;	//	dojox/charting/axis2d/Default
+			return this;	//	dcharting/axis2d/Default
 		},
 		labelTooltip: function(elem, chart, label, truncatedLabel, font, elemType){
 			var modules = ["dijit/Tooltip"];

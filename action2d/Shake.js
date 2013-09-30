@@ -34,7 +34,7 @@ define(["dojo/_base/connect", "dojo/_base/declare", "./PlotAction",
 		constructor: function(chart, plot, kwArgs){
 			// summary:
 			//		Create the shaking action and connect it to the plot.
-			// chart: dojox/charting/Chart
+			// chart: dcharting/Chart
 			//		The chart this action belongs to.
 			// plot: String?
 			//		The plot this action is attached to.  If not passed, "default" is assumed.

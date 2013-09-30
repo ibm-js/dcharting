@@ -25,7 +25,7 @@ define(["dojo/_base/connect", "dojo/_base/declare", "./Base", "dojo/fx/easing", 
 		constructor: function(chart, plot, kwargs){
 			// summary:
 			//		Create a new base PlotAction.
-			// chart: dojox/charting/Chart
+			// chart: dcharting/Chart
 			//		The chart this action applies to.
 			// plot: String?
 			//		The name of the plot this action belongs to.  If none is passed "default" is assumed.

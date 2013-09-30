@@ -34,7 +34,7 @@ define(["dojo/_base/connect", "dojo/_base/declare",
 		constructor: function(chart, plot, kwArgs){
 			// summary:
 			//		Create the magnifying action.
-			// chart: dojox/charting/Chart
+			// chart: dcharting/Chart
 			//		The chart this action belongs to.
 			// plot: String?
 			//		The plot to apply the action to. If not passed, "default" is assumed.

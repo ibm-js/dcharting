@@ -52,21 +52,21 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 
 	var Chart = declare(_WidgetBase, {
 		// summary:
-		//		The main chart object in dojox.charting.  This will create a two dimensional
+		//		The main chart object in dcharting.  This will create a two dimensional
 		//		chart based on dojox.gfx.
 		//
 		// description:
-		//		dojox.charting.Chart is the primary object used for any kind of charts.  It
+		//		dcharting/Chart is the primary object used for any kind of charts.  It
 		//		is simple to create--just pass it a node reference, which is used as the
 		//		container for the chart--and a set of optional keyword arguments and go.
 		//
-		//		Note that like most of dojox.gfx, most of dojox.charting.Chart's methods are
+		//		Note that like most of dojox.gfx, most of dcharting/Chart's methods are
 		//		designed to return a reference to the chart itself, to allow for functional
 		//		chaining.  This makes defining everything on a Chart very easy to do.
 		//
 		// example:
 		//		Create an area chart, with smoothing.
-		//	|	require(["dojox/charting/Chart", "dojox/charting/themes/Shrooms", "dojox/charting/plot2d/Areas", ...],
+		//	|	require(["dcharting/Chart", "dcharting/themes/Shrooms", "dcharting/plot2d/Areas", ...],
 		// 	|		function(Chart, Shrooms, Areas, ...){
 		//	|		new Chart(node)
 		//	|			.addPlot("default", { type: Areas, tension: "X" })
@@ -82,7 +82,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 		//		an array of objects {x,y}, or something custom (as determined by the plot).
 		//		Here's an example of a Candlestick chart, which expects an object of
 		//		{ open, high, low, close }.
-		//	|	require(["dojox/charting/Chart", "dojox/charting/plot2d/Candlesticks", ...],
+		//	|	require(["dcharting/Chart", "dcharting/plot2d/Candlesticks", ...],
 		// 	|		function(Chart, Candlesticks, ...){
 		//	|		new Chart(node)
 		//	|			.addPlot("default", {type: Candlesticks, gap: 1})
@@ -123,17 +123,17 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 		//	|			.render();
 		//	|	});
 		
-		// theme: dojox/charting/Theme?
+		// theme: dcharting/Theme?
 		//		An optional theme to use for styling the chart.
-		// axes: dojox/charting/axis2d/Base{}?
+		// axes: dcharting/axis2d/Base{}?
 		//		A map of axes for use in plotting a chart.
-		// stack: dojox/charting/plot2d/Base[]
+		// stack: dcharting/plot2d/Base[]
 		//		A stack of plotters.
-		// plots: dojox/charting/plot2d/Base{}
+		// plots: dcharting/plot2d/Base{}
 		//		A map of plotter indices
-		// series: dojox/charting/Series[]
+		// series: dcharting/Series[]
 		//		The stack of data runs used to create plots.
-		// runs: dojox/charting/Series{}
+		// runs: dcharting/Series{}
 		//		A map of series indices
 		// margins: Object?
 		//		The margins around the chart. Default is { l:10, t:10, r:10, b:10 }.
@@ -154,7 +154,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 		constructor: function(/* __ChartCtorArgs? */kwArgs){
 			// summary:
 			//		The constructor for a new Chart.  Initializes all parameters used for a chart.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		The newly created chart.
 
 			// initialize parameters
@@ -226,13 +226,13 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 		_setThemeAttr: function(theme){
 			// summary:
 			//		Set a theme of the chart.
-			// theme: dojox/charting/Theme
+			// theme: dcharting/Theme
 			//		The theme to be used for visual rendering.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			this._set("theme", theme.clone());
 			this.dirty = true;
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		addAxis: function(name, axis){
 			// summary:
@@ -241,30 +241,30 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		The name of the axis.
 			// kwArgs: __BaseAxisCtorArgs?
 			//		An optional keyword arguments object for use in defining details of an axis.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			axis.name = name;
 			axis.chart = this;
 			axis.dirty = true;
 			this.axes[name] = axis;
 			this.dirty = true;
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		getAxis: function(name){
 			// summary:
 			//		Get the given axis, by name.
 			// name: String
 			//		The name the axis was defined by.
-			// returns: dojox/charting/axis2d/Default
+			// returns: dcharting/axis2d/Default
 			//		The axis as stored in the chart's axis map.
-			return this.axes[name];	//	dojox/charting/axis2d/Default
+			return this.axes[name];	//	dcharting/axis2d/Default
 		},
 		removeAxis: function(name){
 			// summary:
 			//		Remove the axis that was defined using name.
 			// name: String
 			//		The axis name, as defined in addAxis.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			if(name in this.axes){
 				// destroy the axis
@@ -273,32 +273,32 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				// mark the chart as dirty
 				this.dirty = true;
 			}
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		addPlot: function(plot){
 			// summary:
 			//		Add a new plot to the chart, defined by name and using the optional keyword arguments object.
-			//		Note that dojox.charting assumes the main plot to be called "default"; if you do not have
+			//		Note that dcharting assumes the main plot to be called "default"; if you do not have
 			//		a plot called "default" and attempt to add data series to the chart without specifying the
 			//		plot to be rendered on, you WILL get errors.
 			// name: String
 			//		The name of the plot to be added to the chart.  If you only plan on using one plot, call it "default".
-			// kwArgs: dojox.charting.plot2d.__PlotCtorArgs
+			// kwArgs: dcharting/plot2d/__PlotCtorArgs
 			//		An object with optional parameters for the plot in question.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			plot.dirty = true;
 			plot.chart = this;
 			this.plots.push(plot);
 			this.dirty = true;
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		removePlot: function(plot){
 			// summary:
 			//		Remove the plot defined using name from the chart's plot stack.
 			// name: String
 			//		The name of the plot as defined using addPlot.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 				// get the index and remove the name
 			var index = this.plots.indexOf(plot);
@@ -321,7 +321,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				// mark the chart as dirty
 				this.dirty = true;
 			}
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		getPlotOrder: function(){
 			// summary:
@@ -336,43 +336,43 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		plots. Wrong names, or dups are ignored.
 			// newOrder: Array
 			//		Array of plot names compatible with getPlotOrder().
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			this.plots = newOrder;
 			this.dirty = true;
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		movePlotToFront: function(plot){
 			// summary:
 			//		Moves a given plot to front.
 			// name: String
 			//		Plot's name to move.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			var index = this.plots.indexOf(plot);
 			if(index != -1){
 				var newOrder = this.getPlotOrder();
 				newOrder.splice(index, 1);
 				newOrder.unshift(plot);
-				return this.setPlotOrder(newOrder);	//	dojox/charting/Chart
+				return this.setPlotOrder(newOrder);	//	dcharting/Chart
 			}
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		movePlotToBack: function(plot){
 			// summary:
 			//		Moves a given plot to back.
 			// name: String
 			//		Plot's name to move.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			var index = this.plots.indexOf(plot);
 			if(index != -1){
 				var newOrder = this.getPlotOrder();
 				newOrder.splice(index, 1);
 				newOrder.push(plot);
-				return this.setPlotOrder(newOrder);	//	dojox/charting/Chart
+				return this.setPlotOrder(newOrder);	//	dcharting/Chart
 			}
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		addSeries: function(series){
 			// summary:
@@ -381,7 +381,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		The name of the data series to be plotted.
 			// series: Series
 			//		The data series
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			series.chart = this;
 			this.series.push(series);
@@ -389,14 +389,14 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			// fix min/max
 			if(!("ymin" in series) && "min" in series){ series.ymin = series.min; }
 			if(!("ymax" in series) && "max" in series){ series.ymax = series.max; }
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		removeSeries: function(series){
 			// summary:
 			//		Remove the series defined by name from the chart.
 			// name: String
 			//		The name of the series as defined by addSeries.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			var index = this.series.indexOf(series);
 			if(index != -1){
@@ -406,7 +406,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				this.series.splice(index, 1);
 				this.dirty = true;
 			}
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		updateSeries: function(series, data, offsets){
 			// summary:
@@ -422,7 +422,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		If true recomputes the offsets of the chart based on the new
 			//		data. This is useful if the range of data is drastically changing
 			//		and offsets need to be recomputed.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			var index = this.series.indexOf(series);
 			if(index != -1){
@@ -434,7 +434,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 					this._invalidateDependentPlots(series.plot, true);
 				}
 			}
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		getSeriesOrder: function(plotName){
 			// summary:
@@ -452,18 +452,18 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			// newOrder: Array
 			//		Array of series names compatible with getPlotOrder(). All
 			//		series should belong to the same plot.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			this.series = newOrder;
 			this.dirty = true;
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		moveSeriesToFront: function(name){
 			// summary:
 			//		Moves a given series to front of a plot.
 			// name: String
 			//		Series' name to move.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			if(name in this.runs){
 				var index = this.runs[name],
@@ -471,17 +471,17 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				if(name != newOrder[0]){
 					newOrder.splice(index, 1);
 					newOrder.unshift(name);
-					return this.setSeriesOrder(newOrder);	//	dojox/charting/Chart
+					return this.setSeriesOrder(newOrder);	//	dcharting/Chart
 				}
 			}
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		moveSeriesToBack: function(name){
 			// summary:
 			//		Moves a given series to back of a plot.
 			// name: String
 			//		Series' name to move.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			if(name in this.runs){
 				var index = this.runs[name],
@@ -489,10 +489,10 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				if(name != newOrder[newOrder.length - 1]){
 					newOrder.splice(index, 1);
 					newOrder.push(name);
-					return this.setSeriesOrder(newOrder);	//	dojox/charting/Chart
+					return this.setSeriesOrder(newOrder);	//	dcharting/Chart
 				}
 			}
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		resize: function(width, height){
 			// summary:
@@ -505,7 +505,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		The new width of the chart or the box definition.
 			// height: Number?
 			//		The new height of the chart.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			switch(arguments.length){
 				// case 0, do not resize the div, just the surface
@@ -525,7 +525,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				// and set it on the surface
 				this.surface.setDimensions(box.w, box.h);
 				this.dirty = true;
-				return this.render();	//	dojox/charting/Chart
+				return this.render();	//	dcharting/Chart
 			}else{
 				return this;
 			}
@@ -533,7 +533,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 		getGeometry: function(){
 			// summary:
 			//		Returns a map of information about all axes in a chart and what they represent
-			//		in terms of scaling (see dojox.charting.axis2d.Default.getScaler).
+			//		in terms of scaling (see dcharting/axis2d/Default.getScaler).
 			// returns: Object
 			//		An map of geometry objects, a one-to-one mapping of axes.
 			var ret = {}, axis;
@@ -562,7 +562,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			// zoom: Boolean|Object?
 			//		The chart zooming animation trigger.  This is null by default,
 			//		e.g. {duration: 1200}, or just set true.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			var axis = this.axes[name];
 			if(axis){
@@ -573,7 +573,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 					}
 				});
 			}
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		setWindow: function(sx, sy, dx, dy, zoom){
 			// summary:
@@ -589,7 +589,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			// zoom: Boolean|Object?
 			//		The chart zooming animation trigger.  This is null by default,
 			//		e.g. {duration: 1200}, or just set true.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			if(!("plotArea" in this)){
 				this.calculateGeometry();
@@ -609,7 +609,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				axis.setWindow(scale, offset);
 			}
 			arr.forEach(this.plots, function(plot){ plot.zoom = zoom; });
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		zoomIn:	function(name, range, delayed){
 			// summary:
@@ -640,7 +640,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			// summary:
 			//		Calculate the geometry of the chart based on the defined axes of
 			//		a chart.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			if(this.dirty){
 				return this.fullGeometry();
@@ -654,14 +654,14 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				}, this);
 			calculateAxes(dirty, this.plotArea);
 
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		fullGeometry: function(){
 			// summary:
 			//		Calculate the full geometry of the chart.  This includes passing
 			//		over all major elements of a chart (plots, axes, series, container)
 			//		in order to ensure proper rendering.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			this._makeDirty();
 
@@ -744,14 +744,14 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			}
 			calculateAxes(this.plots, this.plotArea);
 
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		render: function(){
 			// summary:
 			//		Render the chart according to the current information defined.  This should
 			//		be the last call made when defining/creating a chart, or if data within the
 			//		chart has been changed.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 
 			// do we have a delayed renderer pending? If yes we need to clear it
@@ -782,13 +782,13 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 
 			this._makeClean();
 
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		fullRender: function(){
 			// summary:
 			//		Force a full rendering of the chart, including full resets on the chart itself.
 			//		You should not call this method directly unless absolutely necessary.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 
 			// calculate geometry
@@ -835,7 +835,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				this._renderChartBackground(dim, offsets);
 			}
 
-			//create title: Whether to make chart title as a widget which extends dojox.charting.Element?
+			//create title: Whether to make chart title as a widget which extends dcharting/Element?
 			if(this.title){
 				var forceHtmlLabels = (g.renderer == "canvas") && this.htmlLabels,
 					labelType = forceHtmlLabels || !has("ie") && !has("opera") && this.htmlLabels ? "html" : "gfx",
@@ -859,7 +859,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 
 			this._makeClean();
 
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		_renderChartBackground: function(dim, offsets){
 			var t = this.theme, rect;
@@ -961,7 +961,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			// summary:
 			//		Delayed render, which is used to collect multiple updates
 			//		within a delayInMs time window.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 
 			if(!this._delayedRenderHandle){
@@ -973,7 +973,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				);
 			}
 
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		connectToPlot: function(name, object, method){
 			// summary:
@@ -997,7 +997,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			//		Event name to simulate: onmouseover, onmouseout, onclick.
 			// index: Number
 			//		Valid data value index for the event.
-			// returns: dojox/charting/Chart
+			// returns: dcharting/Chart
 			//		A reference to the current chart for functional chaining.
 			if(seriesName in this.runs){
 				var plotName = this.series[this.runs[seriesName]].plot;
@@ -1008,7 +1008,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 					}
 				}
 			}
-			return this;	//	dojox/charting/Chart
+			return this;	//	dcharting/Chart
 		},
 		_makeClean: function(){
 			// reset dirty flags

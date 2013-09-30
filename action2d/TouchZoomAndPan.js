@@ -85,7 +85,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/sniff
 		constructor: function(chart, plot, kwArgs){
 			// summary:
 			//		Create a new touch zoom and pan action and connect it.
-			// chart: dojox/charting/Chart
+			// chart: dcharting/Chart
 			//		The chart this action applies to.
 			// kwArgs: __TouchZoomAndPanCtorArgs?
 			//		Optional arguments for the action.
