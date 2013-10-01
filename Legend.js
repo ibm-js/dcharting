@@ -1,6 +1,6 @@
-define(["dojo/_base/declare", "dijit/_WidgetBase", "dojox/gfx","dojo/_base/array", "dojo/has", "dojo/has!dojo-bidi?./bidi/widget/Legend",
+define(["dojo/_base/declare", "dijit/_WidgetBase", "dojox/gfx", "dojo/has", "dojo/has!dojo-bidi?./bidi/widget/Legend",
 		"dojox/lang/functional", "dojo/dom", "dojo/dom-construct", "dojo/dom-class","dijit/registry"],
-		function(declare, _WidgetBase, gfx, arr, has, BidiLegend, df,
+		function(declare, _WidgetBase, gfx, has, BidiLegend, df,
 				dom, domConstruct, domClass, registry){
 
 	var Legend = declare(_WidgetBase, {
@@ -45,7 +45,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojox/gfx","dojo/_base/array
 		},
 		destroy: function(){
 			if(this._surfaces){
-				arr.forEach(this._surfaces, function(surface){
+				this._surfaces.forEach(function(surface){
 					surface.destroy();
 				});
 			}
@@ -57,7 +57,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojox/gfx","dojo/_base/array
 
 			// cleanup
 			if(this._surfaces){
-				arr.forEach(this._surfaces, function(surface){
+				this._surfaces.forEach(function(surface){
 					surface.destroy();
 				});
 			}
@@ -83,16 +83,16 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojox/gfx","dojo/_base/array
 				if(typeof t.run.data[0] == "number"){
 					var filteredRun = df.map(t.run.data, "Math.max(x, 0)");
 					var slices = df.map(filteredRun, "/this", df.foldl(filteredRun, "+", 0));
-					arr.forEach(slices, function(x, i){
+					slices.forEach(function(x, i){
 						this._addLabel(t.dyn[i], t._getLabel(x * 100) + "%");
 					}, this);
 				}else{
-					arr.forEach(t.run.data, function(x, i){
+					t.run.data.forEach(function(x, i){
 						this._addLabel(t.dyn[i], x.legend || x.text || x.y);
 					}, this);
 				}
 			}else{
-				arr.forEach(s, function(x){
+				s.forEach(function(x){
 					this._addLabel(x.dyn, x.legend || x.name);
 				}, this);
 			}

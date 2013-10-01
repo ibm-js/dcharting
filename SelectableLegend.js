@@ -1,9 +1,15 @@
-define(["dojo/_base/array", "dojo/_base/declare", "dojo/query",
+define(["dojo/_base/declare", "dojo/query",
 		"dojo/_base/connect", "dojo/_base/Color", "./Legend", "dijit/form/CheckBox", "./action2d/Highlight",
-		"dojox/lang/functional", "dojox/gfx/fx", "dojo/keys", "dojo/dom-construct",
-		"dojo/dom-prop"], 
-	function(arrayUtil, declare, query, hub, Color, Legend, CheckBox,
-			 Highlight, df, fx, keys, dom, domProp){
+		"dojox/gfx/fx", "dojo/keys", "dojo/dom-construct", "dojo/dom-prop"],
+	function(declare, query, hub, Color, Legend, CheckBox,
+			 Highlight, fx, keys, dom, domProp){
+
+	var getFill = function (item) {
+		item.getFill()
+	};
+	var getStroke = function (item) {
+		item.getStroke()
+	};
 
 	var FocusManager = declare(null, {
 		// summary:
@@ -15,7 +21,7 @@ define(["dojo/_base/array", "dojo/_base/declare", "dojo/query",
 			this.legend = legend;
 			this.index = 0;
 			this.horizontalLength = this._getHrizontalLength();
-			arrayUtil.forEach(legend.legends, function(item, i){
+			legend.legends.forEach(function(item, i){
 				if(i > 0){
 					query("input", item).attr("tabindex", -1);
 				}
@@ -143,9 +149,9 @@ define(["dojo/_base/array", "dojo/_base/declare", "dojo/query",
 					plotName = targetData.plot;
 					seriesName = targetData.name;
 				}
-				var originalDyn = {
-					fills : df.map(shapes, "x.getFill()"),
-					strokes: df.map(shapes, "x.getStroke()")
+                var originalDyn = {
+					fills : shapes.map(getFill),
+					strokes: shapes.map(getStroke)
 				};
 				//	toggle action
 				var legendCheckBox = query(".dijitCheckBox", legend)[0];

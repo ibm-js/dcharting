@@ -1,6 +1,6 @@
 define(["dojo/_base/lang", "dojo/_base/array" ,"dojo/_base/declare", 
 		"./Base", "./_PlotEvents", "./common",
-		"dojox/gfx", "dojox/gfx/matrix", "dojox/lang/functional", "dojox/lang/utils","dojo/has"],
+		"dojox/gfx", "dojox/gfx/matrix", "dojox/lang/functional", "dojox/lang/utils","dojo/has", "dojox/lang/functional/fold"],
 	function(lang, arr, declare, Base, PlotEvents, dc, g, m, df, du, has){
 
 	/*=====

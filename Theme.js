@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/Color", "dojox/lang/utils", "dojox/gfx/gradutils"],
-	function(lang, arr, declare, Color, dlu, dgg){
+define(["dojo/_base/lang", "dojo/_base/declare","dojo/_base/Color", "dojox/lang/utils", "dojox/gfx/gradutils"],
+	function(lang, declare, Color, dlu, dgg){
 	
 	var Theme = declare(null, {
 	// summary:
@@ -154,7 +154,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 
 		// populate theme with defaults updating them if needed
 		var def = Theme.defaultTheme;
-		arr.forEach(["chart", "plotarea", "axis", "grid", "series", "marker", "indicator"], function(name){
+		["chart", "plotarea", "axis", "grid", "series", "marker", "indicator"].forEach(function(name){
 			this[name] = lang.delegate(def[name], kwArgs[name]);
 		}, this);
 
@@ -208,8 +208,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 			noRadialConv: this.noRadialConv
 		});
 		// copy custom methods
-		arr.forEach(
-			["clone", "clear", "next", "skip", "addMixin", "post", "getTick"],
+		["clone", "clear", "next", "skip", "addMixin", "post", "getTick"].forEach(
 			function(name){
 				if(this.hasOwnProperty(name)){
 					theme[name] = this[name];
@@ -320,7 +319,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 		// returns: dcharting/Theme
 		//		The new theme.
 		if(lang.isArray(mixin)){
-			arr.forEach(mixin, function(m){
+			mixin.forEach(function(m){
 				theme = this.addMixin(theme, elementType, m);
 			}, this);
 		}else{
@@ -333,7 +332,7 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 					lang.setObject("series.fill", mixin.color, t);
 				}
 			}
-			arr.forEach(["stroke", "outline", "shadow", "fill", "filter", "font", "fontColor", "labelWiring"], function(name){
+			["stroke", "outline", "shadow", "fill", "filter", "font", "fontColor", "labelWiring"].forEach(function(name){
 				var markerName = "marker" + name.charAt(0).toUpperCase() + name.substr(1),
 					b = markerName in mixin;
 				if(name in mixin){
@@ -422,14 +421,14 @@ define(["dojo/_base/lang", "dojo/_base/array","dojo/_base/declare","dojo/_base/C
 	},
 
 	inspectObjects: function(f){
-		arr.forEach(["chart", "plotarea", "axis", "grid", "series", "marker", "indicator"], function(name){
+		["chart", "plotarea", "axis", "grid", "series", "marker", "indicator"].forEach(function(name){
 			f(this[name]);
 		}, this);
 		if(this.seriesThemes){
-			arr.forEach(this.seriesThemes, f);
+			this.seriesThemes.forEach(f);
 		}
 		if(this.markerThemes){
-			arr.forEach(this.markerThemes, f);
+			this.markerThemes.forEach(f);
 		}
 	},
 

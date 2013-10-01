@@ -1,5 +1,5 @@
-define(["dojo/_base/array", "dojo/_base/declare", "dojo/_base/Deferred"], 
-  function(arr, declare, Deferred){
+define(["dojo/_base/declare", "dojo/_base/Deferred"],
+  function(declare, Deferred){
 	
 	return declare(null, {
 		constructor: function(store, kwArgs, value){
@@ -58,8 +58,8 @@ define(["dojo/_base/array", "dojo/_base/declare", "dojo/_base/Deferred"],
 	
 		setSeriesObject: function(series){
 			// summary:
-			//		Sets a dojox.charting.Series object we will be working with.
-			// series: dojox/charting/Series
+			//		Sets a dcharting/Series object we will be working with.
+			// series: dcharting/Series
 			//		Our interface to the chart.
 			this.series = series;
 		},
@@ -82,7 +82,7 @@ define(["dojo/_base/array", "dojo/_base/declare", "dojo/_base/Deferred"],
 				this.observeHandle = results.observe(update, true);
 			}
 			function update(){
-				self.data = arr.map(self.objects, function(object){
+				self.data = self.objects.map(function(object){
 					return self.value(object, self.store);
 				});
 				self._pushDataChanges();

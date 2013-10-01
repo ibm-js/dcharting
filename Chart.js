@@ -1,8 +1,8 @@
-define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-style",
+define(["dojo/_base/lang", "dojo/_base/declare", "dojo/dom-style",
 	"dojo/dom", "dojo/dom-geometry", "dojo/dom-construct","dojo/_base/Color", "dojo/sniff", "dijit/_WidgetBase",
 	"./Element", "./Theme", "./Series", "./axis2d/common", "dojox/gfx/shape",
 	"dojox/gfx", "dojo/has!dojo-bidi?./bidi/Chart"],
-	function(lang, arr, declare, domStyle,
+	function(lang, declare, domStyle,
 	 		 dom, domGeom, domConstruct, Color, has, _WidgetBase,
 	 		 Element, Theme, Series, common, shape,
 	 		 g, BidiChart){
@@ -47,8 +47,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 		purgeGroup = function(item){item.purgeGroup()},
 		destroy = function(item){item.destroy()},
 		makeClean = function(item){item.dirty = false},
-		makeDirty = function(item){item.dirty = true},
-		getName = function(item){return item.name};
+		makeDirty = function(item){item.dirty = true};
 
 	var Chart = declare(_WidgetBase, {
 		// summary:
@@ -199,8 +198,8 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			// summary:
 			//		Cleanup when a chart is to be destroyed.
 			// returns: void
-			arr.forEach(this.series, destroy);
-			arr.forEach(this.plots,  destroy);
+			this.series.forEach(destroy);
+			this.series.forEach(destroy);
 			for(var axis in this.axes){
 				this.axes[axis].destroy();
 			}
@@ -308,10 +307,10 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				// remove the plot from the stack
 				this.plots.splice(index, 1);
 				// remove all related series
-				var ns = arr.filter(this.series, function(run){ return run.plot != plot; });
+				var ns = this.series.filter(function(run){ return run.plot != plot; });
 				if(ns.length < this.series.length){
 					// kill all removed series
-					arr.forEach(this.series, function(run){
+					this.series.forEach(function(run){
 						if(run.plot == plot){
 							run.destroy();
 						}
@@ -567,7 +566,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			var axis = this.axes[name];
 			if(axis){
 				axis.setWindow(scale, offset);
-				arr.forEach(this.stack,function(plot){
+				this.stack.forEach(function(plot){
 					if(plot.hAxis == name || plot.vAxis == name){
 						plot.zoom = zoom;
 					}
@@ -608,7 +607,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				}
 				axis.setWindow(scale, offset);
 			}
-			arr.forEach(this.plots, function(plot){ plot.zoom = zoom; });
+			this.plots.forEach(function(plot){ plot.zoom = zoom; });
 			return this;	//	dcharting/Chart
 		},
 		zoomIn:	function(name, range, delayed){
@@ -647,7 +646,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			}
 
 			// calculate geometry
-			var dirty = arr.filter(this.plots, function(plot){
+			var dirty = this.plots.filter(function(plot){
 					return plot.dirty ||
 						(plot.hAxis && this.axes[plot.hAxis].dirty) ||
 						(plot.vAxis && this.axes[plot.vAxis].dirty);
@@ -666,7 +665,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			this._makeDirty();
 
 			// clear old values
-			arr.forEach(this.plots, clear);
+			this.plots.forEach(clear);
 
 			// rebuild new connections, and add defaults
 
@@ -676,18 +675,18 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 			}
 
 			// assign series
-			arr.forEach(this.series, function(run){
+			this.series.forEach(function(run){
 				if(run.plot){
 					run.plot.addSeries(run);
 				}else{
 					// if no plot is specified, assign series to all plots
-					arr.forEach(this.plots, function(plot){
+					this.plots.forEach(function(plot){
 						plot.addSeries(run);
 					});
 				}
 			}, this);
 			// assign axes
-			arr.forEach(this.plots, function(plot){
+			this.plots.forEach(function(plot){
 				if(plot.assignAxes){
 					plot.assignAxes(this.axes);
 				}
@@ -798,11 +797,11 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				h = Math.max(0, dim.height - offsets.t - offsets.b);
 
 			// clear old shapes
-			arr.forEach(this.series, purgeGroup);
+			this.series.forEach(purgeGroup);
 			for(var axis in this.axes){
 				this.axes[axis].purgeGroup();
 			}
-			arr.forEach(this.plots,  purgeGroup);
+			this.plots.forEach(purgeGroup);
 			var children = this.surface.children;
 			// starting with 1.9 the registry is optional and thus dispose is
 			if(shape.dispose){
@@ -1012,16 +1011,20 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 		},
 		_makeClean: function(){
 			// reset dirty flags
-			arr.forEach(this.axes,   makeClean);
-			arr.forEach(this.plots,  makeClean);
-			arr.forEach(this.series, makeClean);
+			for(var axis in this.axes){
+				makeClean(this.axes[axis]);
+			}
+			this.plots.forEach(makeClean);
+			this.series.forEach(makeClean);
 			this.dirty = false;
 		},
 		_makeDirty: function(){
 			// reset dirty flags
-			arr.forEach(this.axes,   makeDirty);
-			arr.forEach(this.plots,  makeDirty);
-			arr.forEach(this.series, makeDirty);
+			for(var axis in this.axes){
+				makeDirty(this.axes[axis]);
+			}
+			this.plots.forEach(makeDirty);
+			this.series.forEach(makeDirty);
 			this.dirty = true;
 		},
 		// TODO (not by plotName)
@@ -1034,7 +1037,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 					if(axis && axis.dependOnData()){
 						axis.dirty = true;
 						// find all plots and mark them dirty
-						arr.forEach(this.stack, function(p){
+						this.stack.forEach(function(p){
 							if(p[axisName] && p[axisName] == plot[axisName]){
 								p.dirty = true;
 							}
@@ -1082,7 +1085,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 
 	function calculateAxes(stack, plotArea){
 		var plots = {}, axes = {};
-		arr.forEach(stack, function(plot){
+		stack.forEach(function(plot){
 			var stats = plots[plot.name] = plot.getSeriesStats();
 			if(plot.hAxis){
 				axes[plot.hAxis] = combineStats(axes[plot.hAxis], hSection(stats));
@@ -1091,7 +1094,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/dom-s
 				axes[plot.vAxis] = combineStats(axes[plot.vAxis], vSection(stats));
 			}
 		});
-		arr.forEach(stack, function(plot){
+		stack.forEach(function(plot){
 			var stats = plots[plot.name];
 			if(plot.hAxis){
 				hReplace(stats, axes[plot.hAxis]);
