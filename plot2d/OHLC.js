@@ -48,7 +48,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/has",
 			//		Collect all statistics for drawing this chart.  Since the common
 			//		functionality only assumes x and y, OHLC must create it's own
 			//		stats (since data has no y value, but open/close/high/low instead).
-			// series: dojox/charting/Series[]
+			// series: dcharting/Series[]
 			//		The data series array to be drawn on this plot.
 			// returns: Object
 			//		Returns an object in the form of { hmin, hmax, vmin, vmax }.
@@ -95,7 +95,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/has",
 			//		An object in the form of { width, height }
 			// offsets: Object
 			//		An object of the form { l, r, t, b}.
-			// returns: dojox/charting/plot2d/OHLC
+			// returns: dcharting/plot2d/OHLC
 			//		A reference to this plot for functional chaining.
 			if(this.zoom && !this.isDataDirty()){
 				return this.performZoom(dim, offsets);
@@ -189,7 +189,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/has",
 				this._checkOrientation(this.group, dim, offsets);
 			}
 			// chart mirroring ends
-			return this;	//	dojox/charting/plot2d/OHLC
+			return this;	//	dcharting/plot2d/OHLC
 		},
 		_animateOHLC: function(shape, voffset, vsize){
 			fx.animateTransform(lang.delegate({

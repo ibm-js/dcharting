@@ -187,7 +187,7 @@ define(["dojo/_base/lang", "dojo/_base/declare","dojo/_base/Color", "dojox/lang/
 	clone: function(){
 		// summary:
 		//		Clone the current theme.
-		// returns: dojox.charting.Theme
+		// returns: dcharting/Theme
 		//		The cloned theme; any alterations made will not affect the original.
 		var theme = new this.constructor({
 			// theme components

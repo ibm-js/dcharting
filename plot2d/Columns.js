@@ -71,7 +71,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/has",
 			//		An object in the form of { width, height }
 			// offsets: Object
 			//		An object of the form { l, r, t, b}.
-			// returns: dojox/charting/plot2d/Columns
+			// returns: dcharting/plot2d/Columns
 			//		A reference to this plot for functional chaining.
 			if(this.zoom && !this.isDataDirty()){
 				return this.performZoom(dim, offsets);
@@ -196,7 +196,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/has",
 				this._checkOrientation(this.group, dim, offsets);
 			}
 			// chart mirroring ends
-			return this;	//	dojox/charting/plot2d/Columns
+			return this;	//	dcharting/plot2d/Columns
 		},
 		getValue: function(value, j, seriesIndex, indexed){
 			var y,x;

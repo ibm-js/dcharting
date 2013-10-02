@@ -1,7 +1,7 @@
 define(["dojo/_base/declare", "dojo/dom-style"],
 	function(declare, domStyle){
 	// module:
-	//		dojox/charting/bidi/axis2d/Default			
+	//		dcharting/bidi/axis2d/Default
 	return declare(null, {
 		labelTooltip: function(elem, chart, label, truncatedLabel, font, elemType){
 			// additional preprocessing of the labels, needed for rtl base text direction in LTR

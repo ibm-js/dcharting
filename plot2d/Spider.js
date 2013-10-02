@@ -59,7 +59,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 		clear: function(){
 			// summary:
 			//		Clear out all of the information tied to this plot.
-			// returns: dojox/charting/plot2d/Spider
+			// returns: dcharting/plot2d/Spider
 			//		A reference to this plot for functional chaining.
 			this.inherited(arguments);
 			this.dyn = [];
@@ -68,12 +68,12 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 			this.labelKey = [];
 			this.oldSeriePoints = {};
 			this.animations = {};
-			return this;	//	dojox/charting/plot2d/Spider
+			return this;	//	dojoxdcharting2d/Spider
 		},
 		setAxis: function(axis){
 			// summary:
 			//		Optionally set axis min and max property.
-			// returns: dojox/charting/plot2d/Spider
+			// returns: dojox/chardchartingider
 			//		The reference to this plot for functional chaining.
 
 			// override the computed min/max with provided values if any
@@ -85,15 +85,14 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 					this.datas[axis.name].max = axis.opt.max;
 				}
 			}
-			return this;	//	dojox/charting/plot2d/Spider
+			return this;	//	dojox/charting/dcharting
 		},
 		addSeries: function(run){
 			// summary:
 			//		Add a data series to this plot.
 			// run: dojox.charting.Series
 			//		The series to be added.
-			// returns: dojox/charting/plot2d/Base
-			//		A reference to this plot for functional chaining.
+			// returns: dojox/charting/plot2dchartingA reference to this plot for functional chaining.
 			this.series.push(run);
 			var key;
 			for(key in run.data){
@@ -115,7 +114,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 					this.labelKey.push(key);
 				}
 			}
-			return this;	//	dojox.charting.plot2d.Base
+			return this;	//	dcharting/plot2d/Base
 		},
 		getSeriesStats: function(){
 			// summary:
@@ -131,8 +130,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 			//		An object of the form { width, height }.
 			// offsets: Object
 			//		An object of the form { l, r, t, b }.
-			// returns: dojox/charting/plot2d/Spider
-			//		A reference to this plot for functional chaining.
+			// returns: dojox/charting/plot2d/Spidchartingeference to this plot for functional chaining.
 			if(!this.dirty){ return this; }
 			this.dirty = false;
 			this.cleanGroup();

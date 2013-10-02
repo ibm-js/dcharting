@@ -1,6 +1,6 @@
 define(["dojo/_base/declare", "dojo/dom-style"],
 	function(declare, domStyle){
-	//		dojox/charting/bidi/action2d/Tooltip
+	//		dcharting/bidi/action2d/Tooltip
 	return declare(null, {
 		_recheckPosition: function(obj,rect,position){
 			if(!this.chart.isRightToLeft()){

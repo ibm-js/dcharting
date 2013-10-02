@@ -4,7 +4,7 @@ define(["dojox/main", "dojo/_base/declare", "dojo/_base/lang", "dojo/dom-style",
 	"dojox/lang/functional","dojo/dom-attr","./_bidiutils"],
 	function(dojox, declare, lang, domStyle, arr, has, dom, domConstruct, g, gBidi, da, BidiEngine, df, domAttr,utils){
 	// module:
-	//		dojox/charting/bidi/Chart							
+	//		dcharting/bidi/Chart
 	var bidiEngine = new BidiEngine();
 	var dc = lang.getObject("charting", true, dojox);
 	function validateTextDir(textDir){

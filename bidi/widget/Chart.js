@@ -1,7 +1,7 @@
 define(["dojo/_base/declare"],
 	function(declare){
 	// module:
-	//		dojox/charting/bidi/widget/Chart						
+	//		dcharting/bidi/widget/Chart
 	function validateTextDir(textDir){
 		return /^(ltr|rtl|auto)$/.test(textDir) ? textDir : null;
 	}

@@ -120,27 +120,27 @@ define(["dojo/_base/lang", "dojo/_base/array" ,"dojo/_base/declare",
 		clear: function(){
 			// summary:
 			//		Clear out all of the information tied to this plot.
-			// returns: dojox/charting/plot2d/Pie
+			// returns: dcharting/plot2d/Pie
 			//		A reference to this plot for functional chaining.
 			this.inherited(arguments);
 			this.dyn = [];
 			this.run = null;
-			return this;	//	dojox/charting/plot2d/Pie
+			return this;	//	dcharting/plot2d/Pie
 		},
 		setAxis: function(axis){
 			// summary:
 			//		Dummy method, since axes are irrelevant with a Pie chart.
-			// returns: dojox/charting/plot2d/Pie
+			// returns: dcharting/plot2d/Pie
 			//		The reference to this plot for functional chaining.
-			return this;	//	dojox/charting/plot2d/Pie
+			return this;	//	dcharting/plot2d/Pie
 		},
 		addSeries: function(run){
 			// summary:
 			//		Add a series of data to this plot.
-			// returns: dojox/charting/plot2d/Pie
+			// returns: dcharting/plot2d/Pie
 			//		The reference to this plot for functional chaining.
 			this.run = run;
-			return this;	//	dojox/charting/plot2d/Pie
+			return this;	//	dcharting/plot2d/Pie
 		},
 		getSeriesStats: function(){
 			// summary:
@@ -161,7 +161,7 @@ define(["dojo/_base/lang", "dojo/_base/array" ,"dojo/_base/declare",
 			//		An object of the form { width, height }.
 			// offsets: Object
 			//		An object of the form { l, r, t, b }.
-			// returns: dojox/charting/plot2d/Pie
+			// returns: dcharting/plot2d/Pie
 			//		A reference to this plot for functional chaining.
 			if(!this.dirty){ return this; }
 			this.resetEvents();
@@ -473,7 +473,7 @@ define(["dojo/_base/lang", "dojo/_base/array" ,"dojo/_base/declare",
 				this._checkOrientation(this.group, dim, offsets);
 			}
 			// chart mirroring ends
-			return this;	//	dojox/charting/plot2d/Pie
+			return this;	//	dcharting/plot2d/Pie
 		},
 		_getProperLabelRadius: function(slices, labelHeight, minRidius){
 			var leftCenterSlice, rightCenterSlice,

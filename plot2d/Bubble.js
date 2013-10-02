@@ -49,7 +49,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 			//		An object in the form of { width, height }
 			// offsets: Object
 			//		An object of the form { l, r, t, b}.
-			// returns: dojox/charting/plot2d/Bubble
+			// returns: dcharting/plot2d/Bubble
 			//		A reference to this plot for functional chaining.
 			var s;
 			if(this.zoom && !this.isDataDirty()){
@@ -217,7 +217,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 				this._checkOrientation(this.group, dim, offsets);
 			}
 			// chart mirroring ends
-			return this;	//	dojox/charting/plot2d/Bubble
+			return this;	//	dcharting/plot2d/Bubble
 		},
 		_animateBubble: function(shape, offset, size){
 			fx.animateTransform(lang.delegate({

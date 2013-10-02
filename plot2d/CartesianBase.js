@@ -87,12 +87,12 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/has
 		clear: function(){
 			// summary:
 			//		Clear out all of the information tied to this plot.
-			// returns: dojox/charting/plot2d/CartesianBase
+			// returns: dcharting/plot2d/CartesianBase
 			//		A reference to this plot for functional chaining.
 			this.inherited(arguments);
 			this._hAxis = null;
 			this._vAxis = null;
-			return this;	//	dojox/charting/plot2d/CartesianBase
+			return this;	//	dcharting/plot2d/CartesianBase
 		},
 		cleanGroup: function(creator, noClip){
 			this.inherited(arguments);
@@ -116,14 +116,14 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/has
 		setAxis: function(axis){
 			// summary:
 			//		Set an axis for this plot.
-			// axis: dojox/charting/axis2d/Base
+			// axis: dcharting/axis2d/Base
 			//		The axis to set.
-			// returns: dojox/charting/plot2d/CartesianBase
+			// returns: dcharting/plot2d/CartesianBase
 			//		A reference to this plot for functional chaining.
 			if(axis){
 				this[axis.vertical ? "_vAxis" : "_hAxis"] = axis;
 			}
-			return this;	//	dojox/charting/plot2d/CartesianBase
+			return this;	//	dcharting/plot2d/CartesianBase
 		},
 		toPage: function(coord){
 			// summary:
@@ -210,7 +210,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/has
 			//		An object of the form { width, height }.
 			// offsets: Object
 			//		An object of the form { l, r, t, b }.
-			// returns: dojox/charting/plot2d/CartesianBase
+			// returns: dcharting/plot2d/CartesianBase
 			//		A reference to this plot for functional chaining.
 
 			// get current zooming various
@@ -255,7 +255,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/has
 			if(this.zoomQueue.length == 1){
 				this.zoomQueue[0].play();
 			}
-			return this;	//	dojox/charting/plot2d/CartesianBase
+			return this;	//	dcharting/plot2d/CartesianBase
 		},
 		initializeScalers: function(dim, stats){
 			// summary:
@@ -264,7 +264,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/has
 			//		Size of a plot area in pixels as {width, height}.
 			// stats: Object
 			//		Min/max of data in both directions as {hmin, hmax, vmin, vmax}.
-			// returns: dojox/charting/plot2d/CartesianBase
+			// returns: dcharting/plot2d/CartesianBase
 			//		A reference to this plot for functional chaining.
 			if(this._hAxis){
 				if(!this._hAxis.initialized()){
@@ -282,7 +282,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/has
 			}else{
 				this._vScaler = primitive.buildScaler(stats.vmin, stats.vmax, dim.height);
 			}
-			return this;	//	dojox/charting/plot2d/CartesianBase
+			return this;	//	dcharting/plot2d/CartesianBase
 		}
 	});
 });

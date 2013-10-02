@@ -122,9 +122,9 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/sniff
 		addSeries: function(run){
 			// summary:
 			//		Ignored but included as a dummy method.
-			// returns: dojox/charting/plot2d/Grid
+			// returns: dcharting/plot2d/Grid
 			//		The reference to this plot for functional chaining.
-			return this;	//	dojox/charting/plot2d/Grid
+			return this;	//	dcharting/plot2d/Grid
 		},
 		getSeriesStats: function(){
 			// summary:
@@ -180,7 +180,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/sniff
 			//		An object of the form { width, height }.
 			// offsets: Object
 			//		An object of the form { l, r, t, b }.
-			// returns: dojox/charting/plot2d/Grid
+			// returns: dcharting/plot2d/Grid
 			//		A reference to this plot for functional chaining.
 			if(this.zoom){
 				return this.performZoom(dim, offsets);
@@ -237,7 +237,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/sniff
 				}
 			}
 			this.dirty = false;
-			return this;	//	dojox/charting/plot2d/Grid
+			return this;	//	dcharting/plot2d/Grid
 		},
 		_renderHLines: function(ticks, lineStroke, dim, offsets, vScaler, vt){
 			var s = this.getGroup();

@@ -199,7 +199,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 			//		An object of the form { width, height }
 			// offsets: Object
 			//		An object of the form { l, r, t, b }
-			// returns: dojox/charting/plot2d/Default
+			// returns: dcharting/plot2d/Default
 			//		A reference to this plot for functional chaining.
 
 			// make sure all the series is not modified
@@ -451,7 +451,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 				}, this.animate)).play();
 			}
 			this.dirty = false;
-			return this;	//	dojox/charting/plot2d/Default
+			return this;	//	dcharting/plot2d/Default
 		}
 	});
 });

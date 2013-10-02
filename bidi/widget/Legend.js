@@ -1,7 +1,7 @@
 define(["dojo/_base/declare", "dojo/dom", "dijit/registry", "dojo/_base/connect", "dojo/_base/array", "dojo/query"],
 	function(declare, dom, widgetManager, hub, arrayUtil, query){
 	// module:
-	//		dojox/charting/bidi/widget/Legend	
+	//		dcharting/bidi/widget/Legend
 	function validateTextDir(textDir){
 		return /^(ltr|rtl|auto)$/.test(textDir) ? textDir : null;
 	}

@@ -41,8 +41,8 @@ define(["dojo/_base/lang", "dojo/_base/declare", "./Base", "../scaler/linear",
 
 	return declare(Base, {
 		// summary:
-		//		A axis object used in dojox.charting.  You can use that axis if you want the axis to be invisible.
-		//		See dojox.charting.Chart.addAxis for details.
+		//		A axis object used in dcharting.  You can use that axis if you want the axis to be invisible.
+		//		See dcharting/Chart.addAxis for details.
 		//
 		// defaultParams: Object
 		//		The default parameters used to define any axis.

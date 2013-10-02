@@ -3,7 +3,7 @@ define(["dojo/_base/declare", "./Default"],
 
 	return declare(Default, {
 		// summary:
-		//		Represents an area chart.  See dojox/charting/plot2d/Default for details.
+		//		Represents an area chart.  See dcharting/plot2d/Default for details.
 		constructor: function(){
 			// summary:
 			//		The constructor for an Area chart.

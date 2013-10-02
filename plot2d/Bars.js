@@ -135,10 +135,10 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/has",
 			//		An object in the form of { width, height }
 			// offsets: Object
 			//		An object of the form { l, r, t, b}.
-			// returns: dojox/charting/plot2d/Bars
+			// returns: dcharting/plot2d/Bars
 			//		A reference to this plot for functional chaining.
 			if(this.zoom && !this.isDataDirty()){
-				return this.performZoom(dim, offsets); // dojox/charting/plot2d/Bars
+				return this.performZoom(dim, offsets); // dcharting/plot2d/Bars
 			}
 			this.dirty = this.isDirty();
 			this.resetEvents();
@@ -258,7 +258,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/has",
 				this._checkOrientation(this.group, dim, offsets);
 			}
 			// chart mirroring ends
-			return this;	//	dojox/charting/plot2d/Bars
+			return this;	//	dcharting/plot2d/Bars
 		},
 		getValue: function(value, j, seriesIndex, indexed){
 			var y, x;
