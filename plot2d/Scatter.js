@@ -135,7 +135,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/has",
 					}else{
 						frontMarkers[i] = s.createPath(path).setStroke(stroke).setFill(fill);
 					}
-					if(this.opt.labels){
+					if(this.labels){
 						var markerBox = frontMarkers[i].getBoundingBox();
 						this.createLabel(s, value, markerBox, finalTheme);
 					}

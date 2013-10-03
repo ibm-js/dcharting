@@ -1,35 +1,38 @@
-define(["dojo/_base/declare", "dojo/_base/array", "dojox/gfx",
+define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/array", "dojox/gfx",
 		"../Element", "./common", "../axis2d/common", "dojo/has"],
-	function(declare, arr, gfx, Element, common, ac, has){
-/*=====
-dojox.charting.plot2d.__PlotCtorArgs = {
-	// summary:
-	//		The base keyword arguments object for plot constructors.
-	//		Note that the parameters for this may change based on the
-	//		specific plot type (see the corresponding plot type for
-	//		details).
-
-	// tooltipFunc: Function?
-	//		An optional function used to compute tooltip text for this plot. It takes precedence over
-	//		the default function when available.
-	//	|		function tooltipFunc(o) { return "text"; }
-	//		`o`is the event object that triggered the tooltip.
-	tooltipFunc: null
-};
-=====*/
+	function(declare, lang, arr, gfx, Element, common, ac, has){
 	var Base = declare(Element, {
+
+		// fixed: Boolean?
+		//		Whether a fixed precision must be applied to data values for display. Default is true.
+		fixed:			true,
+
+		// precision: Number?
+		//		The precision at which to round data values for display. Default is 0.
+		precision:		1,
+
+		// htmlLabels: Boolean?
+		//		Whether or not to use HTML to render slice labels. Default is true.
+		htmlLabels:		true,
+
+		// tooltipFunc: Function?
+		//		An optional function used to compute tooltip text for this plot. It takes precedence over
+		//		the default function when available.
+		//	|		function tooltipFunc(o) { return "text"; }
+		//		`o`is the event object that triggered the tooltip.
+		tooltipFunc: null,
+
 		// summary:
 		//		Base class for all plot types.
-		constructor: function(kwArgs){
+		constructor: function(params){
 			// summary:
 			//		Create a base plot for charting.
-			// kwArgs: dojox.charting.plot2d.__PlotCtorArgs?
-			//		An optional arguments object to help define the plot.
+			// params: Object|null
+			//		Hash of initialization parameters for the element.
+			//		The hash can contain any of the elements's properties, excluding read-only properties.
 	
 			// TODO does not work in markup
-			if(kwArgs && kwArgs.tooltipFunc){
-				this.tooltipFunc = kwArgs.tooltipFunc;
-			}
+			lang.mixin(this, params);
 			this.type = "Plot";
 		},
 		clear: function(){
@@ -115,7 +118,7 @@ dojox.charting.plot2d.__PlotCtorArgs = {
 			return this;	//	dcharting/plot2d/Base
 		},
 		renderLabel: function(group, x, y, label, theme, block, align){
-			var elem = ac.createText[this.opt.htmlLabels && gfx.renderer != "vml" ? "html" : "gfx"]
+			var elem = ac.createText[this.htmlLabels && gfx.renderer != "vml" ? "html" : "gfx"]
 				(this.chart, group, x, y, align?align:"middle", label, theme.series.font, theme.series.fontColor);
 			// if the label is inside we need to avoid catching events on it this would prevent action on
 			// chart elements
@@ -123,7 +126,7 @@ dojox.charting.plot2d.__PlotCtorArgs = {
 				// TODO this won't work in IE neither in VML nor in HTML
 				// a solution would be to catch the event on the label and refire it to the element
 				// possibly using elementFromPoint or having it already available
-				if(this.opt.htmlLabels && gfx.renderer != "vml"){
+				if(this.htmlLabels && gfx.renderer != "vml"){
 					// we have HTML labels, let's use pointEvents on the HTML node
 					elem.style.pointerEvents = "none";
 				}else if(elem.rawNode){
@@ -132,7 +135,7 @@ dojox.charting.plot2d.__PlotCtorArgs = {
 				}
 				// else we have Canvas, we need do nothing, as Canvas text won't catch events
 			}
-			if(this.opt.htmlLabels && gfx.renderer != "vml"){
+			if(this.htmlLabels && gfx.renderer != "vml"){
 				this.htmlElements.push(elem);
 			}
 
@@ -146,7 +149,7 @@ dojox.charting.plot2d.__PlotCtorArgs = {
 			return this.series.length;	//	Number
 		},
 		_getLabel: function(number){
-			return common.getLabel(number, this.opt.fixed, this.opt.precision);
+			return common.getLabel(number, this.fixed, this.precision);
 		}
 	});
 	if(has("dojo-bidi")){

@@ -383,7 +383,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 						}, this);
 						run.dyn.markerFill = markerTheme.marker.fill;
 						run.dyn.markerStroke = markerTheme.marker.stroke;
-						if(!markerBox && this.opt.labels){
+						if(!markerBox && this.labels){
 							markerBox = frontMarkers[0].getBoundingBox();
 						}
 						if(events){
@@ -412,7 +412,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 							delete this._eventSeries[run.name];
 						}
 					}
-					if(this.opt.labels){
+					if(this.labels){
 						var labelBoxW = markerBox?markerBox.width:2;
 						var labelBoxH = markerBox?markerBox.height:2;
 						arr.forEach(lpoly, function(c, i){

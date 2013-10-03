@@ -119,9 +119,9 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/has",
 		},
 
 		createLabel: function(group, value, bbox, theme){
-			if(this.opt.labels && this.opt.labelStyle == "outside"){
+			if(this.labels && this.labelStyle == "outside"){
 				var y = bbox.y + bbox.height / 2;
-				var x = bbox.x + bbox.width + this.opt.labelOffset;
+				var x = bbox.x + bbox.width + this.labelOffset;
 				this.renderLabel(group, x, y, this._getLabel(isNaN(value.y)?value:value.y), theme, "start");
           	}else{
 				this.inherited(arguments);

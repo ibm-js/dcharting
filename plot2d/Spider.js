@@ -14,11 +14,8 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 		defaultParams: {
 			labels:			true,
 			ticks:			false,
-			fixed:			true,
-			precision:		1,
 			labelOffset:	-10,
 			labelStyle:		"default",	// default/rows/auto
-			htmlLabels:		true,		// use HTML to draw labels
 			startAngle:		-90,		// start angle for slices in degrees
 			divisions:		 3,			// radius tick count
 			axisColor:		 "",		// spider axis color
@@ -286,8 +283,8 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 					point = this._getCoordinate(circle, r*(ro + (1-ro)*i/(dv-1)), end, dim);
 					text = this._getLabel(text);
 					fontWidth = g._base._getTextBox(text, {font: axisTickFont}).w || 0;
-						render = this.opt.htmlLabels && g.renderer != "vml" ? "html" : "gfx";
-					if(this.opt.htmlLabels){
+						render = this.htmlLabels && g.renderer != "vml" ? "html" : "gfx";
+					if(this.htmlLabels){
 						this.htmlElements.push(da.createText[render]
 							(this.chart, textGroup, (!domGeom.isBodyLtr() && render == "html") ? (point.x + fontWidth - dim.width) : point.x, point.y,
 								"start", text, axisTickFont, axisTickFontColor));
@@ -511,11 +508,6 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 				}
 			}
 			return count;
-		},
-
-		// utilities
-		_getLabel: function(number){
-			return dc.getLabel(number, this.opt.fixed, this.opt.precision);
 		}
 	});
 

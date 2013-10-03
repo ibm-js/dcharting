@@ -1,27 +1,20 @@
 define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/has",
-		"./Base", "../scaler/primitive", "dojox/gfx", "dojox/gfx/fx", "dojox/lang/utils"], 
-	function(lang, declare, hub, has, Base, primitive, gfx, fx, du){
-	/*=====
-	declare("dojox.charting.plot2d.__CartesianCtorArgs", dojox.charting.plot2d.__PlotCtorArgs, {
+		"./Base", "../scaler/primitive", "dojox/gfx", "dojox/gfx/fx"],
+	function(lang, declare, hub, has, Base, primitive, gfx, fx){
+
+	return declare(Base, {
+
 		// hAxis: String?
-		//		The horizontal axis name.
+		//		The horizontal axis name. Default is "x".
 		hAxis: "x",
 
 		// vAxis: String?
-		//		The vertical axis name
+		//		The vertical axis name. Default is "y".
 		vAxis: "y",
 
 		// labels: Boolean?
 		//		For plots that support labels, whether or not to draw labels for each data item.  Default is false.
 		labels:			false,
-
-		// fixed: Boolean?
-        //		Whether a fixed precision must be applied to data values for display. Default is true.
-		fixed:			true,
-
-		// precision: Number?
-        //		The precision at which to round data values for display. Default is 0.
-		precision:		1,
 
 		// labelOffset: Number?
 		//		The amount in pixels by which to offset labels when using "outside" labelStyle.  Default is 10.
@@ -33,13 +26,9 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/has
 		//      or a marker for a Line plot for instance). When "outside" is used the labels are drawn above the data point shape.
 		labelStyle:		"inside",
 
-		// htmlLabels: Boolean?
-		//		Whether or not to use HTML to render slice labels. Default is true.
-		htmlLabels:		true,
-
 		// omitLabels: Boolean?
-		//		Whether labels that do not fit in an item render are omitted or not.	This applies only when labelStyle
-		//		is "inside".	Default is false.
+		//		Whether labels that do not fit in an item render are omitted or not. This applies only when labelStyle
+		//		is "inside". Default is true.
 		omitLabels: true,
 
 		// labelFunc: Function?
@@ -49,40 +38,21 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/has
 		//		`value` is the data value to display
 		//		`fixed` is true if fixed precision must be applied.
 		//		`precision` is the requested precision to be applied.
-		labelFunc: null
-	});
-	=====*/
-
-	return declare(Base, {
-		baseParams: {
-			hAxis: 			"x",
-			vAxis: 			"y",
-			labels:			false,
-			labelOffset:    10,
-			fixed:			true,
-			precision:		1,
-			labelStyle:		"inside",
-			htmlLabels:		true,		// use HTML to draw labels
-			omitLabels:		true,
-			labelFunc:		null
-        },
+		labelFunc: null,
 
 		// summary:
 		//		Base class for cartesian plot types.
-		constructor: function(kwArgs){
+		constructor: function(params){
 			// summary:
 			//		Create a cartesian base plot for cartesian charts.
-			// kwArgs: dojox.charting.plot2d.__CartesianCtorArgs?
-			//		An optional arguments object to help define the plot.
+			// params: Object|null
+			//		Hash of initialization parameters for the element.
+			//		The hash can contain any of the elements's properties, excluding read-only properties.
 			this.axes = ["hAxis", "vAxis"];
 			this.zoom = null;
 			this.zoomQueue = [];	// zooming action task queue
 			this.lastWindow = {vscale: 1, hscale: 1, xoffset: 0, yoffset: 0};
-			this.hAxis = (kwArgs && kwArgs.hAxis) || "x";
-			this.vAxis = (kwArgs && kwArgs.vAxis) || "y";
 			this.series = [];
-			this.opt = lang.clone(this.baseParams);
-			du.updateWithObject(this.opt, kwArgs);
 		},
 		clear: function(){
 			// summary:
@@ -185,10 +155,10 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/has
 			return this.dirty || this._hAxis && this._hAxis.dirty || this._vAxis && this._vAxis.dirty;	//	Boolean
 		},
 		createLabel: function(group, value, bbox, theme){
-			if(this.opt.labels){
-				var x, y, label = this.opt.labelFunc?this.opt.labelFunc.apply(this, [value, this.opt.fixed, this.opt.precision]):
+			if(this.labels){
+				var x, y, label = this.labelFunc?this.labelFunc.apply(this, [value, this.fixed, this.precision]):
 					this._getLabel(isNaN(value.y)?value:value.y);
-				if(this.opt.labelStyle == "inside"){
+				if(this.labelStyle == "inside"){
 					var lbox = gfx._base._getTextBox(label, { font: theme.series.font } );
 					x = bbox.x + bbox.width / 2;
 					y = bbox.y + bbox.height / 2 + lbox.h / 4;
@@ -198,9 +168,9 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/has
 
 				}else{
 					x = bbox.x + bbox.width / 2;
-					y = bbox.y - this.opt.labelOffset;
+					y = bbox.y - this.labelOffset;
 				}
-				this.renderLabel(group, x, y, label, theme, this.opt.labelStyle == "inside");
+				this.renderLabel(group, x, y, label, theme, this.labelStyle == "inside");
 			}
 		},
 		performZoom: function(dim, offsets){

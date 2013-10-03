@@ -22,7 +22,6 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 			styleFunc:	null,
 			font:		"",
 			fontColor:	"",
-			labelFunc: null
 		},
 
 		constructor: function(kwArgs){
@@ -33,8 +32,8 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 			this.opt = lang.clone(lang.mixin(this.opt, this.defaultParams));
 			du.updateWithObject(this.opt, kwArgs);
 			du.updateWithPattern(this.opt, kwArgs, this.optionalParams);
-			if(!this.opt.labelFunc){
-				this.opt.labelFunc = function(value, fixed, precision){
+			if(!this.labelFunc){
+				this.labelFunc = function(value, fixed, precision){
 					return this._getLabel(value.size, fixed, precision);
 				};
 			}
