@@ -1,6 +1,6 @@
-define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/Color", "dojo/_base/connect", "dojox/color/_base",
-		"./PlotAction", "dojo/fx/easing", "dojox/gfx/fx"], 
-	function(lang, declare, Color, hub, c, PlotAction, dfe, dgf){
+define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/Color", "dojo/_base/connect",
+		"dcolor/utils", "./PlotAction", "dojo/fx/easing", "dojox/gfx/fx"],
+	function(lang, declare, Color, utils, hub, PlotAction, dfe, dgf){
 
 	/*=====
 	var __HighlightCtorArgs = {
@@ -24,8 +24,8 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/Color", "dojo/_base
 		},
 
 		hl = function(color){
-			var a = new c.Color(color),
-				x = a.toHsl();
+			var a = new Color(color),
+				x = utils.toHsl(a);
 			if(x.s == 0){
 				x.l = x.l < 50 ? 100 : 0;
 			}else{
@@ -39,7 +39,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/Color", "dojo/_base
 						DEFAULT_LUMINOSITY2 : DEFAULT_LUMINOSITY1;
 				}
 			}
-			var rcolor = c.fromHsl(x);
+			var rcolor = utils.fromHsl(x);
 			rcolor.a = a.a;
 			return rcolor;
 		},
