@@ -5,13 +5,16 @@ define(["dojo/_base/connect", "dojo/_base/declare", "./Base"],
 		// summary:
 		//		Base action class for chart actions.
 	
-		constructor: function(chart, plot){
+		constructor: function(chart, plot, param){
 			// summary:
 			//		Create a new base chart action.
 			// chart: dcharting/Chart
 			//		The chart this action applies to.
 			// plot: String|dcharting/plot2d/Base?
 			//		Optional target plot for this chart action.  Default is "default".
+			// params: Object|null
+			//		Hash of initialization parameters for the action.
+			//		The hash can contain any of the action's properties, excluding read-only properties.
 		},
 	
 		connect: function(){

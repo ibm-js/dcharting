@@ -1,0 +1,16 @@
+{
+	"name": "dcharting",
+	"version": "0.1.0-dev",
+	"licenses": [
+		{
+			"type": "BSD",
+			"url": "https://github.com/ibm-dojo/dcharting/blob/master/LICENSE"
+		}
+	],
+	"dependencies": {
+		"dojo": ">=1.9.1",
+		"dijit": ">=1.9.1",
+		"dcolor": ">=0.1.0",
+		"lodash-amd": "2.2.x"
+	}
+}

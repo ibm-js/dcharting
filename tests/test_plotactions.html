@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<head>
+	<title>Plot Actions</title>
+	<!-- required for Tooltip: a default dijit theme: -->
+	<link rel="stylesheet" href="../../dijit/themes/claro/claro.css">
+	<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="async: true"></script>
+	<script type="text/javascript">
+	require(["dcharting/Chart", "dcharting/axis2d/Default", "dcharting/Series",
+			"dcharting/plot2d/Default", "dcharting/plot2d/StackedLines", "dcharting/plot2d/Columns", "dcharting/plot2d/Bars",
+			"dcharting/plot2d/ClusteredBars", "dcharting/plot2d/ClusteredColumns", "dcharting/plot2d/StackedColumns",
+			"dcharting/plot2d/StackedBars", "dcharting/plot2d/Bubble", "dcharting/plot2d/Pie", "dcharting/plot2d/Grid",
+			"dcharting/action2d/Highlight", "dcharting/action2d/Magnify", "dcharting/action2d/MoveSlice",
+			"dcharting/action2d/Shake", "dcharting/action2d/Tooltip", "dojo/fx/easing", "dojo/domReady!", "dojo/colors"],
+		function(Chart, Axis, Series, Default, StackedLines, Columns, Bars, ClusteredBars, ClusteredColumns, StackedColumns,
+				 StackedBars, Bubble, Pie, Grid, Highlight, Magnify, MoveSlice, Shake, Tooltip, dfe){
+			var chart1 = new Chart({}, "test1");
+			var plot1 = new Default({lines: true, markers: true, tension: 2});
+			chart1.addPlot(plot1);
+			chart1.addAxis("x", new Axis({min: 0, max: 6, majorTick: {stroke: "black", length: 3}, minorTick: {stroke: "gray", length: 3}}));
+			chart1.addAxis("y", new Axis({vertical: true, min: 0, max: 10, majorTick: {stroke: "black", length: 3}, minorTick: {stroke: "gray", length: 3}}));
+			chart1.addSeries(new Series([
+				{x: 0.5, y: 5},
+				{x: 1.5, y: 1.5},
+				{x: 2, y: 9},
+				{x: 5, y: 0.3}
+			]));
+			chart1.addSeries(new Series([
+				{x: 0.3, y: 8},
+				{x: 4, y: 6, tooltip: "Custom tooltip"},
+				{x: 5.5, y: 2}
+			]));
+			new Magnify(chart1, plot1);
+			new Tooltip(chart1, plot1);
+			chart1.render();
+
+			var chart2 = new Chart({}, "test2");
+			var plot2 = new StackedLines({markers: true, tension: 3, shadows: {dx: 2, dy: 2, dw: 2}});
+			chart2.addPlot(plot2);
+			chart2.addSeries(new Series([1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6], {stroke: {color: "red", width: 2}, fill: "lightpink", marker: "m-3,-3 l0,6 6,0 0,-6 z"}));
+			chart2.addSeries(new Series([1, 1.6, 1.3, 1.4, 1.1, 1.5, 1.1], {stroke: {color: "blue", width: 2}, fill: "lightblue", marker: "m-3,0 c0,-4 6,-4 6,0 m-6,0 c0,4 6,4 6,0"}));
+			chart2.addSeries(new Series([1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6], {stroke: {color: "green", width: 2}, fill: "lightgreen", marker: "m0,-3 l3,3 -3,3 -3,-3 z"}));
+			new Magnify(chart2, plot2, {
+				scale: 3
+			});
+			new Highlight(chart2, plot2);
+			chart2.render();
+
+			var chart3 = new Chart({}, "test3");
+			var plot3 = new Columns({gap: 2});
+			chart3.addAxis("y", new Axis({vertical: true, fixLower: "major", fixUpper: "major"}));
+			chart3.addPlot(plot3);
+			chart3.addSeries(new Series([1, 2, 3, 4, 5], {stroke: {color: "black"}, fill: "red"}));
+			chart3.addSeries(new Series([5, 4, 3, 2, 1], {stroke: {color: "black"}, fill: "blue"}));
+			new Highlight(chart3, plot3);
+			new Tooltip(chart3, plot3);
+			chart3.render();
+
+			var chart4 = new Chart({}, "test4");
+			var plot4 = new Bars({});
+			chart4.addAxis("x", new Axis({fixLower: "major", fixUpper: "major", includeZero: true}));
+			chart4.addAxis("y", new Axis({vertical: true, fixLower: "major", fixUpper: "major", natural: true}));
+			chart4.addPlot(plot4);
+			chart4.addSeries(new Series([1, 2, 3, 4, 5], {stroke: {color: "black"}, fill: "red"}));
+			chart4.addSeries(new Series([5, 4, 3, 2, 1], {stroke: {color: "black"}, fill: "blue"}));
+			new Highlight(chart4, plot4, {
+				highlight: "gold"
+			});
+			new Tooltip(chart4, plot4);
+			chart4.render();
+
+			var chart5 = new Chart({}, "test5");
+			var plot5 = new ClusteredBars({gap: 5});
+			chart5.addAxis("x", new Axis({fixLower: "major", fixUpper: "major", includeZero: true}));
+			chart5.addAxis("y", new Axis({vertical: true, fixLower: "minor", fixUpper: "minor", natural: true}));
+			chart5.addPlot(plot5);
+			chart5.addSeries(new Series([
+				{y: 1, tooltip: "one/custom yellow", fill: "yellow"},
+				{y: 2},
+				{y: 3, tooltip: "three"},
+				{y: 4},
+				{y: 5, tooltip: "five"}
+			], {stroke: {color: "black"}, fill: "red"}));
+			chart5.addSeries(new Series([
+				{y: 5},
+				{y: 4, tooltip: "four"},
+				{y: 3, fill: "black", stroke: {width: 2, color: "#f80"}, tooltip: "custom black"},
+				{y: 2, tooltip: "two"},
+				{y: 1}
+			], {stroke: {color: "black"}, fill: "blue"}));
+			new Highlight(chart5, plot5, {
+				duration: 5000,
+				easing: dfe.bounceOut
+			});
+			new Tooltip(chart5, plot5);
+			chart5.render();
+
+			var chart6 = new Chart({}, "test6");
+			var plot6 = new ClusteredColumns({gap: 10});
+			chart6.addAxis("x", new Axis());
+			chart6.addAxis("y", new Axis({vertical: true}));
+			chart6.addPlot(plot6);
+			chart6.addPlot(new Grid());
+			chart6.addSeries(new Series([2, 1, 0.5, -1, -2], {stroke: {color: "black"}, fill: "red"}));
+			chart6.addSeries(new Series([-2, -1, -0.5, 1, 2], {stroke: {color: "black"}, fill: "blue"}));
+			chart6.addSeries(new Series([1, 0.5, -1, -2, -3], {stroke: {color: "black"}, fill: "green"}));
+			new Highlight(chart6, plot6, {
+				duration: 5000,
+				easing: dfe.sineOut
+			});
+			new Shake(chart6, plot6);
+			new Tooltip(chart6, plot6);
+			chart6.render();
+
+			var chart7 = new Chart({}, "test7");
+			var plot7 = new StackedColumns();
+			chart7.addPlot(plot7);
+			chart7.addSeries(new Series([1, 2, 3, 4, 5], {stroke: {color: "black"}, fill: "red"}));
+			chart7.addSeries(new Series([2, 1, 2, 1, 2], {stroke: {color: "black"}, fill: "blue"}));
+			new Highlight(chart7, plot7, {
+				duration: 5000,
+				easing: dfe.bounceOut
+			});
+			new Shake(chart7, plot7);
+			new Tooltip(chart7, plot7);
+			chart7.render();
+
+			var chart8 = new Chart({}, "test8");
+			var plot8 = new StackedBars();
+			chart8.addPlot(plot8);
+			chart8.addSeries(new Series([1, 2, 3, 4, 5], {stroke: {color: "black"}, fill: "red"}));
+			chart8.addSeries(new Series([2, 1, 2, 1, 2], {stroke: {color: "black"}, fill: "blue"}));
+			new Highlight(chart8, plot8);
+			new Shake(chart8, plot8);
+			new Tooltip(chart8, plot8);
+			chart8.render();
+
+			var chart9 = new Chart({}, "test9");
+			var plot9 = new Bubble({shadows: {dx: 2, dy: 2, dw: 2}});
+			chart9.addPlot(plot9);
+			chart9.addAxis("x", new Axis({min: 0, max: 6, majorTick: {stroke: "black", length: 3}, minorTick: {stroke: "gray", length: 3}}));
+			chart9.addAxis("y", new Axis({vertical: true, min: 0, max: 10, majorTick: {stroke: "black", length: 3}, minorTick: {stroke: "gray", length: 3}}));
+			chart9.addSeries(new Series([
+				{x: 0.5, y: 5, size: 1.4},
+				{x: 1.5, y: 1.5, size: 4.5},
+				{x: 2, y: 9, size: 1.5},
+				{x: 5, y: 0.3, size: 0.8}
+			],  {stroke: {color: "black"}, fill: "red"}));
+			chart9.addSeries(new Series([
+				{x: 0.3, y: 8, size: 2.5},
+				{x: 4, y: 6, size: 1.1},
+				{x: 5.5, y: 2, size: 3.2}
+			], {stroke: {color: "black"}, fill: "blue"}));
+			new Magnify(chart9, plot9, {
+				scale: 1.1
+			});
+			new Highlight(chart9, plot9);
+			new Tooltip(chart9, plot9);
+			chart9.render();
+
+			var chart10 = new Chart({}, "test10");
+			var plot10 = new Pie({ font: "normal normal 11pt Tahoma", fontColor: "black", labelOffset: -30, radius: 80, startAngle: 45 });
+			chart10.addPlot(plot10);
+			chart10.addSeries(new Series([
+				{y: 4, text: "Red", color: "red", stroke: "black", tooltip: "Red is 50%"},
+				{y: 2, text: "Green", color: "green", stroke: "black", tooltip: "Green is 25%"},
+				{y: 1, text: "Blue", color: "blue", stroke: "black", tooltip: "I am feeling Blue!"},
+				{y: 1, text: "Other", color: "white", stroke: "black", tooltip: "Mighty <strong>strong</strong><br>With two lines!"}
+			]));
+			new MoveSlice(chart10, plot10);
+			new Highlight(chart10, plot10);
+			new Tooltip(chart10, plot10);
+			chart10.render();
+		});
+
+	</script>
+</head>
+<body class="claro">
+	<h1>Plot Actions</h1>
+
+
+	<p>1: Markers, lines, 2D data, custom axis. Actions: Magnify, Tooltip.</p>
+
+	<div id="test1" style="width: 400px; height: 200px;"></div>
+	<p>2: Stacked lines, markers, shadows, no axes, custom strokes, fills, and markers. Actions: Magnify, Highlight.</p>
+
+	<div id="test2" style="width: 400px; height: 200px;"></div>
+	<p>3: Columns with gaps beetwen them, vertical axis aligned on major ticks, custom strokes, fills. Actions: Highlight,
+		Tooltip.</p>
+
+	<div id="test3" style="width: 400px; height: 200px;"></div>
+	<p>4: Bars, axes aligned on major ticks, no minor ticks, custom strokes and fills. Actions: Highlight, Tooltip.</p>
+
+	<div id="test4" style="width: 400px; height: 200px;"></div>
+	<p>5: Clustered bars, custom axes, custom strokes, fills, custom tooltips, and gap. Actions: Highlight, Tooltip.</p>
+
+	<div id="test5" style="width: 400px; height: 200px;"></div>
+	<p>6: Clustered columns with positive and negative values, axes, and grid. Actions: Highlight, Shake, Tooltip.</p>
+
+	<div id="test6" style="width: 400px; height: 200px;"></div>
+	<p>7: Stacked columns, no axes, custom strokes and fills. Actions: Highlight, Shake, Tooltip.</p>
+
+	<div id="test7" style="width: 400px; height: 200px;"></div>
+	<p>8: Stacked bars, no axes, custom strokes and fills. Actions: Highlight, Shake, Tooltip.</p>
+
+	<div id="test8" style="width: 400px; height: 200px;"></div>
+	<p>9: Bubble chart, axes. Actions: Magnify, Highlight, Tooltip.</p>
+
+	<div id="test9" style="width: 400px; height: 300px;"></div>
+	<p>10: Rotated pie with internal custom labels, custom colors, and custom tooltips. Actions: MoveSlice, Highlight,
+		Tooltip.</p>
+
+	<div id="test10" style="width: 300px; height: 300px;"></div>
+</body>
+</html>

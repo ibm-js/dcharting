@@ -1,52 +1,27 @@
-define(["dojo/_base/connect", "dojo/_base/declare", "dojo/_base/array", "./PlotAction", "dojo/fx/easing", "dojox/gfx/matrix",
-	"dojox/gfx/fx", "dojox/lang/functional", "dojox/lang/functional/scan", "dojox/lang/functional/fold"],
-	function(hub, declare, array, PlotAction, dfe, m, gf, df){
-
-	/*=====
-	var __MoveSliceCtorArgs = {
-			// summary:
-			//		Additional arguments for move slice actions.
-			// duration: Number?
-			//		The amount of time in milliseconds for an animation to last.  Default is 400.
-			// easing: dojo/fx/easing/*?
-			//		An easing object (see dojo.fx.easing) for use in an animation.  The
-			//		default is dojo.fx.easing.backOut.
-			// scale: Number?
-			//		The amount to scale the pie slice.  Default is 1.05.
-			// shift: Number?
-			//		The amount in pixels to shift the pie slice.  Default is 7.
-	};
-	=====*/
-	
-	var DEFAULT_SCALE = 1.05,
-		DEFAULT_SHIFT = 7;	// px
+define(["dojo/_base/connect", "dojo/_base/declare", "./PlotAction", "dojo/fx/easing", "dojox/gfx/matrix", "dojox/gfx/fx"],
+	function(hub, declare, PlotAction, dfe, m, gf){
 
 	return declare(PlotAction, {
 		// summary:
 		//		Create an action for a pie chart that moves and scales a pie slice.
 
-		// the data description block for the widget parser
-		defaultParams: {
-			duration: 400,	// duration of the action in ms
-			easing:   dfe.backOut,	// easing for the action
-			scale:    DEFAULT_SCALE,	// scale of magnification
-			shift:    DEFAULT_SHIFT		// shift of the slice
-		},
-		optionalParams: {},	// no optional parameters
+		// scale: Number?
+		//		The amount to scale the pie slice.  Default is 1.05.
+		scale: 1.05,
+		// shift: Number?
+		//		The amount in pixels to shift the pie slice.  Default is 7.
+		shift: 7,
 
-		constructor: function(chart, plot, kwArgs){
+		constructor: function(chart, plot, params){
 			// summary:
 			//		Create the slice moving action and connect it to the plot.
 			// chart: dcharting/Chart
 			//		The chart this action belongs to.
 			// plot: String?
 			//		The plot this action is attached to.  If not passed, "default" is assumed.
-			// kwArgs: __MoveSliceCtorArgs?
-			//		Optional keyword arguments object for setting parameters.
-			if(!kwArgs){ kwArgs = {}; }
-			this.scale = typeof kwArgs.scale == "number" ? kwArgs.scale : DEFAULT_SCALE;
-			this.shift = typeof kwArgs.shift == "number" ? kwArgs.shift : DEFAULT_SHIFT;
-
+			// params: Object|null
+			//		Hash of initialization parameters for the action.
+			//		The hash can contain any of the action's properties, excluding read-only properties.
 			this.connect();
 		},
 
@@ -60,16 +35,23 @@ define(["dojo/_base/connect", "dojo/_base/declare", "dojo/_base/array", "./PlotA
 			if(!this.angles){
 				// calculate the running total of slice angles
 				var startAngle = m._degToRad(o.plot.opt.startAngle);
-				if(typeof o.run.data[0] == "number"){
-					this.angles = df.map(df.scanl(o.run.data, "+", 0),
-						"* 2 * Math.PI / this", df.foldl(o.run.data, "+", 0));
+				var sum = 0;
+				if(typeof o.run.data[0] === "number"){
+					this.angles = o.run.data;
 				}else{
-					this.angles = df.map(df.scanl(o.run.data, "a + b.y", 0),
-						"* 2 * Math.PI / this", df.foldl(o.run.data, "a + b.y", 0));
+					this.angles = o.run.data.map(function(item){
+						return item.y;
+					});
 				}
-				this.angles = array.map(this.angles, function(item){
-					return item + startAngle;
+				this.angles = this.angles.map(function(item){
+					var previousSum = sum;
+					sum = sum + item;
+					return previousSum;
 				});
+				this.angles = this.angles.map(function(item){
+					return (2 * Math.PI * item) / sum + startAngle;
+				});
+				this.angles.push(2 * Math.PI + startAngle);
 			}
 
 			var index = o.index, anim, startScale, endScale, startOffset, endOffset,
@@ -77,12 +59,13 @@ define(["dojo/_base/connect", "dojo/_base/declare", "dojo/_base/array", "./PlotA
 				rotateTo0  = m.rotateAt(-angle, o.cx, o.cy),
 				rotateBack = m.rotateAt( angle, o.cx, o.cy);
 
-			anim = this.anim[index];
+			anim = this.anim[0] && this.anim[0][index];
 
 			if(anim){
 				anim.action.stop(true);
 			}else{
-				this.anim[index] = anim = {};
+				this.anim[0] = {};
+				this.anim[0][index] = anim = {};
 			}
 
 			if(o.type == "onmouseover"){
@@ -111,7 +94,7 @@ define(["dojo/_base/connect", "dojo/_base/declare", "dojo/_base/array", "./PlotA
 
 			if(o.type == "onmouseout"){
 				hub.connect(anim.action, "onEnd", this, function(){
-					delete this.anim[index];
+					delete this.anim[0][index];
 				});
 			}
 			anim.action.play();

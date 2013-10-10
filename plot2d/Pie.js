@@ -166,7 +166,6 @@ define(["dojo/_base/lang", "dojo/_base/array" ,"dojo/_base/declare",
 			if(!this.dirty){ return this; }
 			this.resetEvents();
 			this.dirty = false;
-			this._eventSeries = {};
 			this.cleanGroup();
 			var s = this.group, t = this.chart.theme;
 
@@ -465,9 +464,9 @@ define(["dojo/_base/lang", "dojo/_base/array" ,"dojo/_base/declare",
 			}
 			// post-process events to restore the original indexing
 			var esi = 0;
-			this._eventSeries[this.run.name] = df.map(run, function(v){
+			this._assignEvents(run, df.map(run, function(v){
 				return v <= 0 ? null : eventSeries[esi++];
-			});
+			}));
 			// chart mirroring starts
 			if(has("dojo-bidi")){
 				this._checkOrientation(this.group, dim, offsets);

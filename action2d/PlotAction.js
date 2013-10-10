@@ -1,48 +1,37 @@
-define(["dojo/_base/connect", "dojo/_base/declare", "./Base", "dojo/fx/easing", "dojox/lang/functional"],
-	function(hub, declare, Base, dfe, df){
-	
-	/*=====
-	var __PlotActionCtorArgs = {
-	 	// summary:
-		//		The base keyword arguments object for creating an action2d.
-		// duration: Number?
-		//		The amount of time in milliseconds for an animation to last.  Default is 400.
-		// easing: dojo/fx/easing/*?
-		//		An easing object (see dojo.fx.easing) for use in an animation.  The
-		//		default is dojo.fx.easing.backOut.
-	};
-	=====*/
-
-	var DEFAULT_DURATION = 400,	// ms
-		DEFAULT_EASING   = dfe.backOut;
+define(["dojo/_base/connect", "dojo/_base/declare", "dojo/_base/lang", "./Base", "dojo/fx/easing"],
+	function(hub, declare, lang, Base, dfe){
 
 	return declare(Base, {
 		// summary:
 		//		Base action class for plot actions.
 
+		// duration: Number?
+		//		The duration of the action in milliseconds. Default is 400.
+		duration: 400,
+		// easing: dojox/fx/easing/*?
+		//		An easing object (see dojo/fx/easing) for use in an animation.  The
+		//		default is dojo/fx/easing/backOut.
+		easing:   dfe.backOut,
+
 		overOutEvents: {onmouseover: 1, onmouseout: 1},
 
-		constructor: function(chart, plot, kwargs){
+		constructor: function(chart, plot, params){
 			// summary:
 			//		Create a new base PlotAction.
 			// chart: dcharting/Chart
 			//		The chart this action applies to.
 			// plot: String?
 			//		The name of the plot this action belongs to.  If none is passed "default" is assumed.
-			// kwargs: __PlotActionCtorArgs?
-			//		Optional arguments for the action.
+			// params: Object|null
+			//		Hash of initialization parameters for the action.
+			//		The hash can contain any of the action's properties, excluding read-only properties.
 			this.anim = {};
-
-			// process common optional named parameters
-			if(!kwargs){ kwargs = {}; }
-			this.duration = kwargs.duration ? kwargs.duration : DEFAULT_DURATION;
-			this.easing   = kwargs.easing   ? kwargs.easing   : DEFAULT_EASING;
 		},
 
 		connect: function(){
 			// summary:
 			//		Connect this action to the given plot.
-			this.handle = this.chart.connectToPlot(this.plot.name, this, "process");
+			this.handle = this.plot.connect(this, "process");
 		},
 
 		disconnect: function(){
@@ -63,11 +52,11 @@ define(["dojo/_base/connect", "dojo/_base/declare", "./Base", "dojo/fx/easing", 
 			// summary:
 			//		Do any cleanup needed when destroying parent elements.
 			this.inherited(arguments);
-			df.forIn(this.anim, function(o){
-				df.forIn(o, function(anim){
-					anim.action.stop(true);
-				});
-			});
+			for (var k in this.anim) {
+				for (var l in this.anim[k]) {
+					this.anim[k][l].stop(true);
+				}
+			}
 			this.anim = {};
 		}
 	});

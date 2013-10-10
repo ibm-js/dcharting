@@ -22,8 +22,8 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/sniff
 			//		The reference to this plot for functional chaining.
 			this.dirty = true;
 			// glass view needs to be above
-			if(this.chart.stack[0] != this){
-				this.chart.movePlotToFront(this.name);
+			if(this.chart.plots[this.chart.plots.length - 1] != this){
+				this.chart.movePlotToFront(this);
 			}
 			return this;	//	GlassView
 		},
@@ -48,23 +48,6 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/sniff
 		}
 	});
 
-	/*=====
-	var __TouchZoomAndPanCtorArgs = {
-			// summary:
-			//		Additional arguments for touch zoom and pan actions.
-			// axis: String?
-			//		Target axis name for this action.  Default is "x".
-			// scaleFactor: Number?
-			//		The scale factor applied on mouse wheel zoom.  Default is 1.2.
-			// maxScale: Number?
-			//		The max scale factor accepted by this chart action.  Default is 100.
-			// enableScroll: Boolean?
-			//		Whether touch drag gesture should scroll the chart.  Default is true.
-			// enableZoom: Boolean?
-			//		Whether touch pinch and spread gesture should zoom out or in the chart.  Default is true.
-	};
-	=====*/
-
 	var TouchZoomAndPan = declare(ChartAction, {
 		// summary:
 		//		Create a touch zoom and pan action.
@@ -72,35 +55,35 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/sniff
 		// 		You can scroll using drag gesture.
 		//		Finally this is possible to navigate between a fit window and a zoom one using double tap gesture.
 
-		// the data description block for the widget parser
-		defaultParams: {
-			axis: "x",
-			scaleFactor: 1.2,
-			maxScale: 100,
-			enableScroll: true,
-			enableZoom: true
-		},
-		optionalParams: {},	// no optional parameters
+		// axis: String?
+		//		Target axis name for this action.  Default is "x".
+		axis: "x",
+		// scaleFactor: Number?
+		//		The scale factor applied on mouse wheel zoom.  Default is 1.2.
+		scaleFactor: 1.2,
+		// maxScale: Number?
+		//		The max scale factor accepted by this chart action.  Default is 100.
+		maxScale: 100,
+		// enableScroll: Boolean?
+		//		Whether mouse drag gesture should scroll the chart.  Default is true.
+		enableScroll: true,
+		// enableZoom: Boolean?
+		//		Whether touch pinch and spread gesture should zoom out or in the chart.  Default is true.
+		enableZoom: true,
 
-		constructor: function(chart, plot, kwArgs){
+		constructor: function(chart, plot, params){
 			// summary:
 			//		Create a new touch zoom and pan action and connect it.
 			// chart: dcharting/Chart
 			//		The chart this action applies to.
-			// kwArgs: __TouchZoomAndPanCtorArgs?
-			//		Optional arguments for the action.
+			// params: Object|null
+			//		Hash of initialization parameters for the action.
+			//		The hash can contain any of the action's properties, excluding read-only properties.
 			this._listeners = [
 				{eventName: touch.press, methodName: "onTouchStart"},
 				{eventName: touch.move, methodName: "onTouchMove"},
 				{eventName: touch.release, methodName: "onTouchEnd"}
 			];
-			if(!kwArgs){ kwArgs = {}; }
-			this.axis = kwArgs.axis ? kwArgs.axis : "x";
-			this.scaleFactor = kwArgs.scaleFactor ? kwArgs.scaleFactor : 1.2;
-			this.maxScale = kwArgs.maxScale ? kwArgs.maxScale : 100;
-			this.enableScroll = kwArgs.enableScroll != undefined ? kwArgs.enableScroll : true;
-			this.enableZoom = kwArgs.enableScroll != undefined ? kwArgs.enableZoom : true;
-			this._uName = "touchZoomPan"+this.axis;
 			this.connect();
 		},
 
@@ -113,7 +96,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/sniff
 			// started above a item that is removed during the touch action will stop
 			// dispatching touch events!
 			if(this.chart.surface.declaredClass.indexOf("svg")!=-1){
-				this.chart.addPlot(this._uName, {type: GlassView});
+				this.chart.addPlot(this._uPlot = new GlassView());
 			}
 		},
 
@@ -121,7 +104,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/sniff
 			// summary:
 			//		Disconnect this action from the chart.
 			if(this.chart.surface.declaredClass.indexOf("svg")!=-1){
-				this.chart.removePlot(this._uName);
+				this.chart.removePlot(this._uPlot);
 			}
 			this.inherited(arguments);
 		},

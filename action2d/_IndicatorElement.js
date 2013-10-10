@@ -1,6 +1,12 @@
 define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "../plot2d/Indicator", "dojo/has"],
 	function(lang, array, declare, Indicator, has){
 
+	var paramsToMap = [
+		"vertical", "fixed", "precision", "lines", "labels", "markers", "lineStroke", "outlineStroke", "shadowStroke",
+		"lineFill", "stroke", "outline", "shadow", "fill", "font", "fontColor",
+		"markerStroke", "markerOutline", "markerShadow", "markerFill", "markerSymbol", "start"
+	];
+
 	var getXYCoordinates = function(v, values, data){
 		var c2, c1 = v?{ x: values[0], y : data[0][0] } :
 					   { x : data[0][0], y : values[0] };
@@ -16,7 +22,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "../plot2d/
 		//		Internal element used by indicator actions.
 		// tags:
 		//		private
-		constructor: function(chart, kwArgs){
+		constructor: function(kwArgs){
 			if(!kwArgs){ kwArgs = {}; }
 			this.inter = kwArgs.inter;
 		},
@@ -52,26 +58,31 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "../plot2d/
 				return;
 			}
 
-			var inter = this.inter, plot = inter.plot, v = inter.opt.vertical;
+			var inter = this.inter, plot = inter.plot, v = inter.vertical;
 
-			this.opt.offset = inter.opt.offset || (v?{ x:0 , y: 5}: { x: 5, y: 0});
+			this.opt.offset = inter.offset || (v?{ x:0 , y: 5}: { x: 5, y: 0});
 
-			if(inter.opt.labelFunc){
+			if(inter.labelFunc){
 				// adapt to indicator labelFunc format
 				this.opt.labelFunc = function(index, values, data, fixed, precision){
 					var coords = getXYCoordinates(v, values, data);
-					return inter.opt.labelFunc(coords[0], coords[1], fixed, precision);
+					return inter.labelFunc(coords[0], coords[1], fixed, precision);
 				};
 			}
-			if(inter.opt.fillFunc){
+			if(inter.fillFunc){
 				// adapt to indicator fillFunc format
 				this.opt.fillFunc = function(index, values, data){
 					var coords = getXYCoordinates(v, values, data);
-					return inter.opt.fillFunc(coords[0], coords[1]);
+					return inter.fillFunc(coords[0], coords[1]);
 				};
 			}
 
-			this.opt = lang.delegate(inter.opt, this.opt);
+			// TODO this must be dynamic to reflect change to the inter properties to the indicator automatically
+			for(var i = 0; i < paramsToMap.length; i++){
+				if(inter[paramsToMap[i]] !== undefined){
+					this.opt[paramsToMap[i]] = inter[paramsToMap[i]];
+				}
+			}
 
 			if(!this.pageCoord){
 				this.opt.values = null;
@@ -109,7 +120,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "../plot2d/
 		},
 		_renderText: function(g, text, t, x, y, index, values, data){
 			// render only if labels is true
-			if(this.inter.opt.labels){
+			if(this.inter.labels){
 				this.inherited(arguments);
 			}
 			// send the event in all cases
@@ -126,7 +137,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "../plot2d/
 				this._checkXCoords(cp1, cp2);
 			}
 			// chart mirroring ends
-			var inter = this.inter, plot = inter.plot, v = inter.opt.vertical;
+			var inter = this.inter, plot = inter.plot, v = inter.vertical;
 			var hAxis = this.chart.getAxis(plot.hAxis), vAxis = this.chart.getAxis(plot.vAxis);
 			var hn = hAxis.name, vn = vAxis.name, hb = hAxis.getScaler().bounds, vb = vAxis.getScaler().bounds;
 			var attr = v?"x":"y", n = v?hn:vn, bounds = v?hb:vb;
@@ -164,11 +175,11 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "../plot2d/
 
 			if(cd1[n] < bounds.from){
 				// do not autoscroll if dual indicator
-				if(!cd2 && inter.opt.autoScroll && !inter.opt.mouseOver){
+				if(!cd2 && inter.autoScroll && !inter.mouseOver){
 					this._updateVisibility(cp1, min, attr);
 					return [];
 				}else{
-					if(inter.opt.mouseOver){
+					if(inter.mouseOver){
 						return[];
 					}
 					cp1[attr] = min[attr];
@@ -176,11 +187,11 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "../plot2d/
 				// cp1 might have changed, let's update cd1
 				cd1 = plot.toData(cp1);
 			}else if(cd1[n] > bounds.to){
-				if(!cd2 && inter.opt.autoScroll && !inter.opt.mouseOver){
+				if(!cd2 && inter.autoScroll && !inter.mouseOver){
 					this._updateVisibility(cp1, max, attr);
 					return [];
 				}else{
-					if(inter.opt.mouseOver){
+					if(inter.mouseOver){
 						return[];
 					}
 					cp1[attr] = max[attr];
@@ -215,7 +226,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "../plot2d/
 		},
 		_snapData: function(cd, attr, v){
 			// we need to find which actual data point is "close" to the data value
-			var data = this.chart.getSeries(this.inter.opt.series).data;
+			var data = this.inter.series.data;
 			// let's consider data are sorted because anyway rendering will be "weird" with unsorted data
 			// i is an index in the array, which is different from a x-axis value even for index based data
 			var i, r, l = data.length;

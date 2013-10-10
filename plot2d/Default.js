@@ -212,7 +212,6 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 			var s;
 			if(this.dirty){
 				arr.forEach(this.series, purgeGroup);
-				this._eventSeries = {};
 				this.cleanGroup();
 				this.getGroup().setTransform(null);
 				s = this.getGroup();
@@ -224,7 +223,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 				var run = this.series[i];
 				if(!this.dirty && !run.dirty){
 					t.skip();
-					this._reconnectEvents(run.name);
+					this._reconnectEvents(run);
 					continue;
 				}
 				run.cleanGroup();
@@ -242,7 +241,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 					lpoly,
 					ht = this._hScaler.scaler.getTransformerFromModel(this._hScaler),
 					vt = this._vScaler.scaler.getTransformerFromModel(this._vScaler),
-					eventSeries = this._eventSeries[run.name] = new Array(run.data.length);
+					eventSeries = this._assignEvents(run, new Array(run.data.length));
 
 				s = run.group;
 				
@@ -409,7 +408,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 								eventSeries[i + rsegment.index] = o;
 							}, this);
 						}else{
-							delete this._eventSeries[run.name];
+							delete run._eventSeries;
 						}
 					}
 					if(this.labels){

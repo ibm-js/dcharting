@@ -1,129 +1,114 @@
-define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/touch", "./ChartAction", "./_IndicatorElement", "dojox/lang/utils"],
-	function(lang, declare, eventUtil, touch, ChartAction, IndicatorElement, du){
-	
-	/*=====
-	var __TouchIndicatorCtorArgs = {
-			// summary:
-			//		Additional arguments for touch indicator.
-			// series: String
-			//		Target series name for this action.
-			// autoScroll: Boolean?
-			//		Whether when moving indicator the chart is automatically scrolled. Default is true.
-			// lines: Boolean?
-			//		Whether the indicator lines are visible or not. Default is true.
-			// labels: Boolean?
-			//		Whether the indicator label is visible or not. Default is true.
-			// markers: Boolean?
-			//		Whether the indicator markers are visible or not. Default is true.
-			// offset: {x, y}?
-			//		A pair of (x, y) pixel coordinate to specify the offset between the end of the indicator line and the
-			//		position at which the labels are rendered. Default is no offset which means it is automatically computed.
-			// start: Boolean?
-			//		Whether the label is rendered at the start or end of the indicator. Default is false meaning end of
-			//		the line.
-			// vertical: Boolean?
-			//		Whether the indicator is vertical or not. Default is true.
-			// fixed: Boolean?
-			//		Whether a fixed precision must be applied to data values for display. Default is true.
-			// precision: Number?
-			//		The precision at which to round data values for display. Default is 0.
-			// lineStroke: dojo/gfx/Stroke?
-			//		An optional stroke to use for indicator line.
-			// lineOutline: dojo/gfx/Stroke?
-			//		An optional outline to use for indicator line.
-			// lineShadow: dojo/gfx/Stroke?
-			//		An optional shadow to use for indicator line.
-			// stroke: dojo.gfx.Stroke?
-			//		An optional stroke to use for indicator label background.
-			// outline: dojo.gfx.Stroke?
-			//		An optional outline to use for indicator label background.
-			// shadow: dojo.gfx.Stroke?
-			//		An optional shadow to use for indicator label background.
-			// fill: dojo.gfx.Fill?
-			//		An optional fill to use for indicator label background.
-			// fillFunc: Function?
-			//		An optional function to use to compute label background fill. It takes precedence over
-			//		fill property when available.
-			// labelFunc: Function?
-			//		An optional function to use to compute label text. It takes precedence over
-			//		the default text when available.
-			//	|		function labelFunc(firstDataPoint, secondDataPoint, fixed, precision) {}
-			//		`firstDataPoint` is the `{x, y}` data coordinates pointed by the touch point.
-			//		`secondDataPoint` is the data coordinates pointed by the second touch point.
-			//		`fixed` is true if fixed precision must be applied.
-			//		`precision` is the requested precision to be applied.
-			// font: String?
-			//		A font definition to use for indicator label background.
-			// fontColor: String|dojo.Color?
-			//		The color to use for indicator label background.
-			// markerStroke: dojo.gfx.Stroke?
-			//		An optional stroke to use for indicator marker.
-			// markerOutline: dojo.gfx.Stroke?
-			//		An optional outline to use for indicator marker.
-			// markerShadow: dojo.gfx.Stroke?
-			//		An optional shadow to use for indicator marker.
-			// markerFill: dojo.gfx.Fill?
-			//		An optional fill to use for indicator marker.
-			// markerSymbol: String?
-			//		An optional symbol string to use for indicator marker.
-		};
-	=====*/
-
+define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/touch", "./ChartAction", "./_IndicatorElement"],
+	function(lang, declare, eventUtil, touch, ChartAction, IndicatorElement){
 	return declare(ChartAction, {
 		// summary:
 		//		Create a touch indicator action. You can touch over the chart to display a data indicator.
 
-		// the data description block for the widget parser
-		defaultParams: {
-			series: "",
-			dualIndicator: false,
-			vertical: true,
-			autoScroll: true,
-			fixed: true,
-			precision: 0,
-			lines: true,
-			labels: true,
-			markers: true
-		},
-		optionalParams: {
-			lineStroke: {},
-			outlineStroke: {},
-			shadowStroke: {},
-			lineFill: {},
-			stroke:		{},
-			outline:	{},
-			shadow:		{},
-			fill:		{},
-			fillFunc:  null,
-			labelFunc: null,
-			font:		"",
-			fontColor:	"",
-			markerStroke:		{},
-			markerOutline:		{},
-			markerShadow:		{},
-			markerFill:			{},
-			markerSymbol:		"",
-			offset: {},
-			start: false
-		},	
+		// series: String
+		//		Target series name for this action.
+		series: "",
+		// autoScroll: Boolean?
+		//		Whether when moving indicator the chart is automatically scrolled. Default is true.
+		autoScroll: true,
+		// dualIndicator: Boolean?
+		//		Whether when using two touch points a dual indicator is displayed or not. Default is false.
+		dualIndicator: false,
+		// lines: Boolean?
+		//		Whether the indicator lines are visible or not. Default is true.
+		lines: true,
+		// labels: Boolean?
+		//		Whether the indicator label is visible or not. Default is true.
+		labels: true,
+		// markers: Boolean?
+		//		Whether the indicator markers are visible or not. Default is true.
+		markers: true,
+		// offset: {x, y}?
+		//		A pair of (x, y) pixel coordinate to specify the offset between the end of the indicator line and the
+		//		position at which the labels are rendered. Default is no offset which means it is automatically computed.
+		offset: null,
+		// start: Boolean?
+		//		Whether the label is rendered at the start or end of the indicator. Default is false meaning end of
+		//		the line.
+		start: false,
+		// vertical: Boolean?
+		//		Whether the indicator is vertical or not. Default is true.
+		vertical: true,
+		// fixed: Boolean?
+		//		Whether a fixed precision must be applied to data values for display. Default is true.
+		fixed: true,
+		// precision: Number?
+		//		The precision at which to round data values for display. Default is 0.
+		precision: 0,
+		// lineStroke: dojo/gfx/Stroke?
+		//		An optional stroke to use for indicator line.
+		lineStroke: undefined,
+		// lineOutline: dojo/gfx/Stroke?
+		//		An optional outline to use for indicator line.
+		lineOutline: undefined,
+		// lineShadow: dojo/gfx/Stroke?
+		//		An optional shadow to use for indicator line.
+		lineShadow: undefined,
+		// stroke: dojox/gfx/Stroke?
+		//		An optional stroke to use for indicator label background.
+		stroke: undefined,
+		// outline: dojox/gfx/Stroke?
+		//		An optional outline to use for indicator label background.
+		outline: undefined,
+		// shadow: dojox/gfx/Stroke?
+		//		An optional shadow to use for indicator label background.
+		shadow: undefined,
+		// fill: dojox/gfx/Fill?
+		//		An optional fill to use for indicator label background.
+		fill: undefined,
+		// fillFunc: Function?
+		//		An optional function to use to compute label background fill. It takes precedence over
+		//		fill property when available.
+		fillFunc:  null,
+		// labelFunc: Function?
+		//		An optional function to use to compute label text. It takes precedence over
+		//		the default text when available.
+		//	|		function labelFunc(firstDataPoint, secondDataPoint, fixed, precision) {}
+		//		`firstDataPoint` is the `{x, y}` data coordinates pointed by the mouse.
+		//		`secondDataPoint` is only useful for dual touch indicators not mouse indicators.
+		//		`fixed` is true if fixed precision must be applied.
+		//		`precision` is the requested precision to be applied.
+		labelFunc: null,
+		// font: String?
+		//		A font definition to use for indicator label background.
+		font:		null,
+		// fontColor: String|dojo.Color?
+		//		The color to use for indicator label background.
+		fontColor:	null,
+		// markerStroke: dojox/gfx/Stroke?
+		//		An optional stroke to use for indicator marker.
+		markerStroke: undefined,
+		// markerOutline: dojox/gfx/Stroke?
+		//		An optional outline to use for indicator marker.
+		markerOutline: undefined,
+		// markerShadow: dojox/gfx/Stroke?
+		//		An optional shadow to use for indicator marker.
+		markerShadow: undefined,
+		//, markerFill: dojox/gfx/Fill?
+		//		An optional fill to use for indicator marker.
+		markerFill: undefined,
+		// markerSymbol: String?
+		//		An optional symbol string to use for indicator marker.
+		markerSymbol: undefined,
 
-		constructor: function(chart, plot, kwArgs){
+		constructor: function(chart, plot, params){
 			// summary:
 			//		Create a new touch indicator action and connect it.
 			// chart: dcharting/Chart
 			//		The chart this action applies to.
-			// kwArgs: __TouchIndicatorCtorArgs?
-			//		Optional arguments for the chart action.
+			// params: Object|null
+			//		Hash of initialization parameters for the action.
+			//		The hash can contain any of the action's properties, excluding read-only properties.
 			this._listeners = [
 				{eventName: touch.press, methodName: "onTouchStart"},
 				{eventName: touch.move, methodName: "onTouchMove"},
 				{eventName: touch.release, methodName: "onTouchEnd"},
 				{eventName: touch.cancel, methodName: "onTouchEnd"}
 			];
-			this.opt = lang.clone(this.defaultParams);
-			du.updateWithObject(this.opt, kwArgs);
-			du.updateWithPattern(this.opt, kwArgs, this.optionalParams);
-			this._uName = "touchIndicator"+this.opt.series;
 			this.connect();
 		},
 		
@@ -133,18 +118,18 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/touch
 			//		to the chart that's why Chart.render() must be called after connect.
 			this.inherited(arguments);
 			// add plot with unique name
-			this.chart.addPlot(this._uName, {type: IndicatorElement, inter: this});
+			this.chart.addPlot(this._uPlot = new IndicatorElement({inter: this}));
 		},
 
 		disconnect: function(){
 			// summary:
 			//		Disconnect this action from the chart.
-			var plot = this.chart.getPlot(this._uName);
+			var plot = this._uPlot;
 			if(plot.pageCoord){
 				// we might still have something drawn on the screen
 				this.onTouchEnd();
 			}
-			this.chart.removePlot(this._uName);
+			this.chart.removePlot(this._uPlot);
 			this.inherited(arguments);
 		},
 
@@ -162,7 +147,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/touch
 			//		Called when touch is started on the chart.
 			if(!event.touches || event.touches.length == 1){
 				this._onTouchSingle(event, true);
-			}else if(this.opt.dualIndicator && event.touches.length == 2){
+			}else if(this.dualIndicator && event.touches.length == 2){
 				this._onTouchDual(event);
 			}
 		},
@@ -172,7 +157,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/touch
 			//		Called when touch is moved on the chart.
 			if(!event.touches || event.touches.length == 1){
 				this._onTouchSingle(event);
-			}else if(this.opt.dualIndicator && event.touches.length == 2){
+			}else if(this.dualIndicator && event.touches.length == 2){
 				this._onTouchDual(event);
 			}
 		},
@@ -182,7 +167,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/touch
 				// we have pending rendering from a previous call, let's sync
 				this.chart.render();
 			}
-			var plot = this.chart.getPlot(this._uName);
+			var plot = this._uPlot;
 			plot.pageCoord  = {x: event.touches?event.touches[0].pageX:event.pageX, y: event.touches?event.touches[0].pageY:event.pageY};
 			plot.dirty = true;
 			if(delayed){
@@ -199,7 +184,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/touch
 				// we have pending rendering from a previous call, let's sync
 				this.chart.render();
 			}
-			var plot = this.chart.getPlot(this._uName);
+			var plot = this._uPlot;
 			plot.pageCoord = {x: event.touches[0].pageX, y: event.touches[0].pageY};
 			plot.secondCoord = {x: event.touches[1].pageX, y: event.touches[1].pageY};
 			plot.dirty = true;
@@ -210,7 +195,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/touch
 		onTouchEnd: function(event){
 			// summary:
 			//		Called when touch is ended or canceled on the chart.
-			var plot = this.chart.getPlot(this._uName);
+			var plot = this._uPlot;
 			plot.stopTrack();
 			plot.pageCoord = null;
 			plot.secondCoord = null;

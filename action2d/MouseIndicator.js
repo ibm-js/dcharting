@@ -1,50 +1,68 @@
 define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_base/window", "dojo/sniff",
-	"./ChartAction", "./_IndicatorElement", "dojox/lang/utils", "dojo/_base/event","dojo/_base/array"],
-	function(lang, declare, hub, win, has, ChartAction, IndicatorElement, du, eventUtil, arr){ 
+	"./ChartAction", "./_IndicatorElement", "dojo/_base/event", "dojo/_base/array"],
+	function(lang, declare, hub, win, has, ChartAction, IndicatorElement, eventUtil, arr){
 
-	/*=====
-	var __MouseIndicatorCtorArgs = {
+	return declare(ChartAction, {
 		// summary:
-		//		Additional arguments for mouse indicator.
-		// series: String
+		//		Create a mouse indicator action. You can drag mouse over the chart to display a data indicator.
+
+		// series: dcharting/Series
 		//		Target series name for this action.
+		series: null,
 		// autoScroll: Boolean?
 		//		Whether when moving indicator the chart is automatically scrolled. Default is true.
+		autoScroll: true,
 		// lines: Boolean?
 		//		Whether the indicator lines are visible or not. Default is true.
+		lines: true,
 		// labels: Boolean?
 		//		Whether the indicator label is visible or not. Default is true.
+		labels: true,
 		// markers: Boolean?
 		//		Whether the indicator markers are visible or not. Default is true.
+		markers: true,
 		// offset: {x, y}?
 		//		A pair of (x, y) pixel coordinate to specify the offset between the end of the indicator line and the
 		//		position at which the labels are rendered. Default is no offset which means it is automatically computed.
+		offset: null,
 		// start: Boolean?
 		//		Whether the label is rendered at the start or end of the indicator. Default is false meaning end of
 		//		the line.
+		start: false,
 		// vertical: Boolean?
 		//		Whether the indicator is vertical or not. Default is true.
+		vertical: true,
 		// fixed: Boolean?
 		//		Whether a fixed precision must be applied to data values for display. Default is true.
+		fixed: true,
 		// precision: Number?
 		//		The precision at which to round data values for display. Default is 0.
+		precision: 0,
 		// lineStroke: dojo/gfx/Stroke?
 		//		An optional stroke to use for indicator line.
+		lineStroke: undefined,
 		// lineOutline: dojo/gfx/Stroke?
 		//		An optional outline to use for indicator line.
+		lineOutline: undefined,
 		// lineShadow: dojo/gfx/Stroke?
 		//		An optional shadow to use for indicator line.
-		// stroke: dojo.gfx.Stroke?
+		lineShadow: undefined,
+		// stroke: dojox/gfx/Stroke?
 		//		An optional stroke to use for indicator label background.
-		// outline: dojo.gfx.Stroke?
+		stroke: undefined,
+		// outline: dojox/gfx/Stroke?
 		//		An optional outline to use for indicator label background.
-		// shadow: dojo.gfx.Stroke?
+		outline: undefined,
+		// shadow: dojox/gfx/Stroke?
 		//		An optional shadow to use for indicator label background.
-		// fill: dojo.gfx.Fill?
+		shadow: undefined,
+		// fill: dojox/gfx/Fill?
 		//		An optional fill to use for indicator label background.
+		fill: undefined,
 		// fillFunc: Function?
 		//		An optional function to use to compute label background fill. It takes precedence over
 		//		fill property when available.
+		fillFunc:  null,
 		// labelFunc: Function?
 		//		An optional function to use to compute label text. It takes precedence over
 		//		the default text when available.
@@ -53,76 +71,42 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 		//		`secondDataPoint` is only useful for dual touch indicators not mouse indicators.
 		//		`fixed` is true if fixed precision must be applied.
 		//		`precision` is the requested precision to be applied.
+		labelFunc: null,
 		// font: String?
 		//		A font definition to use for indicator label background.
+		font:		null,
 		// fontColor: String|dojo.Color?
 		//		The color to use for indicator label background.
-		// markerStroke: dojo.gfx.Stroke?
+		fontColor:	null,
+		// markerStroke: dojox/gfx/Stroke?
 		//		An optional stroke to use for indicator marker.
-		// markerOutline: dojo.gfx.Stroke?
+		markerStroke: undefined,
+		// markerOutline: dojox/gfx/Stroke?
 		//		An optional outline to use for indicator marker.
-		// markerShadow: dojo.gfx.Stroke?
+		markerOutline: undefined,
+		// markerShadow: dojox/gfx/Stroke?
 		//		An optional shadow to use for indicator marker.
-		// markerFill: dojo.gfx.Fill?
+		markerShadow: undefined,
+		//, markerFill: dojox/gfx/Fill?
 		//		An optional fill to use for indicator marker.
+		markerFill: undefined,
 		// markerSymbol: String?
 		//		An optional symbol string to use for indicator marker.
+		markerSymbol: undefined,
 		// mouseOver: Boolean?
 		//		Whether the mouse indicator is enabled on mouse over or on mouse drag. Default is false.
-	};
-	=====*/
+		mouseOver: false,
 
-	return declare(ChartAction, {
-		// summary:
-		//		Create a mouse indicator action. You can drag mouse over the chart to display a data indicator.
-
-		// the data description block for the widget parser
-		defaultParams: {
-			series: "",
-			vertical: true,
-			autoScroll: true,
-			fixed: true,
-			precision: 0,
-			lines: true,
-			labels: true,
-			markers: true
-		},
-		optionalParams: {
-			lineStroke: {},
-			outlineStroke: {},
-			shadowStroke: {},
-			lineFill: {},
-			stroke:		{},
-			outline:	{},
-			shadow:		{},
-			fill:		{},
-			fillFunc:  null,
-			labelFunc: null,
-			font:		"",
-			fontColor:	"",
-			markerStroke:		{},
-			markerOutline:		{},
-			markerShadow:		{},
-			markerFill:			{},
-			markerSymbol:		"",
-			offset: {},
-			start: false,
-			mouseOver: false
-		},	
-
-		constructor: function(chart, plot, kwArgs){
+		constructor: function(chart, plot, params){
 			// summary:
 			//		Create an mouse indicator action and connect it.
 			// chart: dcharting/Chart
 			//		The chart this action applies to.
-			// kwArgs: __MouseIndicatorCtorArgs?
-			//		Optional arguments for the chart action.
-			this.opt = lang.clone(this.defaultParams);
-			du.updateWithObject(this.opt, kwArgs);
-			du.updateWithPattern(this.opt, kwArgs, this.optionalParams);
-			this._listeners = this.opt.mouseOver?[{eventName: "onmousemove", methodName: "onMouseMove"}]:
+			// params: Object|null
+			//		Hash of initialization parameters for the action.
+			//		The hash can contain any of the action's properties, excluding read-only properties.
+			this._listeners = this.mouseOver?[{eventName: "onmousemove", methodName: "onMouseMove"}]:
 				[{eventName: "onmousedown", methodName: "onMouseDown"}];
-			this._uName = "mouseIndicator"+this.opt.series;
 			this._handles = [];
 			this.connect();
 		},
@@ -141,7 +125,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 			//		to the chart that's why Chart.render() must be called after connect.
 			this.inherited(arguments);
 			// add plot with unique name
-			this.chart.addPlot(this._uName, {type: IndicatorElement, inter: this });
+			this.chart.addPlot(this._uPlot = new IndicatorElement({ inter: this }));
 		},
 
 		disconnect: function(){
@@ -150,7 +134,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 			if(this._isMouseDown){
 				this.onMouseUp();
 			}
-			this.chart.removePlot(this._uName);
+			this.chart.removePlot(this._uPlot);
 			this.inherited(arguments);
 			this._disconnectHandles();
 		},
@@ -185,13 +169,13 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 		onMouseMove: function(event){
 			// summary:
 			//		Called when the mouse is moved on the chart.
-			if(this._isMouseDown || this.opt.mouseOver){
+			if(this._isMouseDown || this.mouseOver){
 				this._onMouseSingle(event);
 			}
 		},
 
 		_onMouseSingle: function(event){
-			var plot = this.chart.getPlot(this._uName);
+			var plot = this._uPlot;
 			plot.pageCoord  = {x: event.pageX, y: event.pageY};
 			plot.dirty = true;
 			this.chart.render();
@@ -201,7 +185,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_ba
 		onMouseUp: function(event){
 			// summary:
 			//		Called when mouse is up on the chart.
-			var plot = this.chart.getPlot(this._uName);
+			var plot = this._uPlot;
 			plot.stopTrack();
 			this._isMouseDown = false;
 			this._disconnectHandles();

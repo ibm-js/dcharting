@@ -376,8 +376,6 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/dom-style",
 		addSeries: function(series){
 			// summary:
 			//		Add a data series to the chart for rendering.
-			// name: String
-			//		The name of the data series to be plotted.
 			// series: Series
 			//		The data series
 			// returns: dcharting/Chart
@@ -566,7 +564,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/dom-style",
 			var axis = this.axes[name];
 			if(axis){
 				axis.setWindow(scale, offset);
-				this.stack.forEach(function(plot){
+				this.plots.forEach(function(plot){
 					if(plot.hAxis == name || plot.vAxis == name){
 						plot.zoom = zoom;
 					}
@@ -679,9 +677,9 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/dom-style",
 				if(run.plot){
 					run.plot.addSeries(run);
 				}else{
-					// if no plot is specified, assign series to all plots
+					// if no plot is specified, assign series to all plots that support series
 					this.plots.forEach(function(plot){
-						plot.addSeries(run);
+						plot.addSeries && plot.addSeries(run);
 					});
 				}
 			}, this);
@@ -973,19 +971,6 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/dom-style",
 			}
 
 			return this;	//	dcharting/Chart
-		},
-		connectToPlot: function(name, object, method){
-			// summary:
-			//		A convenience method to connect a function to a plot.
-			// name: String
-			//		The name of the plot as defined by addPlot.
-			// object: Object
-			//		The object to be connected.
-			// method: Function
-			//		The function to be executed.
-			// returns: Array
-			//		A handle to the connection, as defined by dojo.connect (see dojo.connect).
-			return name in this.plots ? this.stack[this.plots[name]].connect(object, method) : null;	//	Array
 		},
 		fireEvent: function(seriesName, eventName, index){
 			// summary:

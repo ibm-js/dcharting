@@ -58,7 +58,6 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 			this.dirty = this.isDirty();
 			if(this.dirty){
 				arr.forEach(this.series, purgeGroup);
-				this._eventSeries = {};
 				this.cleanGroup();
 				s = this.getGroup();
 				df.forEachRev(this.series, function(item){ item.cleanGroup(s); });
@@ -73,7 +72,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 				var run = this.series[i];
 				if(!this.dirty && !run.dirty){
 					t.skip();
-					this._reconnectEvents(run.name);
+					this._reconnectEvents(run);
 					continue;
 				}
 				run.cleanGroup();
@@ -203,9 +202,9 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 							eventSeries[i] = o;
 						}
 					}, this);
-					this._eventSeries[run.name] = eventSeries;
+					this._assignEvents(run, eventSeries);
 				}else{
-					delete this._eventSeries[run.name];
+					delete run._eventSeries;
 				}
 
 				run.dirty = false;

@@ -1,49 +1,24 @@
-define(["dojo/_base/connect", "dojo/_base/declare", 
-	"./PlotAction", "dojox/gfx/matrix", 
-	"dojox/gfx/fx", "dojo/fx", "dojo/fx/easing"], 
-	function(Hub, declare, PlotAction, m, gf, df, dfe){
-
-	/*=====
-	var __MagnifyCtorArgs = {
-		// summary:
-		//		Additional arguments for magnifying actions.
-		// duration: Number?
-		//		The amount of time in milliseconds for an animation to last.  Default is 400.
-		// easing: dojo/fx/easing/*?
-		//		An easing object (see dojo.fx.easing) for use in an animation.  The
-		//		default is dojo.fx.easing.backOut.
-		// scale: Number?
-		//		The amount to magnify the given object to.  Default is 2.
-	};
-	=====*/
-	
-	var DEFAULT_SCALE = 2;
+define(["dojo/_base/connect", "dojo/_base/declare", "./PlotAction", "dojox/gfx/matrix", "dojox/gfx/fx", "dojo/fx"],
+	function(Hub, declare, PlotAction, m, gf, df){
 
 	return declare(PlotAction, {
 		// summary:
 		//		Create an action that magnifies the object the action is applied to.
 
-		// the data description block for the widget parser
-		defaultParams: {
-			duration: 400,	// duration of the action in ms
-			easing:   dfe.backOut,	// easing for the action
-			scale:    DEFAULT_SCALE	// scale of magnification
-		},
-		optionalParams: {},	// no optional parameters
+		// scale: Number?
+		//		The amount to magnify the given object to.  Default is 2.
+		scale:    2,
 
-		constructor: function(chart, plot, kwArgs){
+		constructor: function(chart, plot, params){
 			// summary:
 			//		Create the magnifying action.
 			// chart: dcharting/Chart
 			//		The chart this action belongs to.
 			// plot: String?
 			//		The plot to apply the action to. If not passed, "default" is assumed.
-			// kwArgs: __MagnifyCtorArgs?
-			//		Optional keyword arguments for this action.
-
-			// process optional named parameters
-			this.scale = kwArgs && typeof kwArgs.scale == "number" ? kwArgs.scale : DEFAULT_SCALE;
-
+			// params: Object|null
+			//		Hash of initialization parameters for the action.
+			//		The hash can contain any of the action's properties, excluding read-only properties.
 			this.connect();
 		},
 
@@ -60,18 +35,18 @@ define(["dojo/_base/connect", "dojo/_base/declare",
 				return;
 			}
 
-			var runName = o.run.name, index = o.index, vector = [], anim, init, scale;
+			var run = this.plot.series.indexOf(o.run), index = o.index, vector = [], anim, init, scale;
 
-			if(runName in this.anim){
-				anim = this.anim[runName][index];
+			if(run in this.anim){
+				anim = this.anim[run][index];
 			}else{
-				this.anim[runName] = {};
+				this.anim[run] = {};
 			}
 
 			if(anim){
 				anim.action.stop(true);
 			}else{
-				this.anim[runName][index] = anim = {};
+				this.anim[run][index] = anim = {};
 			}
 
 			if(o.type == "onmouseover"){
@@ -104,15 +79,15 @@ define(["dojo/_base/connect", "dojo/_base/declare",
 			}
 
 			if(!vector.length){
-				delete this.anim[runName][index];
+				delete this.anim[run][index];
 				return;
 			}
 
 			anim.action = df.combine(vector);
 			if(o.type == "onmouseout"){
 				Hub.connect(anim.action, "onEnd", this, function(){
-					if(this.anim[runName]){
-						delete this.anim[runName][index];
+					if(this.anim[run]){
+						delete this.anim[run][index];
 					}
 				});
 			}

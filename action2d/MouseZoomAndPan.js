@@ -3,27 +3,6 @@ define(["dojo/_base/declare", "dojo/_base/window", "dojo/_base/array", "dojo/_ba
 	"dojo/has!dojo-bidi?../bidi/action2d/ZoomAndPan"],
 	function(declare, win, arr, eventUtil, connect, mouse, ChartAction, has, domProp, keys, BidiMouseZoomAndPan){
 
-	/*=====
-	var __MouseZoomAndPanCtorArgs = {
-		// summary:
-		//		Additional arguments for mouse zoom and pan actions.
-		// axis: String?
-		//		Target axis name for this action.  Default is "x".
-		// scaleFactor: Number?
-		//		The scale factor applied on mouse wheel zoom.  Default is 1.2.
-		// maxScale: Number?
-		//		The max scale factor accepted by this chart action.  Default is 100.
-		// enableScroll: Boolean?
-		//		Whether mouse drag gesture should scroll the chart.  Default is true.
-		// enableDoubleClickZoom: Boolean?
-		//		Whether a double click gesture should toggle between fit and zoom on the chart.  Default is true.
-		// enableKeyZoom: Boolean?
-		//		Whether a keyZoomModifier + + or keyZoomModifier + - key press should zoom in our out on the chart.  Default is true.
-		// keyZoomModifier: String?
-		//		Which keyboard modifier should used for keyboard zoom in and out. This should be one of "alt", "ctrl", "shift" or "none" for no modifier. Default is "ctrl".
-	};
-	=====*/
-
 	var sUnit = has("mozilla") ? 3 : 120;
 	var keyTests = {
 		none: function(event){
@@ -46,34 +25,37 @@ define(["dojo/_base/declare", "dojo/_base/window", "dojo/_base/array", "dojo/_ba
 		//		You can zoom in or out the data window with mouse wheel. You can scroll using mouse drag gesture. 
 		//		You can toggle between zoom and fit view using double click on the chart.
 
-		// the data description block for the widget parser
-		defaultParams: {
-			axis: "x",
-			scaleFactor: 1.2,	
-			maxScale: 100,
-			enableScroll: true,
-			enableDoubleClickZoom: true,
-			enableKeyZoom: true,
-			keyZoomModifier: "ctrl"
-		},
-		optionalParams: {}, // no optional parameters
-		
-		constructor: function(chart, plot, kwArgs){
+		// axis: String?
+		//		Target axis name for this action.  Default is "x".
+		axis: "x",
+		// scaleFactor: Number?
+		//		The scale factor applied on mouse wheel zoom.  Default is 1.2.
+		scaleFactor: 1.2,
+		// maxScale: Number?
+		//		The max scale factor accepted by this chart action.  Default is 100.
+		maxScale: 100,
+		// enableScroll: Boolean?
+		//		Whether mouse drag gesture should scroll the chart.  Default is true.
+		enableScroll: true,
+		// enableDoubleClickZoom: Boolean?
+		//		Whether a double click gesture should toggle between fit and zoom on the chart.  Default is true.
+		enableDoubleClickZoom: true,
+		// enableKeyZoom: Boolean?
+		//		Whether a keyZoomModifier + + or keyZoomModifier + - key press should zoom in our out on the chart.  Default is true.
+		enableKeyZoom: true,
+		// keyZoomModifier: String?
+		//		Which keyboard modifier should used for keyboard zoom in and out. This should be one of "alt", "ctrl", "shift" or "none" for no m
+		keyZoomModifier: "ctrl",
+
+		constructor: function(chart, plot, params){
 			// summary:
 			//		Create an mouse zoom and pan action and connect it.
 			// chart: dcharting/Chart
 			//		The chart this action applies to.
-			// kwArgs: __MouseZoomAndPanCtorArgs?
-			//		Optional arguments for the chart action.
+			// params: Object|null
+			//		Hash of initialization parameters for the action.
+			//		The hash can contain any of the action's properties, excluding read-only properties.
 			this._listeners = [{eventName: mouse.wheel, methodName: "onMouseWheel"}];
-			if(!kwArgs){ kwArgs = {}; }
-			this.axis = kwArgs.axis ? kwArgs.axis : "x";
-			this.scaleFactor = kwArgs.scaleFactor ? kwArgs.scaleFactor : 1.2;
-			this.maxScale = kwArgs.maxScale ? kwArgs.maxScale : 100;
-			this.enableScroll = kwArgs.enableScroll != undefined ? kwArgs.enableScroll : true;
-			this.enableDoubleClickZoom = kwArgs.enableDoubleClickZoom != undefined ? kwArgs.enableDoubleClickZoom : true;
-			this.enableKeyZoom = kwArgs.enableKeyZoom != undefined ? kwArgs.enableKeyZoom : true;
-			this.keyZoomModifier = kwArgs.keyZoomModifier ? kwArgs.keyZoomModifier : "ctrl";
 			if(this.enableScroll){
 				this._listeners.push({eventName: "onmousedown", methodName: "onMouseDown"});
 			}

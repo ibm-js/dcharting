@@ -1,10 +1,9 @@
-define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/_base/connect"], 
-	function(lang, arr, declare, hub){
+define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect"],
+	function(lang, declare, hub){
 
 	return declare(null, {
 		constructor: function(){
 			this._shapeEvents = [];
-			this._eventSeries = {};
 		},
 		destroy: function(){
 			// summary:
@@ -28,12 +27,14 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/_base
 			t.originalEvent = o.type;
 			t.originalPlot  = o.plot;
 			t.type = "onindirect";
-			arr.forEach(this.chart.stack, function(plot){
-				if(plot !== this && plot.plotEvent){
-					t.plot = plot;
-					plot.plotEvent(t);
-				}
-			}, this);
+			if(this.chart.stack){
+				this.chart.stack.forEach(function(plot){
+					if(plot !== this && plot.plotEvent){
+						t.plot = plot;
+						plot.plotEvent(t);
+					}
+				}, this);
+			}
 		},
 		connect: function(object, method){
 			// summary:
@@ -58,7 +59,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/_base
 			// summary:
 			//		Reset all events attached to our plotEvent (i.e. disconnect).
 			if(this._shapeEvents.length){
-				arr.forEach(this._shapeEvents, function(item){
+				this._shapeEvents.forEach(function(item){
 					item.shape.disconnect(item.handle);
 				});
 				this._shapeEvents = [];
@@ -88,18 +89,21 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/_base
 				this._connectSingleEvent(o, "onclick");
 			}
 		},
-		_reconnectEvents: function(seriesName){
-			var a = this._eventSeries[seriesName];
+		_reconnectEvents: function(series){
+			var a = series._eventSeries;
 			if(a){
-				arr.forEach(a, this._connectEvents, this);
+				a.forEach(this._connectEvents, this);
 			}
 		},
-		fireEvent: function(seriesName, eventName, index, eventObject){
-			// summary:
+		_assignEvents: function(series, eventSeries){
+			return series._eventSeries = eventSeries;
+		},
+		fireEvent: function(series, eventName, index, eventObject){
+			// summary:ru
 			//		Emulates firing an event for a given data value (specified by
 			//		an index) of a given series.
-			// seriesName: String
-			//		Series name.
+			// series: Series
+			//		Targeted Series.
 			// eventName: String
 			//		Event name to emulate.
 			// index: Number
@@ -107,7 +111,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "dojo/_base
 			// eventObject: Object?
 			//		Optional event object. Especially useful for synthetic events.
 			//		Default: null.
-			var s = this._eventSeries[seriesName];
+			var s = series._eventSeries;
 			if(s && s.length && index < s.length){
 				var o = s[index];
 				o.type  = eventName;

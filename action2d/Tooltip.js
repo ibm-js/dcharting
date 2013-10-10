@@ -1,25 +1,7 @@
 define(["dijit/Tooltip", "dojo/_base/lang", "dojo/_base/declare", "dojo/_base/window", "dojo/_base/connect", "dojo/dom-style",
-	"./PlotAction", "dojox/gfx/matrix", "dojo/has", "dojo/has!dojo-bidi?../bidi/action2d/Tooltip", 
-	"dojox/lang/functional", "dojox/lang/functional/scan", "dojox/lang/functional/fold"],
-	function(DijitTooltip, lang, declare, win, hub, domStyle, PlotAction, m, has, BidiTooltip, df){
+	"./PlotAction", "dojox/gfx/matrix", "dojo/has", "dojo/has!dojo-bidi?../bidi/action2d/Tooltip"],
+	function(DijitTooltip, lang, declare, win, hub, domStyle, PlotAction, m, has, BidiTooltip){
 	
-	/*=====
-	var __TooltipCtorArgs = {
-			// summary:
-			//		Additional arguments for tooltip actions.
-			// duration: Number?
-			//		The amount of time in milliseconds for an animation to last.  Default is 400.
-			// easing: dojo/fx/easing/*?
-			//		An easing object (see dojo.fx.easing) for use in an animation.  The
-			//		default is dojo.fx.easing.backOut.
-			// text: Function?
-			//		The function that produces the text to be shown within a tooltip.  By default this will be
-			//		set by the plot in question, by returning the value of the element.
-			// mouseOver: Boolean?
-            //		Whether the tooltip is enabled on mouse over or on mouse click / touch down. Default is true.
-	};
-	=====*/
-
 	var DEFAULT_TEXT = function(o, plot){
 		var t = o.run && o.run.data && o.run.data[o.index];
 		if(t && typeof t != "number" && (t.tooltip || t.text)){
@@ -38,24 +20,24 @@ define(["dijit/Tooltip", "dojo/_base/lang", "dojo/_base/declare", "dojo/_base/wi
 		// summary:
 		//		Create an action on a plot where a tooltip is shown when hovering over an element.
 
-		// the data description block for the widget parser
-		defaultParams: {
-			text: DEFAULT_TEXT,	// the function to produce a tooltip from the object
-            mouseOver: true
-		},
-		optionalParams: {},	// no optional parameters
+		// text: Function?
+		//		The function that produces the text to be shown within a tooltip.  By default this will be
+		//		set by the plot in question, by returning the value of the element.
+		text: DEFAULT_TEXT,
+		// mouseOver: Boolean?
+		//		Whether the tooltip is enabled on mouse over or on mouse click / touch down. Default is true.
+		mouseOver: true,
 
-		constructor: function(chart, plot, kwArgs){
+		constructor: function(chart, plot, params){
 			// summary:
 			//		Create the tooltip action and connect it to the plot.
 			// chart: dcharting/Chart
 			//		The chart this action belongs to.
 			// plot: String?
 			//		The plot this action is attached to.  If not passed, "default" is assumed.
-			// kwArgs: __TooltipCtorArgs?
-			//		Optional keyword arguments object for setting parameters.
-			this.text = kwArgs && kwArgs.text ? kwArgs.text : DEFAULT_TEXT;
-			this.mouseOver = kwArgs && kwArgs.mouseOver != undefined ? kwArgs.mouseOver : true;
+			// params: Object|null
+			//		Hash of initialization parameters for the action.
+			//		The hash can contain any of the action's properties, excluding read-only properties.
 			this.connect();
 		},
 		
@@ -113,13 +95,25 @@ define(["dijit/Tooltip", "dojo/_base/lang", "dojo/_base/declare", "dojo/_base/wi
 				//case "slice":
 					if(!this.angles){
 						// calculate the running total of slice angles
-						var filteredRun = typeof o.run.data[0] == "number" ?
-								df.map(o.run.data, "x ? Math.max(x, 0) : 0") : df.map(o.run.data, "x ? Math.max(x.y, 0) : 0");
-						this.angles = df.map(df.scanl(filteredRun, "+", 0),
-							"* 2 * Math.PI / this", df.foldl(filteredRun, "+", 0));
+						var startAngle = m._degToRad(o.plot.opt.startAngle);
+						var sum = 0;
+						if(typeof o.run.data[0] === "number"){
+							this.angles = o.run.data;
+						}else{
+							this.angles = o.run.data.map(function(item){
+								return item.y;
+							});
+						}
+						this.angles = this.angles.map(function(item){
+							var previousSum = sum;
+							sum = sum + item;
+							return previousSum;
+						});
+						this.angles = this.angles.map(function(item){
+							return (2 * Math.PI * item) / sum + startAngle;
+						});
 					}
-					var startAngle = m._degToRad(o.plot.opt.startAngle),
-						angle = (this.angles[o.index] + this.angles[o.index + 1]) / 2 + startAngle;
+					var angle = (this.angles[o.index] + this.angles[o.index + 1]) / 2;
 					aroundRect.x = o.cx + o.cr * Math.cos(angle);
 					aroundRect.y = o.cy + o.cr * Math.sin(angle);
 					aroundRect.w = aroundRect.h = 1;

@@ -2,48 +2,28 @@ define(["dojo/_base/connect", "dojo/_base/declare", "./PlotAction",
 	"dojo/fx", "dojo/fx/easing", "dojox/gfx/matrix", "dojox/gfx/fx"], 
 	function(hub, declare, PlotAction, df, dfe, m, gf){
 
-	/*=====
-	var __ShakeCtorArgs = {
-			// summary:
-			//		Additional arguments for shaking actions.
-			// duration: Number?
-			//		The amount of time in milliseconds for an animation to last.  Default is 400.
-			// easing: dojo/fx/easing/*?
-			//		An easing object (see dojo.fx.easing) for use in an animation.  The
-			//		default is dojo.fx.easing.backOut.
-			// shift: Number?
-			//		The amount in pixels to shift the pie slice.  Default is 3.
-	};
-	=====*/
-
-	var DEFAULT_SHIFT = 3;
-
 	return declare(PlotAction, {
 		// summary:
 		//		Create a shaking action for use on an element in a chart.
 
-		// the data description block for the widget parser
-		defaultParams: {
-			duration: 400,	// duration of the action in ms
-			easing:   dfe.backOut,	// easing for the action
-			shiftX:   DEFAULT_SHIFT,	// shift of the element along the X axis
-			shiftY:   DEFAULT_SHIFT		// shift of the element along the Y axis
-		},
-		optionalParams: {},	// no optional parameters
+		// shiftX: Number?
+		//		The amount in horizontal pixels to shift the plot element.  Default is 3.
+		shiftX: 3,
 
-		constructor: function(chart, plot, kwArgs){
+		// shiftY: Number?
+		//		The amount in vertical pixels to shift the plot element.  Default is 3.
+		shiftY: 3,
+
+		constructor: function(chart, plot, params){
 			// summary:
 			//		Create the shaking action and connect it to the plot.
 			// chart: dcharting/Chart
 			//		The chart this action belongs to.
 			// plot: String?
 			//		The plot this action is attached to.  If not passed, "default" is assumed.
-			// kwArgs: __ShakeCtorArgs?
-			//		Optional keyword arguments object for setting parameters.
-			if(!kwArgs){ kwArgs = {}; }
-			this.shiftX = typeof kwArgs.shiftX == "number" ? kwArgs.shiftX : DEFAULT_SHIFT;
-			this.shiftY = typeof kwArgs.shiftY == "number" ? kwArgs.shiftY : DEFAULT_SHIFT;
-
+			// params: Object|null
+			//		Hash of initialization parameters for the action.
+			//		The hash can contain any of the action's properties, excluding read-only properties.
 			this.connect();
 		},
 
@@ -54,18 +34,18 @@ define(["dojo/_base/connect", "dojo/_base/declare", "./PlotAction",
 			//		The object on which to process the slice moving action.
 			if(!o.shape || !(o.type in this.overOutEvents)){ return; }
 
-			var runName = o.run.name, index = o.index, vector = [], anim;
+			var run = this.plot.indexOf(o.run), index = o.index, vector = [], anim;
 
-			if(runName in this.anim){
-				anim = this.anim[runName][index];
+			if(run in this.anim){
+				anim = this.anim[run][index];
 			}else{
-				this.anim[runName] = {};
+				this.anim[run] = {};
 			}
 
 			if(anim){
 				anim.action.stop(true);
 			}else{
-				this.anim[runName][index] = anim = {};
+				this.anim[run][index] = anim = {};
 			}
 
 			var kwArgs = {
@@ -90,15 +70,15 @@ define(["dojo/_base/connect", "dojo/_base/declare", "./PlotAction",
 			}
 
 			if(!vector.length){
-				delete this.anim[runName][index];
+				delete this.anim[run][index];
 				return;
 			}
 
 			anim.action = df.combine(vector);
 			if(o.type == "onmouseout"){
 				hub.connect(anim.action, "onEnd", this, function(){
-					if(this.anim[runName]){
-						delete this.anim[runName][index];
+					if(this.anim[run]){
+						delete this.anim[run][index];
 					}
 				});
 			}

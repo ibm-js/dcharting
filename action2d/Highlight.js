@@ -1,21 +1,7 @@
-define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/Color", "dojo/_base/connect",
-		"dcolor/utils", "./PlotAction", "dojo/fx/easing", "dojox/gfx/fx"],
-	function(lang, declare, Color, utils, hub, PlotAction, dfe, dgf){
+define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/Color",
+		"dcolor/utils", "dojo/_base/connect", "./PlotAction", "dojox/gfx/fx"],
+	function(lang, declare, Color, utils, hub, PlotAction, dgf){
 
-	/*=====
-	var __HighlightCtorArgs = {
-		// summary:
-		//		Additional arguments for highlighting actions.
-		// duration: Number?
-		//		The amount of time in milliseconds for an animation to last.  Default is 400.
-		// easing: dojo/fx/easing/*?
-		//		An easing object (see dojo.fx.easing) for use in an animation.  The
-		//		default is dojo.fx.easing.backOut.
-		// highlight: String|dojo/_base/Color|Function?
-		//		Either a color or a function that creates a color when highlighting happens.
-	};
-	=====*/
-	
 	var DEFAULT_SATURATION  = 100,	// %
 		DEFAULT_LUMINOSITY1 = 75,	// %
 		DEFAULT_LUMINOSITY2 = 50,	// %
@@ -42,40 +28,35 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/Color", "dojo/_base
 			var rcolor = utils.fromHsl(x);
 			rcolor.a = a.a;
 			return rcolor;
-		},
-
-		spiderhl = function(color){
-			var r = hl(color);
-			r.a = 0.7;
-			return r;
-		}
+		};
 
 	return declare(PlotAction, {
 		// summary:
 		//		Creates a highlighting action on a plot, where an element on that plot
 		//		has a highlight on it.
 
-		// the data description block for the widget parser
-		defaultParams: {
-			duration: 400,	// duration of the action in ms
-			easing:   dfe.backOut	// easing for the action
-		},
-		optionalParams: {
-			highlight: "red"	// name for the highlight color
-								// programmatic instantiation can use functions and color objects
-		},
+		// highlight: dojo/_base/Color?|String
+		//		A color used to highlight the plot element. A color string can be used if dojo/colors module has been imported. Default is null.
+		highlight: null,
+		// highlightFunc: Function?
+		//		An optional function used to compute the highlighting color. It takes precedence over setting the
+		// 		highlight property. When null a default function is computed that is using the highlight color if available or automatically
+		// 		computing a color if not.  Default is null.
+		highlightFunc:  null,
 
-		constructor: function(chart, plot, kwArgs){
+		constructor: function(chart, plot, params){
 			// summary:
 			//		Create the highlighting action and connect it to the plot.
 			// chart: dcharting/Chart
 			//		The chart this action belongs to.
 			// plot: String?
 			//		The plot this action is attached to.  If not passed, "default" is assumed.
-			// kwArgs: __HighlightCtorArgs?
-			//		Optional keyword arguments object for setting parameters.
-			var a = kwArgs && kwArgs.highlight;
-			this.colorFunc = a ? (lang.isFunction(a) ? a : cc(a)) : hl;
+			// params: Object|null
+			//		Hash of initialization parameters for the action.
+			//		The hash can contain any of the action's properties, excluding read-only properties.
+			if(!params || !params.highlightFunc){
+				this.highlightFunc = this.highlight ? cc(this.highlight) : hl;
+			}
 			this.connect();
 		},
 
@@ -89,18 +70,14 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/Color", "dojo/_base
 			// if spider let's deal only with poly
 			if(o.element == "spider_circle" || o.element == "spider_plot"){
 				return;
-			}else if(o.element == "spider_poly" && this.colorFunc == hl){
-				// hardcode alpha for compatibility reasons
-				// TODO to remove in 2.0
-				this.colorFunc = spiderhl;
 			}
 
-			var runName = o.run.name, index = o.index, anim;
+			var run = this.plot.series.indexOf(o.run), index = o.index, anim;
 
-			if(runName in this.anim){
-				anim = this.anim[runName][index];
+			if(run in this.anim){
+				anim = this.anim[run][index];
 			}else{
-				this.anim[runName] = {};
+				this.anim[run] = {};
 			}
 
 			if(anim){
@@ -110,9 +87,9 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/Color", "dojo/_base
 				if(!color || !(color instanceof Color)){
 					return;
 				}
-				this.anim[runName][index] = anim = {
+				this.anim[run][index] = anim = {
 					start: color,
-					end:   this.colorFunc(color)
+					end:   this.highlightFunc(color)
 				};
 			}
 
@@ -132,13 +109,13 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/Color", "dojo/_base
 			});
 			if(o.type == "onmouseout"){
 				hub.connect(anim.action, "onEnd", this, function(){
-					if(this.anim[runName]){
-						delete this.anim[runName][index];
+					if(this.anim[run]){
+						delete this.anim[run][index];
 					}
 				});
 			}
 			anim.action.play();
 		}
 	});
-	
+
 });
