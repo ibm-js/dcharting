@@ -1,5 +1,5 @@
 define(["../Theme"], function(Theme){
-	return Ireland = new Theme({
+	return new Theme({
 		colors: [
 			"#abdbcb",
 			"#435a51",

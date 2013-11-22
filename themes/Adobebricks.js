@@ -1,5 +1,5 @@
 define(["../Theme"], function(Theme){
-	return Adobebricks = new Theme({
+	return new Theme({
 		colors: [
 			"#7f2518",
 			"#3e170c",
