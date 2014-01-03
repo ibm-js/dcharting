@@ -45,7 +45,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "./Element"],
 			//		represents the data to be drawn. Or it can be an object. In
 			//		the latter case, it should have a property "data" (an array),
 			//		destroy(), and setSeriesObject().
-			if(lang.isArray(data)){
+			if(Array.isArray(data)){
 				this.data = data;
 			}else{
 				this.source = data;

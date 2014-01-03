@@ -1,6 +1,6 @@
-define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/connect", "dojo/_base/window", "dojo/sniff",
+define(["dojo/_base/declare", "dojo/_base/connect", "dojo/_base/window", "dojo/sniff",
 	"./ChartAction", "./_IndicatorElement", "dojo/_base/event", "dojo/_base/array"],
-	function(lang, declare, hub, win, has, ChartAction, IndicatorElement, eventUtil, arr){
+	function(declare, hub, win, has, ChartAction, IndicatorElement, eventUtil, arr){
 
 	return declare(ChartAction, {
 		// summary:

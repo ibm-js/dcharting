@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "../plot2d/Indicator", "dojo/has"],
-	function(lang, array, declare, Indicator, has){
+define(["dojo/_base/array", "dojo/_base/declare", "../plot2d/Indicator", "dojo/has"],
+	function(array, declare, Indicator, has){
 
 	var paramsToMap = [
 		"vertical", "fixed", "precision", "lines", "labels", "markers", "lineStroke", "outlineStroke", "shadowStroke",
@@ -40,11 +40,11 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "../plot2d/
 			this._updateIndicator(this.pageCoord);
 			// if we reached that point once, then we don't stop until mouse up
  			// use a recursive setTimeout to avoid intervals that might get backed up
-			this._tracker = setTimeout(lang.hitch(this, this._trackMove), 100);
+			this._tracker = setTimeout(this._trackMove.bind(this), 100);
 		},
 		_initTrack: function(){
 			if(!this._tracker){
-				this._tracker = setTimeout(lang.hitch(this, this._trackMove), 500);
+				this._tracker = setTimeout(this._trackMove.bind(this), 500);
 			}
 		},
 		stopTrack: function(){
@@ -106,7 +106,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/declare", "../plot2d/
 				var v = this.opt.vertical;
 				this._data= [];
 				this.opt.values = [];
-				array.forEach(coordinates, function(value){
+				coordinates.forEach(function(value){
 					if(value){
 						this.opt.values.push(v?value.x:value.y);
 						this._data.push([v?value.y:value.x]);

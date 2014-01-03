@@ -1,6 +1,6 @@
-define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/Color",
+define(["dojo/_base/declare", "dojo/_base/Color",
 		"dcolor/utils", "dojo/_base/connect", "./PlotAction", "dojox/gfx/fx"],
-	function(lang, declare, Color, utils, hub, PlotAction, dgf){
+	function(declare, Color, utils, hub, PlotAction, dgf){
 
 	var DEFAULT_SATURATION  = 100,	// %
 		DEFAULT_LUMINOSITY1 = 75,	// %

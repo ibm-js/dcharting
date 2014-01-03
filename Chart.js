@@ -1,8 +1,8 @@
-define(["dojo/_base/lang", "dojo/_base/declare", "dojo/dom-style",
+define(["dojo/_base/declare", "dojo/dom-style",
 	"dojo/dom", "dojo/dom-geometry", "dojo/dom-construct","dojo/_base/Color", "dojo/sniff", "dijit/_WidgetBase",
 	"./Element", "./Theme", "./Series", "./axis2d/common", "dojox/gfx/shape",
 	"dojox/gfx", "dojo/has!dojo-bidi?./bidi/Chart"],
-	function(lang, declare, domStyle,
+	function(declare, domStyle,
 	 		 dom, domGeom, domConstruct, Color, has, _WidgetBase,
 	 		 Element, Theme, Series, common, shape,
 	 		 g, BidiChart){
@@ -962,12 +962,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/dom-style",
 			//		A reference to the current chart for functional chaining.
 
 			if(!this._delayedRenderHandle){
-				this._delayedRenderHandle = setTimeout(
-					lang.hitch(this, function(){
-						this.render();
-					}),
-					this.delayInMs
-				);
+				this._delayedRenderHandle = setTimeout(this.render.bind(this), this.delayInMs);
 			}
 
 			return this;	//	dcharting/Chart

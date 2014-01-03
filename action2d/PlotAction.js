@@ -1,5 +1,5 @@
-define(["dojo/_base/connect", "dojo/_base/declare", "dojo/_base/lang", "./Base", "dojo/fx/easing"],
-	function(hub, declare, lang, Base, dfe){
+define(["dojo/_base/connect", "dojo/_base/declare", "./Base", "dojo/fx/easing"],
+	function(hub, declare, Base, dfe){
 
 	return declare(Base, {
 		// summary:

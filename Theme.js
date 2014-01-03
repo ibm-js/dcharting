@@ -318,7 +318,7 @@ define(["dojo/_base/lang", "dojo/_base/declare","dojo/_base/Color", "dojox/lang/
 		//		If true, run the new theme through the post-processor.
 		// returns: dcharting/Theme
 		//		The new theme.
-		if(lang.isArray(mixin)){
+		if(Array.isArray(mixin)){
 			mixin.forEach(function(m){
 				theme = this.addMixin(theme, elementType, m);
 			}, this);

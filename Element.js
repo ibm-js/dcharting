@@ -1,5 +1,5 @@
-define(["dojo/_base/array", "dojo/dom-construct","dojo/_base/declare", "dijit/registry", "dojox/gfx", "dojox/gfx/shape"],
-	function(arr, domConstruct, declare, registry, gfx, shape){
+define(["dojo/dom-construct","dojo/_base/declare", "dijit/registry", "dojox/gfx", "dojox/gfx/shape"],
+	function(domConstruct, declare, registry, gfx, shape){
 
 	return declare(null, {
 		// summary:
@@ -76,7 +76,7 @@ define(["dojo/_base/array", "dojo/dom-construct","dojo/_base/declare", "dijit/re
 			}
 			this.dirty = true;
 			if(this._events.length){
-				arr.forEach(this._events, function(item){
+				this._events.forEach(function(item){
 					item.shape.disconnect(item.handle);
 				});
 				this._events = [];
@@ -122,7 +122,7 @@ define(["dojo/_base/array", "dojo/dom-construct","dojo/_base/declare", "dijit/re
 			// summary:
 			//		Destroy any DOMNodes that may have been created as a part of this element.
 			if(this.htmlElements.length){
-				arr.forEach(this.htmlElements, domConstruct.destroy);
+				this.htmlElements.forEach(domConstruct.destroy);
 				this.htmlElements = [];
 			}
 		},

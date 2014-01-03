@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/event", "dojo/touch", "./ChartAction", "./_IndicatorElement"],
-	function(lang, declare, eventUtil, touch, ChartAction, IndicatorElement){
+define(["dojo/_base/declare", "dojo/_base/event", "dojo/touch", "./ChartAction", "./_IndicatorElement"],
+	function(declare, eventUtil, touch, ChartAction, IndicatorElement){
 	return declare(ChartAction, {
 		// summary:
 		//		Create a touch indicator action. You can touch over the chart to display a data indicator.
