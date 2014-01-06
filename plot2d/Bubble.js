@@ -87,7 +87,6 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 					continue;
 				}
 
-				s = run.group;
 				var theme = t.next("circle", [this.opt, run]),
 					points = arr.map(run.data, function(v){
 						return v ? {
@@ -97,6 +96,13 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/has",
 						} : null;
 					}, this);
 
+				if(run.hidden){
+					run.dyn.fill = theme.series.fill;
+					run.dyn.stroke =  theme.series.stroke;
+					continue;
+				}
+				s = run.group;
+                
 				var frontCircles = null, outlineCircles = null, shadowCircles = null, styleFunc = this.opt.styleFunc;
 
 				var getFinalTheme = function(item){
