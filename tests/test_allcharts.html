@@ -12,9 +12,6 @@
 		"dcharting/Chart",
 		"dcharting/Series",
 		"dcharting/themes/Shrooms",
-		"dcharting/themes/PlotKit/blue",
-		"dcharting/themes/PlotKit/cyan",
-		"dcharting/themes/PlotKit/green",
 		"dcharting/themes/Ireland",
 		"dcharting/themes/SageToLime",
 		"dcharting/themes/Minty",
@@ -41,10 +38,10 @@
 		"dcharting/plot2d/Candlesticks",
 		"dcharting/plot2d/OHLC",
 		"dcharting/plot2d/Scatter",
-		// we need dojo/colors for named colors
-		"dojo/colors"
+		// we need dcolor/ExtendedColor for named colors
+		"dcolor/ExtendedColor"
 		],
-		function(arr, dom, domStyle, ready, Chart, Series, Shrooms, blue, cyan, green, Ireland, SageToLime, Minty, Tufte,
+		function(arr, dom, domStyle, ready, Chart, Series, Shrooms, Ireland, SageToLime, Minty, Tufte,
 			dtl, Context, logic, Axis, Default, Columns, Areas, Markers, MarkersOnly, StackedLines, StackedColumns, StackedAreas, Bars,
 				ClusteredBars, StackedBars, ClusteredColumns, StackedColumns, Bubble, Grid, Candlesticks, OHLC, Scatter){
 		
@@ -223,9 +220,9 @@
 				}
 			},
 			{
-				description: "Lines, axes, blue theme.",
+				description: "Lines, axes",
 				makeChart: function(node){
-					(new Chart({theme: blue}, node)).
+					(new Chart({}, node)).
 						addAxis("x", new Axis()).
 						addAxis("y", new Axis({vertical: true})).
 						addPlot(new Default()).
@@ -235,9 +232,9 @@
 				}
 			},
 			{
-				description: "Lines, axes (aligned on minor ticks), cyan theme.",
+				description: "Lines, axes (aligned on minor ticks)",
 				makeChart: function(node){
-					(new Chart({theme: cyan}, node)).
+					(new Chart({}, node)).
 						addAxis("x", new Axis({
 							fixLower: "minor", fixUpper: "minor"
 						})).
@@ -251,9 +248,9 @@
 				}
 			},
 			{
-				description: "Lines, axes (aligned on major ticks), green theme.",
+				description: "Lines, axes (aligned on major ticks).",
 				makeChart: function(node){
-					(new Chart({theme: green}, node)).
+					(new Chart({}, node)).
 						addAxis("x", new Axis({fixLower: "major", fixUpper: "major"})).
 						addAxis("y", new Axis({vertical: true, fixLower: "major", fixUpper: "major"})).
 						addPlot(new Default()).
@@ -518,7 +515,7 @@
 			{
 				description: "Stacked bars, no axes, custom strokes and fills.",
 				makeChart: function(node){
-					(new Chart({ theme: blue }, node)).
+					(new Chart({ }, node)).
 						addPlot(new StackedBars()).
 						addSeries(new Series([ 1, 2, 3, 4, 5 ], { stroke: { color: "red" }, fill: "lightpink" })).
 						addSeries(new Series([ 2, 1, 2, 1, 2 ], { stroke: { color: "blue" }, fill: "lightblue" })).
@@ -760,9 +757,9 @@
 				}
 			},
 			{
-				description: "Markers, lines, 2D data, custom axis, blue theme.",
+				description: "Markers, lines, 2D data, custom axis.",
 				makeChart: function(node){
-					(new Chart({ theme: blue }, node)).
+					(new Chart({ }, node)).
 						addPlot(new Default({
 							lines: true,
 							markers: true,

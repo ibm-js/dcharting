@@ -1,4 +1,4 @@
-define(["dojo/_base/lang", "dojo/_base/declare","dojo/_base/Color", "dojox/lang/utils", "dojox/gfx/gradutils"],
+define(["dojo/_base/lang", "dojo/_base/declare","dcolor/Color", "dojox/lang/utils", "dojox/gfx/gradutils"],
 	function(lang, declare, Color, dlu, dgg){
 	
 	var Theme = declare(null, {

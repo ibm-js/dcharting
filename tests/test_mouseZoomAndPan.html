@@ -5,11 +5,10 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="../../dojo/dojo.js"></script>
 		<script type="text/javascript">
-			require(["dojo/ready", "dcharting/Chart", "dcharting/themes/PlotKit/orange", "dcharting/Series", "dcharting/axis2d/Default", "dcharting/plot2d/Lines",
-				"dcharting/action2d/MouseZoomAndPan"], function (ready, Chart, orange, Series, Axis, Lines, MouseZoomAndPan) {
+			require(["dojo/ready", "dcharting/Chart", "dcharting/Series", "dcharting/axis2d/Default", "dcharting/plot2d/Lines",
+				"dcharting/action2d/MouseZoomAndPan"], function (ready, Chart, Series, Axis, Lines, MouseZoomAndPan) {
 				ready(function(){
 					var plot1, plot2, chart = new Chart({}, "chart");
-					chart.setTheme(orange);
 					chart.addAxis("x", new Axis({fixLower: "minor", natural: true, stroke: "gray", enableCache: true,
 										htmlLabels: false, majorTick: {color: "red", length: 4}, minorTick: {color: "blue", length: 2}}));
 					chart.addAxis("alternate", new Axis({fixLower: "minor", natural: true, stroke: "gray", enableCache: true,

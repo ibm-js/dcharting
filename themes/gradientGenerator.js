@@ -1,4 +1,4 @@
-define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "./utils"],
+define(["dojo/_base/lang", "dojo/_base/array", "dcolor/Color", "./utils"],
 	function(lang, arr, Color, utils){
 	
 	var gg = {};
@@ -14,7 +14,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "./utils"],
 		//		Initial luminance value (0-100).
 		// lumTo: Number
 		//		Final luminance value (0-100).
-		return arr.map(colors, function(c){	// Array
+		return colors.map(function(c){	// Array
 			return utils.generateHslGradient(c, fillPattern, lumFrom, lumTo);
 		});
 	};
@@ -30,7 +30,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "./utils"],
 		//		Initial luminance value (0-100).
 		// lumTo: Number
 		//		Final luminance value (0-100).
-		arr.forEach(themes, function(t){
+		themes.forEach(function(t){
 			if(t.fill && !t.fill.type){
 				t.fill = utils.generateHslGradient(t.fill, fillPattern, lumFrom, lumTo);
 			}
@@ -50,7 +50,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "./utils"],
 		//		Final luminance value (0-100).
 		// lumStroke: Number
 		//		Stroke luminance value (0-100).
-		return arr.map(colors, function(c){	// Array
+		return colors.map(function(c){	// Array
 			c = new Color(c);
 			return {
 				fill:   utils.generateHslGradient(c, fillPattern, lumFrom, lumTo),
@@ -68,7 +68,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "dojo/_base/Color", "./utils"],
 		//		Array of tuples {o, i}, where o is a gradient offset (0-1),
 		//		and i is an intensity (0-255).
 		color = new Color(color);
-		return arr.map(intensityMap, function(stop){	// Array
+		return intensityMap.map(function(stop){	// Array
 			var s = stop.i / 255;
 			return {
 				offset: stop.o,

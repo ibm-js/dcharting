@@ -1,5 +1,5 @@
 define(["dojo/_base/declare", "dojo/dom-style",
-	"dojo/dom", "dojo/dom-geometry", "dojo/dom-construct","dojo/_base/Color", "dojo/sniff", "dijit/_WidgetBase",
+	"dojo/dom", "dojo/dom-geometry", "dojo/dom-construct","dcolor/Color", "dojo/sniff", "dijit/_WidgetBase",
 	"./Element", "./Theme", "./Series", "./axis2d/common", "dojox/gfx/shape",
 	"dojox/gfx", "dojo/has!dojo-bidi?./bidi/Chart"],
 	function(declare, domStyle,

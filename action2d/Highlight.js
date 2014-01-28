@@ -1,4 +1,4 @@
-define(["dojo/_base/declare", "dojo/_base/Color",
+define(["dojo/_base/declare", "dcolor/Color",
 		"dcolor/utils", "dojo/_base/connect", "./PlotAction", "dojox/gfx/fx"],
 	function(declare, Color, utils, hub, PlotAction, dgf){
 
@@ -35,8 +35,8 @@ define(["dojo/_base/declare", "dojo/_base/Color",
 		//		Creates a highlighting action on a plot, where an element on that plot
 		//		has a highlight on it.
 
-		// highlight: dojo/_base/Color?|String
-		//		A color used to highlight the plot element. A color string can be used if dojo/colors module has been imported. Default is null.
+		// highlight: dcolor/Color?|String
+		//		A color used to highlight the plot element. A color string can be used. Default is null.
 		highlight: null,
 		// highlightFunc: Function?
 		//		An optional function used to compute the highlighting color. It takes precedence over setting the

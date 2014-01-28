@@ -1,4 +1,4 @@
-define(["../Theme", "dojo/_base/Color"], function(Theme, Color){
+define(["../Theme", "dcolor/Color"], function(Theme, Color){
 	/*
 		A charting theme based on the principles championed by
 		Edward Tufte.  By Alex Russell, Dojo Project Lead.

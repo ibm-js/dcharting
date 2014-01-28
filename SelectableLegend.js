@@ -1,5 +1,5 @@
 define(["dojo/_base/declare", "dojo/query",
-		"dojo/_base/connect", "dojo/_base/Color", "./Legend", "dijit/form/CheckBox", "./action2d/Highlight",
+		"dojo/_base/connect", "dcolor/Color", "./Legend", "dijit/form/CheckBox", "./action2d/Highlight",
 		"dojox/gfx/fx", "dojo/keys", "dojo/dom-construct", "dojo/dom-prop", "dijit/registry"],
 	function(declare, query, hub, Color, Legend, CheckBox,
 			 Highlight, fx, keys, dom, domProp, registry){
