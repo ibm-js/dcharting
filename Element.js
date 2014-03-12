@@ -18,6 +18,7 @@ define(["dojo/dom-construct","dojo/_base/declare", "dijit/registry", "dojox/gfx"
 		group: null,
 		htmlElements: null,
 		dirty: true,
+		renderingOptions: null,
 
 		constructor: function(){
 			// summary:
@@ -111,6 +112,11 @@ define(["dojo/dom-construct","dojo/_base/declare", "dijit/registry", "dojox/gfx"
 				}
 			}else{
 				this.group = creator.createGroup();
+				if (this.renderingOptions && this.group.rawNode) {
+					for (var key in this.renderingOptions) {
+						this.group.rawNode.setAttribute(key, this.renderingOptions[key]);
+					}
+				}
 			}
 			this.dirty = true;
 			return this;	//	dcharting/Element
