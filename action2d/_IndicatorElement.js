@@ -1,5 +1,4 @@
-define(["dojo/_base/array", "dojo/_base/declare", "../plot2d/Indicator", "dojo/has"],
-	function(array, declare, Indicator, has){
+define(["dojo/_base/declare", "../plot2d/Indicator", "dojo/has"], function(declare, Indicator, has){
 
 	var paramsToMap = [
 		"vertical", "fixed", "precision", "lines", "labels", "markers", "lineStroke", "outlineStroke", "shadowStroke",

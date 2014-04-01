@@ -1,6 +1,6 @@
 define(["dojo/_base/declare", "dojo/_base/connect", "dojo/_base/window", "dojo/sniff",
-	"./ChartAction", "./_IndicatorElement", "dojo/_base/event", "dojo/_base/array"],
-	function(declare, hub, win, has, ChartAction, IndicatorElement, eventUtil, arr){
+	"./ChartAction", "./_IndicatorElement", "dojo/_base/event"],
+	function(declare, hub, win, has, ChartAction, IndicatorElement, eventUtil){
 
 	return declare(ChartAction, {
 		// summary:
@@ -115,7 +115,7 @@ define(["dojo/_base/declare", "dojo/_base/connect", "dojo/_base/window", "dojo/s
 			if(has("ie")){
 				this.chart.domNode.releaseCapture();
 			}
-			arr.forEach(this._handles, hub.disconnect);
+			this._handles.forEach(hub.disconnect);
 			this._handles = [];
 		},
 
