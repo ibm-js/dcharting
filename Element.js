@@ -112,7 +112,8 @@ define(["dojo/dom-construct","dojo/_base/declare", "dijit/registry", "dojox/gfx"
 				}
 			}else{
 				this.group = creator.createGroup();
-				if (this.renderingOptions && this.group.rawNode) {
+				if (this.renderingOptions && this.group.rawNode &&
+					this.group.rawNode.namespaceURI == "http://www.w3.org/2000/svg") {
 					for (var key in this.renderingOptions) {
 						this.group.rawNode.setAttribute(key, this.renderingOptions[key]);
 					}
