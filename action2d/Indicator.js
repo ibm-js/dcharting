@@ -1,8 +1,8 @@
-define(["dojo/_base/declare", "dojo/_base/event", "dojo/touch", "./ChartAction", "./_IndicatorElement"],
-	function(declare, eventUtil, touch, ChartAction, IndicatorElement){
+define(["dojo/_base/declare", "dpointer/events", "./ChartAction", "./_IndicatorElement"],
+	function(declare, events, ChartAction, IndicatorElement){
 	return declare(ChartAction, {
 		// summary:
-		//		Create a touch indicator action. You can touch over the chart to display a data indicator.
+		//		Create a pointer indicator action. You can point over the chart to display a data indicator.
 
 		// series: String
 		//		Target series name for this action.
@@ -11,7 +11,7 @@ define(["dojo/_base/declare", "dojo/_base/event", "dojo/touch", "./ChartAction",
 		//		Whether when moving indicator the chart is automatically scrolled. Default is true.
 		autoScroll: true,
 		// dualIndicator: Boolean?
-		//		Whether when using two touch points a dual indicator is displayed or not. Default is false.
+		//		Whether when using two pointer points a dual indicator is displayed or not. Default is false.
 		dualIndicator: false,
 		// lines: Boolean?
 		//		Whether the indicator lines are visible or not. Default is true.
@@ -69,7 +69,7 @@ define(["dojo/_base/declare", "dojo/_base/event", "dojo/touch", "./ChartAction",
 		//		the default text when available.
 		//	|		function labelFunc(firstDataPoint, secondDataPoint, fixed, precision) {}
 		//		`firstDataPoint` is the `{x, y}` data coordinates pointed by the mouse.
-		//		`secondDataPoint` is only useful for dual touch indicators not mouse indicators.
+		//		`secondDataPoint` is only useful for dual pointer indicators not single indicators.
 		//		`fixed` is true if fixed precision must be applied.
 		//		`precision` is the requested precision to be applied.
 		labelFunc: null,
@@ -94,21 +94,25 @@ define(["dojo/_base/declare", "dojo/_base/event", "dojo/touch", "./ChartAction",
 		// markerSymbol: String?
 		//		An optional symbol string to use for indicator marker.
 		markerSymbol: undefined,
+		// pointerOver: Boolean?
+		//		Whether the single indicator is starting with a pointerdown event or straight with a pointermove
+		onDown: true,
 
 		constructor: function(chart, plot, params){
 			// summary:
-			//		Create a new touch indicator action and connect it.
+			//		Create a new indicator action and connect it.
 			// chart: dcharting/Chart
 			//		The chart this action applies to.
 			// params: Object|null
 			//		Hash of initialization parameters for the action.
 			//		The hash can contain any of the action's properties, excluding read-only properties.
-			this._listeners = [
-				{eventName: touch.press, methodName: "onTouchStart"},
-				{eventName: touch.move, methodName: "onTouchMove"},
-				{eventName: touch.release, methodName: "onTouchEnd"},
-				{eventName: touch.cancel, methodName: "onTouchEnd"}
-			];
+			this._listeners = this.onDown ? [{eventName: "pointerdown", methodName: "pointerDownHandler"}] :[];
+			this._listeners = this._listeners.concat([
+				{eventName: "pointermove", methodName: "pointerMoveHandler"},
+				{eventName: "pointerup", methodName: "pointerUpHandler"},
+				{eventName: "pointercancel", methodName: "pointerUpHandler"}
+			]);
+			this._pInfo = [];
 			this.connect();
 		},
 		
@@ -127,7 +131,7 @@ define(["dojo/_base/declare", "dojo/_base/event", "dojo/touch", "./ChartAction",
 			var plot = this._uPlot;
 			if(plot.pageCoord){
 				// we might still have something drawn on the screen
-				this.onTouchEnd();
+				this.pointerUpHandler();
 			}
 			this.chart.removePlot(this._uPlot);
 			this.inherited(arguments);
@@ -142,63 +146,103 @@ define(["dojo/_base/declare", "dojo/_base/event", "dojo/touch", "./ChartAction",
 			//		text.
 		},
 
-		onTouchStart: function(event){
+		pointerDownHandler: function(event){
 			// summary:
-			//		Called when touch is started on the chart.
-			if(!event.touches || event.touches.length == 1){
-				this._onTouchSingle(event, true);
-			}else if(this.dualIndicator && event.touches.length == 2){
-				this._onTouchDual(event);
+			//		Called when pointer is down on the chart.
+			if(!this._pInfo[0]){
+				this._pInfo[0] = {
+					id: event.pointerId,
+					x: event.pageX,
+					y: event.pageY
+				};
+				// ensure we always receive events for this pointer event
+				events.setPointerCapture(event.target, event.pointerId);
+				this._singlePointer(this._pInfo[0].x, this._pInfo[0].y, true);
+			}else if(this.dualIndicator && !this._pInfo[1]){
+				this._pInfo[1] = {
+					id: event.pointerId,
+					x: event.pageX,
+					y: event.pageY
+				};
+				// ensure we always receive events for this pointer event
+				events.setPointerCapture(event.target, event.pointerId);
+				this._dualPointer(this._pInfo[0].x, this._pInfo[0].y,this._pInfo[1].x, this._pInfo[1].y);
+			}
+			return false;
+		},
+
+		pointerMoveHandler: function(event){
+			// summary:
+			//		Called when pointer is moved on the chart.
+			if(!this._pInfo[0] && !this.onDown){
+				this._pInfo[0] = {
+					id: event.pointerId,
+					x: event.pageX,
+					y: event.pageY
+				};
+			}
+			if (this._pInfo[0] && event.pointerId == this._pInfo[0].id) {
+				this._pInfo[0].x = event.pageX;
+				this._pInfo[0].y = event.pageY;
+			} else {
+				if (this.dualIndicator && this._pInfo[1]  && (event.pointerId == this._pInfo[1].id)) {
+					this._pInfo[1].x = event.pageX;
+					this._pInfo[1].y = event.pageY;
+				}
+			}
+			if (this._pInfo[0] && this._pInfo[1]) {
+				this._dualPointer(this._pInfo[0].x, this._pInfo[0].y, this._pInfo[1].x, this._pInfo[1].y);
+			} else if (this._pInfo[0]) {
+				this._singlePointer(this._pInfo[0].x, this._pInfo[0].y);
 			}
 		},
 
-		onTouchMove: function(event){
-			// summary:
-			//		Called when touch is moved on the chart.
-			if(!event.touches || event.touches.length == 1){
-				this._onTouchSingle(event);
-			}else if(this.dualIndicator && event.touches.length == 2){
-				this._onTouchDual(event);
-			}
-		},
-
-		_onTouchSingle: function(event, delayed){
+		_singlePointer: function(x, y, delayed){
 			if(this.chart._delayedRenderHandle && !delayed){
 				// we have pending rendering from a previous call, let's sync
 				this.chart.render();
 			}
 			var plot = this._uPlot;
-			plot.pageCoord  = {x: event.touches?event.touches[0].pageX:event.pageX, y: event.touches?event.touches[0].pageY:event.pageY};
+			plot.pageCoord  = {x: x, y: y};
 			plot.dirty = true;
 			if(delayed){
 				this.chart.delayedRender();
 			}else{
 				this.chart.render();
 			}
-			eventUtil.stop(event);
 		},
-		
-		_onTouchDual: function(event){
+
+		_dualPointer: function(event, x1, y1, x2, y2){
 			// sync
 			if(this.chart._delayedRenderHandle){
 				// we have pending rendering from a previous call, let's sync
 				this.chart.render();
 			}
 			var plot = this._uPlot;
-			plot.pageCoord = {x: event.touches[0].pageX, y: event.touches[0].pageY};
-			plot.secondCoord = {x: event.touches[1].pageX, y: event.touches[1].pageY};
+			plot.pageCoord = {x: x1, y: y1};
+			plot.secondCoord = {x: x2, y: y2};
 			plot.dirty = true;
 			this.chart.render();
-			eventUtil.stop(event);
+			event.preventDefault();
+			event.stopPropagation();
 		},
 
-		onTouchEnd: function(event){
+		pointerUpHandler: function(){
 			// summary:
-			//		Called when touch is ended or canceled on the chart.
+			//		Called when pointer is up or canceled on the chart.
 			var plot = this._uPlot;
-			plot.stopTrack();
-			plot.pageCoord = null;
-			plot.secondCoord = null;
+			if (event.pointerId == this._pInfo[0].id) {
+				this._pInfo.splice(0, 1);
+				if (this._pInfo.length == 0) {
+					plot.pageCoord = null;
+					plot.stopTrack();
+				} else {
+					plot.pageCoord = plot.secondCoord;
+					this.secondCoord = null;
+				}
+			} else if (this.pointerId == this._pInfo[1].id) {
+				this._pInfo.splice(1, 1);
+			}
 			plot.dirty = true;
 			this.chart.delayedRender();
 		}

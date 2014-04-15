@@ -1,16 +1,16 @@
 <!DOCTYPE HTML>
 <html lang="en">
 	<head>
-		<title>Touch Indicator</title>
+		<title> Indicator</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<style type="text/css">
-		body { -ms-touch-action: none; }
+		body { -ms--action: none; }
 		</style>
 		<script type="text/javascript" src="../../dojo/dojo.js"></script>
 		<script type="text/javascript">
 			require(["dojo/domReady", "dcharting/Chart", "dcharting/Series", "dcharting/axis2d/Default",
-				"dcharting/plot2d/Lines", "dcharting/action2d/TouchZoomAndPan", "dcharting/action2d/TouchIndicator"],
-					function(ready, Chart, Series, Axis, Lines, TouchZoomAndPan, TouchIndicator){
+				"dcharting/plot2d/Lines", "dcharting/action2d/ZoomAndPan", "dcharting/action2d/Indicator"],
+					function(ready, Chart, Series, Axis, Lines, ZoomAndPan, Indicator){
 				ready(function(){
 					var series, chart = new Chart({}, "chart");
 					chart.addAxis("x", new Axis({
@@ -55,9 +55,9 @@
 							74, 68, 67, 62, 62, 65, 61, 66, 65, 62, 74, 78, 78, 77, 74, 62,
 							72, 74, 70, 78, 84, 83, 85, 86, 86, 89, 89, 85, 86, 86, 98, 73,
 							93, 91, 92, 92, 99, 93, 94, 92 ]));
-					new TouchZoomAndPan(chart, null,
+					new ZoomAndPan(chart, null,
 							{axis: "x", enableScroll : false, enableZoom : false});
-					new TouchIndicator(chart, null,
+					new Indicator(chart, null,
 							{ series: series,
 								dualIndicator : true, font: "normal normal bold 16pt Tahoma", fillFunc: function(v1, v2){
 									if(v2){

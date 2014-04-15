@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Testing plot order</title>
+		<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="isDebug: true, async: true"></script>
+		<script type="text/javascript">
+			require(["dojo/_base/lang", "dcharting/Chart", "dcharting/Series", "dcharting/axis2d/Default",
+					"dcharting/plot2d/Bars", "dojo/domReady!"], function(lang, Chart, Series, Axis, Bars){
+				new Chart({},"chart").
+					addAxis("x", new Axis()).
+					addAxis("y", new Axis({vertical: true})).
+					addPlot(new Bars({ labels: true, labelStyle: "outside", labelOffset: 0 })).
+					addSeries(new Series([1, 3, 5, 2, 6, 7])).
+					render();
+			});
+
+		</script>
+	</head>
+	<body>
+		<h1>Testing labels</h1>
+		<div id="chart" style="width: 200px; height: 200px;"></div>
+	</body>
+</html>
