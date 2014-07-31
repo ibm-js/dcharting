@@ -4,8 +4,8 @@
 	"dependencies": {
 		"dojo": ">=1.9.1",
 		"dijit": ">=1.9.1",
-		"dcolor": ">=0.1.0",
-		"dpointer": ">=0.1.0-dev",
+		"dcolor": "0.1.x",
+		"dpointer": "0.1.x",
 		"lodash-amd": "2.2.x"
 	}
 }
